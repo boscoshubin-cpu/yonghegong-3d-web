@@ -589,63 +589,169 @@
   scene.add(walkway);
   clickableGround.push(walkway);
 
+  // 真实清代官式反宇起翘黄琉璃瓦屋面（歇山/庑殿曲线坡面 + 翼角飞檐 + 斗拱 + 螭吻 + 脊兽）
+  function makeCurvedRoofMesh(botW, botD, topW, topD, height, cornerLift) {
+    const segX = 18, segY = 10;
+    const geo = new THREE.BufferGeometry();
+    const positions = [];
+    const uvs = [];
+    const indices = [];
+    const sideSpecs = [
+      { a0: [-botW / 2, botD / 2], a1: [botW / 2, botD / 2], b0: [-topW / 2, topD / 2], b1: [topW / 2, topD / 2] },
+      { a0: [botW / 2, -botD / 2], a1: [-botW / 2, -botD / 2], b0: [topW / 2, -topD / 2], b1: [-topW / 2, -topD / 2] },
+      { a0: [botW / 2, botD / 2], a1: [botW / 2, -botD / 2], b0: [topW / 2, topD / 2], b1: [topW / 2, -topD / 2] },
+      { a0: [-botW / 2, -botD / 2], a1: [-botW / 2, botD / 2], b0: [-topW / 2, -topD / 2], b1: [-topW / 2, topD / 2] }
+    ];
+    let vertOffset = 0;
+    for (const s of sideSpecs) {
+      for (let iy = 0; iy <= segY; iy++) {
+        const v = iy / segY;
+        const curveY = height * (0.28 * v + 0.72 * v * v);
+        const insetT = Math.pow(v, 0.92);
+        for (let ix = 0; ix <= segX; ix++) {
+          const u = ix / segX;
+          const bx = s.a0[0] + (s.a1[0] - s.a0[0]) * u;
+          const bz = s.a0[1] + (s.a1[1] - s.a0[1]) * u;
+          const tx = s.b0[0] + (s.b1[0] - s.b0[0]) * u;
+          const tz = s.b0[1] + (s.b1[1] - s.b0[1]) * u;
+          let px = bx + (tx - bx) * insetT;
+          let pz = bz + (tz - bz) * insetT;
+          const edgeDist = Math.abs(u * 2 - 1);
+          const lift = cornerLift * Math.pow(edgeDist, 3.2) * Math.pow(1 - v, 1.85);
+          const flare = 1 + 0.045 * Math.pow(edgeDist, 3.0) * (1 - v);
+          px *= flare;
+          pz *= flare;
+          positions.push(px, curveY + lift, pz);
+          uvs.push(u * Math.max(1, Math.hypot(s.a1[0] - s.a0[0], s.a1[1] - s.a0[1]) / 12), v);
+        }
+      }
+      for (let iy = 0; iy < segY; iy++) {
+        for (let ix = 0; ix < segX; ix++) {
+          const a = vertOffset + iy * (segX + 1) + ix;
+          const b = a + 1;
+          const c = a + (segX + 1);
+          const d = c + 1;
+          indices.push(a, b, d, a, d, c);
+        }
+      }
+      vertOffset += (segX + 1) * (segY + 1);
+    }
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geo.setIndex(indices);
+    geo.computeVertexNormals();
+    const mesh = new THREE.Mesh(geo, goldRoofMat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    return mesh;
+  }
+
+  const ridgeGoldMat = new THREE.MeshStandardMaterial({ color: 0xeab93b, metalness: 0.55, roughness: 0.28 });
+  const dgGreenMat = new THREE.MeshStandardMaterial({ color: 0x1d544c, roughness: 0.55 });
+  const dgBlueMat = new THREE.MeshStandardMaterial({ color: 0x183d59, roughness: 0.55 });
+
+  function addDougongRow(parent, width, depth, yPos) {
+    const count = Math.max(4, Math.floor(width / 1.25));
+    for (let i = 0; i <= count; i++) {
+      const bx = -width / 2 + (width / count) * i;
+      for (const sz of [depth / 2 + 0.48, -(depth / 2 + 0.48)]) {
+        const cap = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.22, 0.42), dgBlueMat);
+        cap.position.set(bx, yPos - 0.14, sz * 0.96);
+        parent.add(cap);
+        const arm = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.22, 0.88), dgGreenMat);
+        arm.position.set(bx, yPos + 0.08, sz);
+        parent.add(arm);
+      }
+    }
+  }
+
+  function addCornerBeasts(parent, botW, botD, topW, topD, baseY, height, cornerLift) {
+    const corners = [[-1, 1], [1, 1], [-1, -1], [1, -1]];
+    for (const [sx, sz] of corners) {
+      const p0 = new THREE.Vector3(sx * botW * 0.52, baseY + cornerLift * 0.92, sz * botD * 0.52);
+      const p1 = new THREE.Vector3(sx * topW * 0.5, baseY + height, sz * topD * 0.5);
+      const dist = p0.distanceTo(p1);
+      const hip = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, dist), ridgeGoldMat);
+      hip.position.copy(p0).lerp(p1, 0.5);
+      hip.lookAt(p1);
+      parent.add(hip);
+      for (let k = 0; k < 5; k++) {
+        const t = 0.04 + k * 0.055;
+        const bp = new THREE.Vector3().lerpVectors(p0, p1, t);
+        const beast = new THREE.Mesh(new THREE.ConeGeometry(0.11, k === 0 ? 0.46 : 0.3, 6), ridgeGoldMat);
+        beast.position.set(bp.x, bp.y + (k === 0 ? 0.22 : 0.15), bp.z);
+        parent.add(beast);
+      }
+    }
+  }
+
   function buildImperialRoof(parent, width, depth, baseY, doubleEave) {
     const g = new THREE.Group();
     g.position.y = baseY;
 
-    const eaveUnder = new THREE.Mesh(new THREE.BoxGeometry(width + 3.2, 0.52, depth + 3.0), darkEaveMat);
-    eaveUnder.position.y = 0.26;
+    const eaveUnder = new THREE.Mesh(new THREE.BoxGeometry(width + 2.8, 0.38, depth + 2.6), darkEaveMat);
+    eaveUnder.position.y = 0.2;
     eaveUnder.castShadow = true;
     g.add(eaveUnder);
 
-    const dgCount = Math.floor(width / 1.4);
-    const dgMat = new THREE.MeshStandardMaterial({ color: 0x265a52, roughness: 0.65 });
-    for (let i = 0; i <= dgCount; i++) {
-      const bx = -width / 2 + (width / dgCount) * i;
-      const dg = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.36, 0.9), dgMat);
-      dg.position.set(bx, 0.18, depth / 2 + 0.55);
-      g.add(dg);
-    }
+    const dripFront = new THREE.Mesh(new THREE.BoxGeometry(width + 3.4, 0.16, 0.22), ridgeGoldMat);
+    dripFront.position.set(0, 0.42, (depth + 3.0) / 2);
+    g.add(dripFront);
 
-    const h1 = doubleEave ? 2.4 : 3.2;
-    const r1 = new THREE.Mesh(new THREE.CylinderGeometry(width * 0.44, width * 0.72, h1, 4), goldRoofMat);
-    r1.rotation.y = Math.PI / 4;
-    r1.scale.set(1.06, 1, (depth + 3.2) / (width + 3.2));
-    r1.position.y = 0.52 + h1 / 2;
-    r1.castShadow = true;
-    r1.receiveShadow = true;
+    addDougongRow(g, width, depth, 0.08);
+
+    const botW1 = width + 3.4, botD1 = depth + 3.2;
+    const h1 = doubleEave ? 2.15 : 3.25;
+    const topW1 = doubleEave ? width * 0.78 : width * 0.46;
+    const topD1 = doubleEave ? depth * 0.76 : 0.42;
+    const r1 = makeCurvedRoofMesh(botW1, botD1, topW1, topD1, h1, doubleEave ? 0.68 : 0.72);
+    r1.position.y = 0.36;
     g.add(r1);
+    addCornerBeasts(g, botW1, botD1, topW1, topD1, 0.36, h1, doubleEave ? 0.68 : 0.72);
 
-    let topY = 0.52 + h1;
+    let topY = 0.36 + h1;
+    let ridgeLen = topW1;
+
     if (doubleEave) {
-      const midBand = new THREE.Mesh(new THREE.BoxGeometry(width * 0.76, 1.45, depth * 0.74), palaceRedMat);
-      midBand.position.y = topY + 0.65;
+      const midBand = new THREE.Mesh(new THREE.BoxGeometry(width * 0.76, 1.38, depth * 0.74), palaceRedMat);
+      midBand.position.y = topY + 0.62;
       midBand.castShadow = true;
       g.add(midBand);
 
-      const midFrieze = new THREE.Mesh(new THREE.BoxGeometry(width * 0.78, 0.42, depth * 0.76), hexieMat);
-      midFrieze.position.y = topY + 1.38;
+      const midFrieze = new THREE.Mesh(new THREE.BoxGeometry(width * 0.79, 0.44, depth * 0.77), hexieMat);
+      midFrieze.position.y = topY + 1.32;
       g.add(midFrieze);
 
-      const h2 = 3.1;
-      const r2 = new THREE.Mesh(new THREE.CylinderGeometry(width * 0.08, width * 0.62, h2, 4), goldRoofMat);
-      r2.rotation.y = Math.PI / 4;
-      r2.scale.set(1.08, 1, (depth + 1.0) / (width + 1.0));
-      r2.position.y = topY + 1.55 + h2 / 2;
-      r2.castShadow = true;
+      addDougongRow(g, width * 0.74, depth * 0.72, topY + 1.48);
+
+      const botW2 = width * 0.88 + 2.2, botD2 = depth * 0.86 + 2.0;
+      const topW2 = width * 0.48, topD2 = 0.42;
+      const h2 = 3.2;
+      const r2 = makeCurvedRoofMesh(botW2, botD2, topW2, topD2, h2, 0.82);
+      r2.position.y = topY + 1.56;
       g.add(r2);
-      topY = topY + 1.55 + h2;
+      addCornerBeasts(g, botW2, botD2, topW2, topD2, topY + 1.56, h2, 0.82);
+      topY = topY + 1.56 + h2;
+      ridgeLen = topW2;
     }
 
-    const ridgeMat = new THREE.MeshStandardMaterial({ color: 0xe6b63c, metalness: 0.5, roughness: 0.32 });
-    const ridgeLen = width * (doubleEave ? 0.56 : 0.48);
-    const ridge = new THREE.Mesh(new THREE.BoxGeometry(ridgeLen, 0.55, 0.55), ridgeMat);
-    ridge.position.y = topY + 0.18;
+    const ridge = new THREE.Mesh(new THREE.BoxGeometry(ridgeLen + 0.4, 0.56, 0.44), ridgeGoldMat);
+    ridge.position.y = topY + 0.22;
     g.add(ridge);
-    for (const sx of [-ridgeLen / 2, ridgeLen / 2]) {
-      const beast = new THREE.Mesh(new THREE.BoxGeometry(0.62, 1.15, 0.62), ridgeMat);
-      beast.position.set(sx, topY + 0.62, 0);
-      g.add(beast);
+    for (const sx of [-1, 1]) {
+      const chiwen = new THREE.Group();
+      chiwen.position.set(sx * (ridgeLen / 2 + 0.12), topY + 0.26, 0);
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.92, 0.48), ridgeGoldMat);
+      body.position.y = 0.46;
+      chiwen.add(body);
+      const tail = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.72, 6), ridgeGoldMat);
+      tail.position.set(sx * 0.16, 1.05, 0);
+      tail.rotation.z = -sx * 0.35;
+      chiwen.add(tail);
+      const jewel = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 8), ridgeGoldMat);
+      jewel.position.set(-sx * 0.22, 0.88, 0);
+      chiwen.add(jewel);
+      g.add(chiwen);
     }
     parent.add(g);
   }
@@ -2529,9 +2635,10 @@
   const extOnTick = [];
   window.YHG3D = {
     scene, camera, clickableProps, player, camState, journal,
-    HALL_Y, plaque, mainBuddhaSlot, sideBuddhas: [sideBuddhaL, sideBuddhaR],
-    goldMat, antiqueGoldMat, buddhaFaceMat, turquoiseMat, hallLight, buddhaSpot,
-    createMonkMesh, applyRobeToMonk, animateMonk, walkPlayerTo, doAction,
+    HALL_Y, HALL_Z, plaque, mainHallGroup, mainBuddhaSlot, sideBuddhas: [sideBuddhaL, sideBuddhaR],
+    marbleMat, palaceRedMat, pillarRedMat, goldRoofMat, hexieMat, darkEaveMat, bronzeMat,
+    goldMat, antiqueGoldMat, buddhaFaceMat, turquoiseMat, hallLight, buddhaSpot, lanternLights,
+    buildImperialRoof, createMonkMesh, applyRobeToMonk, animateMonk, walkPlayerTo, doAction,
     playSound, showToast, spawnZenWord, surfaceYAt, makeTex, allOverlays,
     onTick: extOnTick,
     getClockTime: () => clockTime,
