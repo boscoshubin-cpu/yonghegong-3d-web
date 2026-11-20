@@ -1,0 +1,14 @@
+services:
+  yonghegong-3d:
+    build: .
+    container_name: yonghegong-3d-web
+    restart: unless-stopped
+    ports:
+      - "18766:18766"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      - PORT=18766
+    volumes:
+      # 挂载外部写实 .glb 模型目录，随时更新 buddha.glb / visitor.glb 无需重新构建镜像
+      - ./models:/app/models:ro

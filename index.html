@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>北京 · 雍和宫 | 3D 线上祈福求事业</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="scene-wrap">
+    <canvas id="webgl"></canvas>
+  </div>
+  <div id="drop-banner" class="drop-banner hidden">松开即可导入 3D 写实模型（.glb / .gltf）</div>
+
+  <!-- 顶部极简宫廷毛玻璃 HUD -->
+  <header class="hud-top">
+    <div class="hud-left">
+      <div class="pill pill-brand" id="room-pill" title="点击切换大殿香客人数">
+        <span class="dot-live"></span>
+        <span class="brand-name">北京 · 雍和宫</span>
+        <span class="divider"></span>
+        <span class="peer-num" id="peer-count">2 / 100</span>
+      </div>
+      <button class="pill pill-btn" id="btn-crowd" type="button" title="切换 2 人静修 / 8 人大殿同拜">
+        <svg class="svg-ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.4-3.2 2.6-5 5.5-5s5.1 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.5"/><path d="M15.5 14.5c2.2.3 3.9 1.7 4.4 4.5"/></svg>
+        <span id="crowd-txt">2人共修</span>
+      </button>
+      <button class="pill pill-btn pill-temple" id="btn-temple" type="button" title="当前景点：北京雍和宫（灵隐寺筹建中）">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M12 3l8 5H4l8-5z"/><path d="M6 8v10M10 8v10M14 8v10M18 8v10M4 18h16"/></svg>
+        <span>求事业 · 雍和宫</span>
+      </button>
+    </div>
+
+    <div class="hud-center">
+      <div class="hint-bar" id="hint-bar">点击御道或拜垫漫步 · 点左侧红绸古树求姻缘配对 · 点右上角「3D模型」可导入 .glb</div>
+      <button class="fate-float-pill hidden" id="fate-float-pill" type="button">
+        <span class="fate-dot"></span>
+        <span id="fate-float-txt">已结缘 · 点击查看资料与对话</span>
+      </button>
+    </div>
+
+    <div class="hud-right">
+      <button class="pill pill-btn pill-model" id="btn-models" type="button" title="导入或管理写实 3D 大佛与真人 .glb 模型">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
+        <span>3D模型</span>
+      </button>
+      <button class="pill pill-btn" id="btn-view" type="button" title="切换庭院/大殿视角">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M3 10.5L12 4l9 6.5"/><path d="M6 9.5V19h12V9.5"/><path d="M10 19v-5h4v5"/></svg>
+        <span id="view-txt">进大殿</span>
+      </button>
+      <button class="pill pill-btn" id="btn-mood" type="button" title="切换晴昼/金秋暮色/夜宫">
+        <svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M3 12h2M19 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span id="mood-txt">晴昼</span>
+      </button>
+      <button class="pill pill-btn" id="btn-sound" type="button" title="开关交互音效">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M11 6L6.5 9.5H3.5v5h3L11 18V6z"/><path d="M15.2 9.2a4.2 4.2 0 010 5.6"/><path d="M18 6.8a7.6 7.6 0 010 10.4"/></svg>
+        <span id="sound-txt">有声</span>
+      </button>
+      <button class="pill pill-btn" id="btn-cushion" type="button" title="查看并更换打坐升级禅座">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M12 5c2.2 2.8 2.8 5.6 0 8.5-2.8-2.9-2.2-5.7 0-8.5z"/><path d="M12 13.5c-3.4-.2-5.8-1.8-7-4.5 2.8-.2 5.2 1.2 7 4.5z"/><path d="M12 13.5c3.4-.2 5.8-1.8 7-4.5-2.8-.2-5.2 1.2-7 4.5z"/><path d="M5.5 18.2c3.8 1.2 9.2 1.2 13 0"/></svg>
+        <span>禅座</span>
+      </button>
+      <button class="pill pill-btn" id="btn-journal" type="button" title="祈愿手记与禅衣">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 012 2v13a1 1 0 01-1 1H6a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M8 4v16M11.5 9h4.5M11.5 13h4.5"/></svg>
+        <span>手记</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 雍和宫中轴五殿巡拜与佛祖法相铭牌 -->
+  <aside class="hall-switcher" aria-label="雍和宫五殿巡拜">
+    <div class="hall-tabs">
+      <button class="hall-tab" data-hall="yonghemen" type="button">① 雍和门·笑佛</button>
+      <button class="hall-tab active" data-hall="yonghegong" type="button">② 雍和宫·三世佛</button>
+      <button class="hall-tab" data-hall="yongyou" type="button">③ 永佑殿·药师佛</button>
+      <button class="hall-tab" data-hall="falun" type="button">④ 法轮殿·宗喀巴</button>
+      <button class="hall-tab" data-hall="wanfu" type="button">⑤ 万福阁·18米大佛</button>
+    </div>
+    <div class="deity-card">
+      <div class="deity-title" id="deity-title">雍和宫殿 · 三世佛（燃灯佛 · 释迦牟尼佛 · 弥勒佛）</div>
+      <div class="deity-wish" id="deity-wish">主求：事业高升 · 正财顺遂</div>
+      <div class="deity-desc" id="deity-desc">中尊释迦牟尼佛右手触地降魔印、左手托金钵；东侧过去燃灯佛托光明宝珠；西侧未来弥勒佛结说法印。</div>
+    </div>
+  </aside>
+
+  <!-- 轻提示与飘字 -->
+  <div id="toast" class="toast" aria-live="polite"></div>
+  <div id="float-words" aria-hidden="true"></div>
+
+  <!-- 底部操作浮条（雍和宫专属祈福操作） -->
+  <nav class="hud-dock" aria-label="雍和宫祈福操作">
+    <button class="dock-btn" data-act="hands" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 4.5c-.8 2.4-1.2 4.7-1.2 7.5 0 1.4.4 2.4 1.2 3.2.8-.8 1.2-1.8 1.2-3.2 0-2.8-.4-5.1-1.2-7.5z"/><path d="M10.8 11.2L7.5 15.8c-.6.8-.4 1.9.4 2.5l2.3 1.5"/><path d="M13.2 11.2l3.3 4.6c.6.8.4 1.9-.4 2.5l-2.3 1.5"/></svg>
+      <span class="dock-txt">合掌</span>
+    </button>
+    <button class="dock-btn" data-act="bow" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><circle cx="12" cy="6.2" r="2.6"/><path d="M7.5 14.5c1.2-2.6 3-3.8 4.5-3.8s3.3 1.2 4.5 3.8"/><path d="M5 18.5h14"/></svg>
+      <span class="dock-txt">礼佛</span>
+    </button>
+    <button class="dock-btn" data-act="incense" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M7 13h10l-1.2 5.2a2 2 0 01-2 1.5h-3.6a2 2 0 01-2-1.5L7 13z"/><path d="M9.5 13V8.5M12 13V7.5M14.5 13V8.5"/><path d="M12 5.5c-.7-1 .7-1.8 0-2.8"/></svg>
+      <span class="dock-txt">敬香</span>
+    </button>
+    <button class="dock-btn" data-act="wheel" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><rect x="7.5" y="6" width="9" height="12" rx="2"/><path d="M12 3v3M12 18v3M7.5 10h9M7.5 14h9"/></svg>
+      <span class="dock-txt">转经</span>
+    </button>
+    <button class="dock-btn" data-act="beads" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.5"/><circle cx="16.5" cy="7.5" r="1.5"/><circle cx="18" cy="12" r="1.5"/><circle cx="16" cy="16.4" r="1.5"/><circle cx="12" cy="18.2" r="1.8"/><circle cx="8" cy="16.4" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="7.5" cy="7.5" r="1.5"/><path d="M12 20v2"/></svg>
+      <span class="dock-txt">手串</span>
+    </button>
+    <button class="dock-btn" data-act="wood" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M5.5 14.2c0-4 3-7 6.8-7 3.7 0 6.2 2.4 6.2 5.6 0 3.3-2.9 5.5-6.6 5.5-3.8 0-6.4-1.4-6.4-4.1z"/><path d="M7.2 13.5c2.2-.8 5.2-.6 8.2.5"/><path d="M14.5 6.8l5-3.2"/><circle cx="20" cy="3.4" r="1.2"/></svg>
+      <span class="dock-txt">木鱼</span>
+    </button>
+    <button class="dock-btn" data-act="sit" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 6c2 2.6 2.6 5.4 0 8.5-2.6-3.1-2-5.9 0-8.5z"/><path d="M12 14.5c-3.2-.2-5.6-1.8-6.8-4.5 2.6-.2 4.9 1.2 6.8 4.5z"/><path d="M12 14.5c3.2-.2 5.6-1.8 6.8-4.5-2.6-.2-4.9 1.2-6.8 4.5z"/><path d="M6.5 18.2c3.2 1.2 7.8 1.2 11 0"/></svg>
+      <span class="dock-txt">静坐</span>
+    </button>
+    <button class="dock-btn" data-act="lot" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M8.5 10h7l-.8 9.5h-5.4L8.5 10z"/><path d="M10 10L9.2 5.2M12 10V4.5M14 10l1.1-4.8"/></svg>
+      <span class="dock-txt">事业签</span>
+    </button>
+    <button class="dock-btn dock-fate" data-act="fate" type="button">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 20s-6.8-4.2-8.4-8.4C2.4 8.3 4.6 5.5 7.6 5.5c1.9 0 3.4 1.1 4.4 2.6 1-1.5 2.5-2.6 4.4-2.6 3 0 5.2 2.8 4 6.1C18.8 15.8 12 20 12 20z"/></svg>
+      <span class="dock-txt">求姻缘</span>
+    </button>
+  </nav>
+
+  <!-- 雍和宫香灰琉璃手串浮层 -->
+  <section id="beads-overlay" class="overlay hidden" aria-label="雍和宫手串">
+    <div class="glass-card beads-card">
+      <div class="card-head">
+        <div>
+          <h3>雍和宫手串</h3>
+          <p id="bead-sub">香灰琉璃 · 轻点或滑动盘珠</p>
+        </div>
+        <button class="close-btn" id="close-beads" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="bead-stage" id="bead-stage">
+        <canvas id="bead-canvas" width="320" height="236"></canvas>
+      </div>
+      <div class="bead-stats">
+        <span id="bead-count-txt">0 / 108 颗</span>
+        <span id="bead-round-txt">已满 0 圈</span>
+      </div>
+      <div class="mat-row" id="bead-mats"></div>
+    </div>
+  </section>
+
+  <!-- 雍和宫事业祈愿签弹窗 -->
+  <section id="lot-overlay" class="overlay hidden" aria-label="雍和宫事业签">
+    <div class="glass-card lot-card">
+      <div class="card-head">
+        <h3>雍和宫 · 事业灵签</h3>
+        <button class="close-btn" id="close-lot" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="wish-tabs" id="wish-tabs">
+        <button class="wish-tab active" data-wish="career" type="button">求事业</button>
+        <button class="wish-tab" data-wish="wealth" type="button">求财运</button>
+        <button class="wish-tab" data-wish="study" type="button">求学业</button>
+        <button class="wish-tab" data-wish="peace" type="button">求顺遂</button>
+      </div>
+      <div class="lot-seal" id="lot-seal">上</div>
+      <div class="lot-rank" id="lot-rank">上上签 · 青云直上</div>
+      <div class="lot-poem" id="lot-poem"></div>
+      <div class="lot-advice" id="lot-advice">宜：主动进取、贵人相助</div>
+      <button class="primary-btn" id="ok-lot" type="button">敬受吉签</button>
+    </div>
+  </section>
+
+  <!-- 祈愿手记与禅衣弹窗 -->
+  <section id="journal-overlay" class="overlay hidden" aria-label="雍和宫手记">
+    <div class="glass-card journal-card">
+      <div class="card-head">
+        <div>
+          <h3>雍和宫祈愿录</h3>
+          <p id="journal-merit">累计福德：0</p>
+        </div>
+        <button class="close-btn" id="close-journal" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="wardrobe-title">小沙弥法衣（随福德解锁，点击换装）</div>
+      <div class="robe-grid" id="robe-grid"></div>
+    </div>
+  </section>
+
+  <!-- 景点切换预告弹窗 -->
+  <section id="temple-overlay" class="overlay hidden" aria-label="选择名刹">
+    <div class="glass-card temple-card">
+      <div class="card-head">
+        <div>
+          <h3>名刹巡礼</h3>
+          <p>一寺一愿 · 沉浸式 3D 祈福</p>
+        </div>
+        <button class="close-btn" id="close-temple" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="temple-list">
+        <div class="temple-item active">
+          <div>
+            <div class="t-name">北京 · 雍和宫</div>
+            <div class="t-desc">红墙黄瓦 · 银杏古道 · 专求事业与顺遂</div>
+          </div>
+          <span class="t-badge">当前所在</span>
+        </div>
+        <div class="temple-item soon">
+          <div>
+            <div class="t-name">杭州 · 灵隐寺</div>
+            <div class="t-desc">飞来峰下 · 烟霞古刹 · 祈愿平安与良缘</div>
+          </div>
+          <span class="t-badge muted">下一站筹建</span>
+        </div>
+        <div class="temple-item soon">
+          <div>
+            <div class="t-name">苏州 · 寒山寺</div>
+            <div class="t-desc">姑苏钟声 · 枫桥夜泊 · 祈愿学业与静心</div>
+          </div>
+          <span class="t-badge muted">规划中</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 写实 3D 模型中心弹窗 -->
+  <section id="models-overlay" class="overlay hidden" aria-label="写实 3D 模型中心">
+    <div class="glass-card models-card">
+      <div class="card-head">
+        <div>
+          <h3>写实 3D 模型中心</h3>
+          <p>支持直接导入本地 .glb（离线可用）或放入 models/ 目录自动加载</p>
+        </div>
+        <button class="close-btn" id="close-models" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="model-slot" data-slot="buddha">
+        <div class="model-slot-head">
+          <div>
+            <div class="m-name">正殿主佛 · 鎏金大佛</div>
+            <div class="m-status" id="status-buddha">当前：内置 3D 雕塑鎏金佛</div>
+          </div>
+          <label class="mini-btn primary">导入 .glb<input type="file" id="file-buddha" accept=".glb,.gltf" hidden></label>
+        </div>
+        <div class="model-slot-controls">
+          <label class="ctrl-item"><span>高度</span><input type="range" id="scale-buddha" min="0.5" max="2.2" step="0.05" value="1"></label>
+          <button class="mini-btn" id="rot-buddha" type="button">旋转 90°</button>
+          <button class="mini-btn" id="gild-buddha" type="button">鎏金铜质：关</button>
+          <button class="mini-btn ghost" id="reset-buddha" type="button">恢复默认</button>
+        </div>
+      </div>
+      <div class="model-slot" data-slot="visitor">
+        <div class="model-slot-head">
+          <div>
+            <div class="m-name">我的真人形象 · 祈愿客</div>
+            <div class="m-status" id="status-visitor">当前：内置写实新中式香客</div>
+          </div>
+          <label class="mini-btn primary">导入 .glb<input type="file" id="file-visitor" accept=".glb,.gltf" hidden></label>
+        </div>
+        <div class="model-slot-controls">
+          <label class="ctrl-item"><span>身高</span><input type="range" id="scale-visitor" min="0.7" max="1.4" step="0.05" value="1"></label>
+          <button class="mini-btn" id="rot-visitor" type="button">旋转 90°</button>
+          <button class="mini-btn ghost" id="reset-visitor" type="button">恢复默认</button>
+        </div>
+        <div class="m-anim" id="anim-visitor">骨骼动画：自动适配 Idle / Walk / Bow / Sit</div>
+      </div>
+      <div class="model-slot" data-slot="companion">
+        <div class="model-slot-head">
+          <div>
+            <div class="m-name">同修伙伴 · 清风师兄</div>
+            <div class="m-status" id="status-companion">当前：内置写实宫红锦衫</div>
+          </div>
+          <label class="mini-btn primary">导入 .glb<input type="file" id="file-companion" accept=".glb,.gltf" hidden></label>
+        </div>
+        <div class="model-slot-controls">
+          <button class="mini-btn" id="rot-companion" type="button">旋转 90°</button>
+          <button class="mini-btn ghost" id="reset-companion" type="button">恢复默认</button>
+        </div>
+      </div>
+      <div class="model-tip">将文件命名为 <code>buddha.glb</code>、<code>visitor.glb</code>、<code>companion.glb</code> 放入 <code>web-3d-sansa/models/</code> 目录，用 <code>node server.cjs</code> 启动会自动加载；直接双击打开页面时，点上方「导入 .glb」或拖入窗口即可即时替换。</div>
+    </div>
+  </section>
+
+  <!-- 雍和宫 · 求姻缘在线配对弹窗 -->
+  <section id="fate-overlay" class="overlay hidden" aria-label="雍和宫求姻缘">
+    <div class="glass-card fate-card">
+      <div class="card-head">
+        <div>
+          <h3>雍和宫 · 红绸求姻缘</h3>
+          <p id="fate-sub">挂上红绸名帖，与同时在线求姻缘的有缘人实时配对</p>
+        </div>
+        <button class="close-btn" id="close-fate" type="button" aria-label="关闭">✕</button>
+      </div>
+
+      <!-- 阶段 1：填写基本情况（城市 / 性别 / 爱好） -->
+      <div id="fate-form-view">
+        <div class="fate-field">
+          <label>我的称呼</label>
+          <input type="text" id="fate-nick" maxlength="12" placeholder="例如：清欢 / 景行">
+        </div>
+        <div class="fate-row-2">
+          <div class="fate-field">
+            <label>我的性别</label>
+            <div class="seg-row" id="fate-gender-row">
+              <button type="button" class="seg-btn active" data-val="男">男</button>
+              <button type="button" class="seg-btn" data-val="女">女</button>
+            </div>
+          </div>
+          <div class="fate-field">
+            <label>期望配对</label>
+            <div class="seg-row" id="fate-seek-row">
+              <button type="button" class="seg-btn active" data-val="不限">不限</button>
+              <button type="button" class="seg-btn" data-val="女">女</button>
+              <button type="button" class="seg-btn" data-val="男">男</button>
+            </div>
+          </div>
+        </div>
+        <div class="fate-field">
+          <label>所在城市</label>
+          <input type="text" id="fate-city" maxlength="10" placeholder="输入城市，例如：北京" value="北京">
+          <div class="quick-chips" id="fate-city-chips">
+            <button type="button" class="q-chip">北京</button>
+            <button type="button" class="q-chip">上海</button>
+            <button type="button" class="q-chip">杭州</button>
+            <button type="button" class="q-chip">深圳</button>
+            <button type="button" class="q-chip">成都</button>
+            <button type="button" class="q-chip">广州</button>
+          </div>
+        </div>
+        <div class="fate-field">
+          <label>兴趣爱好（选 1–4 项，匹配共同话题）</label>
+          <div class="quick-chips" id="fate-hobby-chips">
+            <button type="button" class="q-chip active">逛展</button>
+            <button type="button" class="q-chip active">咖啡</button>
+            <button type="button" class="q-chip">徒步</button>
+            <button type="button" class="q-chip">摄影</button>
+            <button type="button" class="q-chip">读书</button>
+            <button type="button" class="q-chip">美食</button>
+            <button type="button" class="q-chip">电影</button>
+            <button type="button" class="q-chip">音乐</button>
+            <button type="button" class="q-chip">旅行</button>
+            <button type="button" class="q-chip">健身</button>
+          </div>
+        </div>
+        <div class="fate-field">
+          <label>一句姻缘祈愿（选填）</label>
+          <input type="text" id="fate-wish" maxlength="36" placeholder="愿遇合拍之人，四季三餐常相伴">
+        </div>
+        <button class="primary-btn" id="btn-fate-start" type="button">挂红绸 · 开始在线配对</button>
+      </div>
+
+      <!-- 阶段 2：在线寻缘排队中 -->
+      <div id="fate-wait-view" class="hidden">
+        <div class="wait-box">
+          <div class="wait-ring">缘</div>
+          <div class="wait-title" id="fate-wait-title">正在姻缘红绸树下寻缘…</div>
+          <div class="wait-desc" id="fate-wait-desc">当前等待队列：1 人 · 另一位在线用户点击求姻缘即可实时配对</div>
+          <div class="wait-actions">
+            <button class="mini-btn primary" id="btn-fate-demo" type="button">先体验演示有缘人</button>
+            <button class="mini-btn ghost" id="btn-fate-cancel" type="button">取消寻缘</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段 3：配对成功 · 展示对方基本情况 + 轻互动与对话 -->
+      <div id="fate-match-view" class="hidden">
+        <div class="partner-card">
+          <div class="partner-top">
+            <div>
+              <div class="p-name" id="p-name">苏晚</div>
+              <div class="p-meta" id="p-meta">女 · 北京</div>
+            </div>
+            <div class="p-score" id="p-score">缘分 94%</div>
+          </div>
+          <div class="p-reason" id="p-reason">同在北京 · 共好「逛展、咖啡」</div>
+          <div class="p-hobbies" id="p-hobbies"></div>
+          <div class="p-wish" id="p-wish">“愿遇聊得来的人，一起看展散步。”</div>
+        </div>
+        <div class="fate-ritual-row">
+          <button class="mini-btn primary" id="btn-fate-ribbon" type="button">共挂红绸</button>
+          <button class="mini-btn" id="btn-fate-bow" type="button">同拜祈缘</button>
+          <button class="mini-btn" id="btn-fate-scene" type="button">看 3D 同框</button>
+          <button class="mini-btn ghost" id="btn-fate-next" type="button">换一位</button>
+        </div>
+        <div class="fate-chat-log" id="fate-chat-log"></div>
+        <form class="fate-chat-form" id="fate-chat-form">
+          <input type="text" id="fate-chat-input" maxlength="100" placeholder="和有缘人打个招呼…" autocomplete="off">
+          <button type="submit" class="mini-btn primary">发送</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 打坐中实时悬浮成长卡片（含随息呼吸引导与快捷敲木鱼/清磬） -->
+  <aside id="sit-hud" class="sit-hud hidden" aria-label="打坐成长状态">
+    <div class="sit-hud-head">
+      <span class="sit-tier" id="sit-tier-name">Lv.1 素麻蒲团</span>
+      <button class="mini-btn" id="sit-open-gallery" type="button">换禅座</button>
+    </div>
+    <div class="sit-timer" id="sit-timer-txt">本次 0秒 · 累计 0秒</div>
+    <div class="sit-bar"><span id="sit-progress-fill" style="width:0%"></span></div>
+    <div class="sit-next" id="sit-next-txt">距「朱红织锦拜垫」还差 30秒</div>
+    <div class="breath-box" id="sit-breath-box">
+      <span class="breath-orb" id="breath-orb"></span>
+      <span id="breath-txt">缓缓吸气 · 4s</span>
+    </div>
+    <div class="sit-quick-row">
+      <button class="mini-btn" id="sit-breath-toggle" type="button">呼吸引导：开</button>
+      <button class="mini-btn" id="sit-tap-wood" type="button">敲木鱼</button>
+      <button class="mini-btn" id="sit-tap-bell" type="button">清磬</button>
+    </div>
+  </aside>
+
+  <!-- 五阶打坐禅座图鉴弹窗 -->
+  <section id="cushion-overlay" class="overlay hidden" aria-label="禅座升级图鉴">
+    <div class="glass-card cushion-card">
+      <div class="card-head">
+        <div>
+          <h3>禅座升级图鉴</h3>
+          <p id="cushion-sub">随实际打坐时长自动进阶 · 点击已解锁禅座即可换装</p>
+        </div>
+        <button class="close-btn" id="close-cushion" type="button" aria-label="关闭">✕</button>
+      </div>
+      <div class="cushion-list" id="cushion-list"></div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.148.0/build/three.min.js"></script>
+  <script src="./app.js"></script>
+  <script src="./halls.js"></script>
+  <script src="./cushion.js"></script>
+  <script src="./fate.js"></script>
+  <script src="./world.js"></script>
+</body>
+</html>

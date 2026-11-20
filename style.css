@@ -1,0 +1,1120 @@
+:root {
+  --glass-bg: rgba(36, 18, 16, 0.52);
+  --glass-bg-hover: rgba(54, 24, 20, 0.72);
+  --glass-border: rgba(242, 208, 134, 0.28);
+  --text-main: #fbf4e4;
+  --text-dim: rgba(251, 244, 228, 0.74);
+  --accent: #ecc774;
+  --accent-deep: #9f2d20;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  background: #221310;
+  color: var(--text-main);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#scene-wrap, #webgl {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+#webgl:active { cursor: grabbing; }
+
+/* 顶部红金宫廷风毛玻璃 HUD */
+.hud-top {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: 18px;
+  right: 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-left, .hud-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-center {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--text-main);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 238, 198, 0.14);
+}
+
+.pill-btn {
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.12s ease, border-color 0.18s ease;
+}
+.pill-btn:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(236, 199, 116, 0.52);
+}
+.pill-btn:active { transform: scale(0.96); }
+
+.pill-temple {
+  background: rgba(128, 34, 24, 0.62);
+  border-color: rgba(236, 199, 116, 0.48);
+}
+
+.svg-ico {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.pill-brand {
+  font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pill-brand .divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(251, 244, 228, 0.28);
+}
+.peer-num {
+  font-family: "PingFang SC", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(251, 244, 228, 0.9);
+}
+
+.dot-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f3c862;
+  box-shadow: 0 0 8px rgba(243, 200, 98, 0.95);
+}
+
+.hint-bar {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(30, 16, 14, 0.42);
+  border: 1px solid rgba(242, 208, 134, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 248, 232, 0.88);
+  white-space: nowrap;
+  transition: opacity 0.8s ease;
+}
+.hint-bar.faded { opacity: 0.36; }
+
+/* 底部操作栏 */
+.hud-dock {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 10px;
+  border-radius: 28px;
+  background: rgba(34, 17, 15, 0.62);
+  border: 1px solid rgba(236, 199, 116, 0.28);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 238, 198, 0.14);
+  z-index: 10;
+  max-width: calc(100vw - 20px);
+  overflow-x: auto;
+}
+
+.dock-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 58px;
+  height: 56px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+.dock-btn:hover { background: rgba(236, 199, 116, 0.14); }
+.dock-btn:active { transform: scale(0.93); }
+.dock-btn.active {
+  background: rgba(236, 199, 116, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(236, 199, 116, 0.56);
+}
+.dock-svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: rgba(251, 240, 214, 0.92);
+  stroke-width: 1.65;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.dock-txt {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(251, 244, 228, 0.9);
+}
+
+/* 轻提示与飘字 */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%) translateY(8px);
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(42, 18, 15, 0.86);
+  border: 1px solid rgba(236, 199, 116, 0.48);
+  backdrop-filter: blur(12px);
+  color: #fff6df;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+  white-space: nowrap;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+#float-words {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+.float-word {
+  position: fixed;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #ffe8a3;
+  text-shadow: 0 2px 12px rgba(45, 14, 8, 0.65);
+  animation: floatUp 1.55s ease-out forwards;
+}
+@keyframes floatUp {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.9); }
+  20% { opacity: 1; transform: translate(-50%, -14px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -58px) scale(1.04); }
+}
+
+/* 弹窗层 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(18, 10, 8, 0.56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 30;
+  padding: 18px;
+  animation: fadeIn 0.2s ease;
+}
+.overlay.hidden { display: none; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.glass-card {
+  width: min(404px, 100%);
+  padding: 22px 24px 24px;
+  border-radius: 22px;
+  background: rgba(40, 20, 17, 0.92);
+  border: 1px solid rgba(236, 199, 116, 0.38);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 238, 198, 0.14);
+  color: var(--text-main);
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-head h3 {
+  margin: 0;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #fbe5b2;
+}
+.card-head p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(251, 244, 228, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+}
+.close-btn:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* 念珠卡片 */
+.bead-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  background: radial-gradient(circle at center, rgba(236, 199, 116, 0.16), rgba(24, 11, 9, 0.55));
+  border: 1px solid rgba(236, 199, 116, 0.24);
+  cursor: pointer;
+  touch-action: none;
+}
+#bead-canvas { width: 100%; max-width: 320px; height: auto; display: block; }
+.bead-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 2px 12px;
+  font-size: 12.5px;
+  color: var(--accent);
+}
+.mat-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.mat-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 244, 228, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  font-size: 11px;
+  cursor: pointer;
+}
+.mat-chip.active { border-color: var(--accent); background: rgba(236, 199, 116, 0.2); }
+.mat-chip.locked { opacity: 0.42; }
+.mat-dot {
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* 祈愿签卡片 */
+.lot-card { text-align: center; }
+.wish-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.wish-tab {
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 199, 116, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  font-size: 12px;
+  cursor: pointer;
+}
+.wish-tab.active {
+  background: rgba(159, 45, 32, 0.72);
+  border-color: var(--accent);
+  color: #fff6df;
+  font-weight: 600;
+}
+.lot-seal {
+  width: 40px;
+  height: 40px;
+  margin: 2px auto 10px;
+  border-radius: 9px;
+  background: var(--accent-deep);
+  border: 1px solid rgba(255, 232, 180, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Songti SC", serif;
+  font-size: 21px;
+  font-weight: 700;
+}
+.lot-rank {
+  font-family: "Songti SC", serif;
+  font-size: 20px;
+  color: var(--accent);
+  margin-bottom: 14px;
+  letter-spacing: 0.1em;
+}
+.lot-poem {
+  padding: 16px 14px;
+  border-radius: 14px;
+  background: rgba(255, 244, 220, 0.06);
+  border: 1px solid rgba(236, 199, 116, 0.22);
+  font-family: "Songti SC", serif;
+  font-size: 16.5px;
+  line-height: 2.1;
+  letter-spacing: 0.12em;
+}
+.lot-advice { margin: 14px 0 18px; font-size: 13px; color: #f2d59a; }
+.primary-btn {
+  width: 100%;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #a83324, #7c2218);
+  border: 1px solid rgba(236, 199, 116, 0.52);
+  color: #fff8e8;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.primary-btn:hover { filter: brightness(1.08); }
+
+/* 手记与名刹列表 */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.stat-box {
+  padding: 11px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(251, 244, 228, 0.1);
+  text-align: center;
+}
+.stat-box .k { font-size: 11px; color: var(--text-dim); }
+.stat-box .v { margin-top: 4px; font-size: 16px; font-weight: 600; color: var(--accent); }
+.wardrobe-title { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+.robe-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.robe-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 244, 228, 0.14);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text-main);
+  font-size: 11px;
+  cursor: pointer;
+}
+.robe-btn.active { border-color: var(--accent); background: rgba(236, 199, 116, 0.22); }
+.robe-btn.locked { opacity: 0.42; }
+.robe-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255, 248, 232, 0.35); }
+
+.temple-list { display: flex; flex-direction: column; gap: 10px; }
+.temple-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(236, 199, 116, 0.18);
+}
+.temple-item.active {
+  background: rgba(159, 45, 32, 0.32);
+  border-color: rgba(236, 199, 116, 0.58);
+}
+.temple-item.soon { opacity: 0.65; }
+.t-name { font-family: "Songti SC", serif; font-size: 16px; font-weight: 600; color: #fbe5b2; }
+.t-desc { margin-top: 3px; font-size: 12px; color: var(--text-dim); }
+.t-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(236, 199, 116, 0.2);
+  border: 1px solid rgba(236, 199, 116, 0.45);
+  font-size: 11px;
+  color: #ffe8a3;
+}
+.t-badge.muted { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); color: var(--text-dim); }
+
+/* 写实 3D 模型中心弹窗 */
+.pill-model {
+  background: rgba(160, 108, 28, 0.45);
+  border-color: rgba(246, 212, 128, 0.56);
+}
+.models-card { width: min(472px, 100%); max-height: 86vh; overflow-y: auto; }
+.model-slot {
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  background: rgba(255, 248, 232, 0.045);
+  border: 1px solid rgba(236, 199, 116, 0.22);
+}
+.model-slot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.m-name {
+  font-family: "Songti SC", serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fbe5b2;
+}
+.m-status {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+.m-anim {
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(242, 213, 154, 0.8);
+}
+.model-slot-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 10px;
+}
+.ctrl-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+.ctrl-item input[type="range"] {
+  width: 82px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.mini-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 199, 116, 0.34);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-main);
+  font-size: 11.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+.mini-btn:hover { background: rgba(236, 199, 116, 0.2); border-color: rgba(236, 199, 116, 0.6); }
+.mini-btn.primary {
+  background: linear-gradient(135deg, #a83324, #7c2218);
+  border-color: rgba(236, 199, 116, 0.58);
+  font-weight: 600;
+}
+.mini-btn.active {
+  background: rgba(236, 199, 116, 0.28);
+  border-color: var(--accent);
+  color: #fff6df;
+}
+.mini-btn.ghost {
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--text-dim);
+}
+.model-tip {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(20, 10, 8, 0.45);
+  border: 1px dashed rgba(236, 199, 116, 0.26);
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+.model-tip code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(236, 199, 116, 0.14);
+  color: #fbe5b2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+.drop-banner {
+  position: fixed;
+  inset: 18px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  border: 2px dashed rgba(236, 199, 116, 0.85);
+  background: rgba(34, 16, 14, 0.78);
+  backdrop-filter: blur(8px);
+  color: #ffe8a3;
+  font-family: "Songti SC", serif;
+  font-size: 22px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+.drop-banner.hidden { display: none; }
+
+/* 求姻缘入口与在线配对弹窗 */
+.dock-fate .dock-svg { stroke: #ff9c8a; }
+.dock-fate.active { background: rgba(196, 52, 42, 0.34); box-shadow: inset 0 0 0 1px rgba(255, 168, 146, 0.72); }
+.fate-float-pill {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(146, 32, 26, 0.86);
+  border: 1px solid rgba(255, 206, 140, 0.68);
+  color: #fff6df;
+  font-size: 12px;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.fate-float-pill.hidden { display: none; }
+.fate-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff9e8a;
+  box-shadow: 0 0 8px #ff9e8a;
+}
+.fate-card { width: min(448px, 100%); max-height: 88vh; overflow-y: auto; }
+.fate-card .hidden { display: none; }
+.fate-field { margin-bottom: 11px; }
+.fate-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+.fate-field input[type="text"] {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(236, 199, 116, 0.28);
+  background: rgba(20, 10, 8, 0.55);
+  color: var(--text-main);
+  font-size: 13px;
+  outline: none;
+}
+.fate-field input[type="text"]:focus { border-color: var(--accent); }
+.fate-row-2 { display: grid; grid-template-columns: 1fr 1.35fr; gap: 10px; }
+.seg-row { display: flex; gap: 6px; }
+.seg-btn {
+  flex: 1;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(236, 199, 116, 0.24);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.seg-btn.active {
+  background: rgba(162, 42, 30, 0.72);
+  border-color: var(--accent);
+  color: #fff6df;
+  font-weight: 600;
+}
+.quick-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.q-chip {
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 199, 116, 0.22);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text-dim);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.q-chip.active {
+  background: rgba(176, 48, 34, 0.65);
+  border-color: var(--accent);
+  color: #fff6df;
+}
+.wait-box { text-align: center; padding: 18px 8px 10px; }
+.wait-ring {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(190, 48, 34, 0.85), rgba(112, 22, 16, 0.9));
+  border: 2px solid rgba(246, 212, 128, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Songti SC", serif;
+  font-size: 26px;
+  color: #ffe8a3;
+  box-shadow: 0 0 24px rgba(214, 72, 46, 0.45);
+  animation: pulseRing 1.8s ease-in-out infinite;
+}
+@keyframes pulseRing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.07); }
+}
+.wait-title { font-family: "Songti SC", serif; font-size: 18px; color: #fbe5b2; }
+.wait-desc { margin: 8px 0 18px; font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+.wait-actions { display: flex; justify-content: center; gap: 10px; }
+
+.partner-card {
+  padding: 14px 15px;
+  border-radius: 15px;
+  background: linear-gradient(145deg, rgba(140, 34, 24, 0.36), rgba(32, 14, 12, 0.72));
+  border: 1px solid rgba(242, 206, 130, 0.45);
+  margin-bottom: 12px;
+}
+.partner-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.p-name { font-family: "Songti SC", serif; font-size: 20px; font-weight: 600; color: #ffe8a3; }
+.p-meta { margin-top: 3px; font-size: 12.5px; color: rgba(251, 244, 228, 0.88); }
+.p-score {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(236, 199, 116, 0.22);
+  border: 1px solid rgba(236, 199, 116, 0.56);
+  color: #ffe8a3;
+  font-size: 12px;
+  font-weight: 600;
+}
+.p-reason { margin-top: 8px; font-size: 12px; color: #f5d393; }
+.p-hobbies { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hobby-tag {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 244, 220, 0.2);
+  font-size: 11.5px;
+  color: var(--text-main);
+}
+.hobby-tag.common {
+  background: rgba(236, 199, 116, 0.24);
+  border-color: var(--accent);
+  color: #fff6df;
+}
+.p-wish {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(236, 199, 116, 0.18);
+  font-size: 12.5px;
+  color: rgba(251, 244, 228, 0.86);
+  line-height: 1.5;
+}
+.fate-ritual-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+.fate-chat-log {
+  height: 128px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(16, 8, 7, 0.55);
+  border: 1px solid rgba(236, 199, 116, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+}
+.chat-msg { max-width: 86%; padding: 6px 10px; border-radius: 10px; line-height: 1.45; word-break: break-word; }
+.chat-msg.self { align-self: flex-end; background: rgba(168, 44, 30, 0.72); color: #fff6df; }
+.chat-msg.peer { align-self: flex-start; background: rgba(255, 248, 232, 0.1); color: var(--text-main); }
+.chat-msg.sys { align-self: center; background: transparent; color: var(--accent); font-size: 11.5px; padding: 2px 6px; }
+.fate-chat-form { display: flex; gap: 7px; }
+.fate-chat-form input {
+  flex: 1;
+  height: 34px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 199, 116, 0.28);
+  background: rgba(20, 10, 8, 0.6);
+  color: var(--text-main);
+  font-size: 12.5px;
+  outline: none;
+}
+
+/* 雍和宫中轴五殿巡拜与佛祖法相铭牌 */
+.hall-switcher {
+  position: fixed;
+  left: 18px;
+  top: 64px;
+  z-index: 9;
+  max-width: min(360px, calc(100vw - 36px));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+}
+.hall-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.hall-tab {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 208, 134, 0.26);
+  background: rgba(34, 16, 14, 0.64);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(251, 244, 228, 0.84);
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+.hall-tab:hover { background: rgba(68, 28, 22, 0.78); border-color: rgba(242, 208, 134, 0.56); }
+.hall-tab.active {
+  background: rgba(146, 36, 24, 0.82);
+  border-color: var(--accent);
+  color: #fff6df;
+  font-weight: 600;
+}
+.deity-card {
+  padding: 10px 13px;
+  border-radius: 14px;
+  background: rgba(32, 15, 13, 0.64);
+  border: 1px solid rgba(242, 208, 134, 0.28);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26);
+}
+.deity-title {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffe8a3;
+}
+.deity-wish {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: #f3ca78;
+}
+.deity-desc {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgba(251, 244, 228, 0.78);
+}
+
+/* 打坐实时成长悬浮卡与禅座升级图鉴 */
+.sit-hud {
+  position: fixed;
+  right: 18px;
+  bottom: 98px;
+  z-index: 12;
+  width: 268px;
+  padding: 13px 14px;
+  border-radius: 16px;
+  background: rgba(34, 16, 14, 0.78);
+  border: 1px solid rgba(242, 208, 134, 0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.36);
+}
+.sit-hud.hidden { display: none; }
+.sit-hud-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sit-tier { font-family: "Songti SC", serif; font-size: 14.5px; font-weight: 600; color: #ffe8a3; }
+.sit-timer { margin-top: 6px; font-size: 12px; color: var(--text-main); }
+.sit-bar {
+  margin: 7px 0 5px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.sit-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #d89b32, #ffe28c);
+  transition: width 0.25s linear;
+}
+.sit-next { font-size: 11px; color: var(--text-dim); }
+.breath-box {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(255, 244, 214, 0.06);
+  border: 1px solid rgba(236, 199, 116, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #fbe5b2;
+}
+.breath-box.hidden { display: none; }
+.breath-orb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff3c4, #e5a93c);
+  box-shadow: 0 0 12px rgba(246, 206, 110, 0.78);
+  flex-shrink: 0;
+  transition: transform 0.2s linear;
+}
+.sit-quick-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+
+.cushion-card { width: min(460px, 100%); max-height: 86vh; overflow-y: auto; }
+.cushion-list { display: flex; flex-direction: column; gap: 9px; }
+.cushion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 14px;
+  background: rgba(255, 248, 232, 0.045);
+  border: 1px solid rgba(236, 199, 116, 0.22);
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+.cushion-item:hover { background: rgba(255, 248, 232, 0.09); border-color: rgba(236, 199, 116, 0.5); }
+.cushion-item.active { background: rgba(154, 42, 28, 0.36); border-color: var(--accent); }
+.cushion-item.locked { opacity: 0.56; }
+.c-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 238, 198, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff8e8;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+.c-body { flex: 1; min-width: 0; }
+.c-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.c-name { font-family: "Songti SC", serif; font-size: 15px; font-weight: 600; color: #fbe5b2; }
+.c-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(236, 199, 116, 0.16);
+  border: 1px solid rgba(236, 199, 116, 0.38);
+  font-size: 10.5px;
+  color: #ffe8a3;
+  white-space: nowrap;
+}
+.c-desc { margin-top: 4px; font-size: 11.5px; line-height: 1.45; color: var(--text-dim); }
+.c-bar {
+  margin-top: 6px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.c-bar span { display: block; height: 100%; background: var(--accent); }
+
+/* ================= 手机端精细排版优化 ================= */
+@media (max-width: 860px) {
+  .hud-top {
+    top: max(10px, env(safe-area-inset-top));
+    left: 10px;
+    right: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .hud-left, .hud-right {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 6px;
+    padding-bottom: 1px;
+  }
+  .hud-left::-webkit-scrollbar, .hud-right::-webkit-scrollbar,
+  .hall-tabs::-webkit-scrollbar, .hud-dock::-webkit-scrollbar {
+    display: none;
+  }
+  .hud-center {
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: center;
+  }
+  .hint-bar { display: none; }
+  .fate-float-pill {
+    margin-top: 2px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+  }
+  .pill {
+    flex-shrink: 0;
+    height: 31px;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 11.5px;
+  }
+  .svg-ico { width: 13.5px; height: 13.5px; }
+
+  /* 五殿巡拜条：单行横向滑动 + 精简铭牌，不遮挡 3D 大佛 */
+  .hall-switcher {
+    top: calc(max(10px, env(safe-area-inset-top)) + 76px);
+    left: 10px;
+    right: 10px;
+    max-width: none;
+    gap: 5px;
+  }
+  .hall-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 5px;
+  }
+  .hall-tab {
+    flex-shrink: 0;
+    height: 27px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+  .deity-card {
+    padding: 6px 10px;
+    border-radius: 11px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .deity-title {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .deity-wish {
+    margin-top: 0;
+    font-size: 10.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .deity-desc { display: none; }
+
+  /* 底部操作栏：全宽圆角毛玻璃条，流畅横向滑动 */
+  .hud-dock {
+    left: 10px;
+    right: 10px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    transform: none;
+    max-width: none;
+    padding: 5px 7px;
+    gap: 2px;
+    border-radius: 22px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .dock-btn {
+    flex-shrink: 0;
+    min-width: 52px;
+    height: 50px;
+    padding: 4px 5px;
+    border-radius: 16px;
+    gap: 3px;
+  }
+  .dock-svg { width: 19px; height: 19px; }
+  .dock-txt { font-size: 10.5px; letter-spacing: 0.04em; }
+
+  /* 轻提示与打坐成长卡紧贴操作栏上方，避免挡住人物 */
+  .toast {
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 66px);
+    max-width: calc(100vw - 24px);
+    white-space: normal;
+    text-align: center;
+    font-size: 12px;
+  }
+  .sit-hud {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 68px);
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+  .sit-tier { font-size: 13px; }
+  .sit-timer { margin-top: 4px; font-size: 11.5px; }
+  .breath-box { margin-top: 7px; padding: 6px 9px; font-size: 11.5px; }
+  .sit-quick-row { margin-top: 7px; gap: 5px; }
+}
+
+@media (max-width: 640px) {
+  /* 手机弹窗改为原生底部抽屉式，避免小屏裁切 */
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .glass-card {
+    width: 100%;
+    max-height: 84dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 22px 22px 0 0;
+    padding: 18px 16px calc(20px + env(safe-area-inset-bottom));
+  }
+  .card-head h3 { font-size: 19px; }
+  .fate-row-2 { grid-template-columns: 1fr; gap: 8px; }
+  /* 16px 防止 iOS Safari 聚焦输入框时自动放大页面 */
+  .fate-field input[type="text"],
+  .fate-chat-form input {
+    font-size: 16px;
+    height: 38px;
+  }
+  .fate-chat-log { height: 112px; }
+  .model-slot-controls { gap: 6px; }
+}

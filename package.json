@@ -1,0 +1,14 @@
+{
+  "name": "yonghegong-3d-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "北京雍和宫 3D 线上祈福、写实 GLB 模型与在线求姻缘实时配对服务",
+  "main": "server.cjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node server.cjs",
+    "check": "node --check server.cjs && node --check app.js && node --check halls.js && node --check cushion.js && node --check fate.js && node --check world.js"
+  }
+}
