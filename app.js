@@ -57,9 +57,9 @@
   };
   // 电影级京城古刹三时天色（通透晴秋金光 / 残阳红墙 / 玄夜宫灯）
   const MOODS = [
-    { id: 'day', label: '京秋金昼', skyTop: '#24528a', skyMid: '#72a0cc', skyBot: '#ebd8b7', fog: 0xc8c3b4, fogDensity: 0.0044, sunColor: 0xffebc2, sunInt: 2.35, sunPos: [28, 34, 26], ambSky: 0xc4daf2, ambGnd: 0x5c4636, ambInt: 0.78, hallInt: 3.2, lanternInt: 0.45 },
-    { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0068, sunColor: 0xff893b, sunInt: 2.2, sunPos: [-34, 13, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.56, hallInt: 4.0, lanternInt: 1.9 },
-    { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0092, sunColor: 0x8bb4e8, sunInt: 0.62, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.42, hallInt: 4.9, lanternInt: 3.0 }
+    { id: 'day', label: '宫廷金秋', skyTop: '#2b5582', skyMid: '#8db0cc', skyBot: '#f5d9a8', fog: 0xd9c7a6, fogDensity: 0.0038, sunColor: 0xffd996, sunInt: 2.65, sunPos: [-34, 19, 20], ambSky: 0xbcd4ec, ambGnd: 0x6b4e38, ambInt: 0.72, hallInt: 3.4, lanternInt: 0.55 },
+    { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0064, sunColor: 0xff893b, sunInt: 2.35, sunPos: [-36, 12, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.54, hallInt: 4.2, lanternInt: 2.0 },
+    { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0088, sunColor: 0x8bb4e8, sunInt: 0.68, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.44, hallInt: 5.0, lanternInt: 3.1 }
   ];
 
   function loadJournal() {
@@ -994,14 +994,16 @@
   const sunLight = new THREE.DirectionalLight(0xfff1d2, 1.85);
   sunLight.position.set(26, 36, 28);
   sunLight.castShadow = true;
-  sunLight.shadow.mapSize.set(2048, 2048);
+  const shadowRes = (window.innerWidth > 900 && (window.devicePixelRatio || 1) >= 1.5) ? 4096 : 2048;
+  sunLight.shadow.mapSize.set(shadowRes, shadowRes);
   sunLight.shadow.camera.near = 4;
   sunLight.shadow.camera.far = 115;
-  sunLight.shadow.camera.left = -40;
-  sunLight.shadow.camera.right = 40;
-  sunLight.shadow.camera.top = 40;
-  sunLight.shadow.camera.bottom = -40;
-  sunLight.shadow.bias = -0.0004;
+  sunLight.shadow.camera.left = -38;
+  sunLight.shadow.camera.right = 38;
+  sunLight.shadow.camera.top = 38;
+  sunLight.shadow.camera.bottom = -38;
+  sunLight.shadow.bias = -0.00035;
+  sunLight.shadow.normalBias = 0.032;
   scene.add(sunLight);
 
   const hallLight = new THREE.PointLight(0xffcf72, 2.6, 32, 1.2);
@@ -3562,8 +3564,8 @@
   const customArrivals = {};
   const extOnTick = [];
   window.YHG3D = {
-    renderer, scene, camera, skyDome, sunLight, ambLight, smokeParticles, MOODS,
-    clickableProps, player, camState, journal,
+    renderer, scene, camera, skyDome, sunLight, ambLight, smokeParticles, MOODS, ground,
+    clickableProps, player, camState, journal, ginkgoCardMat, fallenGinkgoMat,
     HALL_Y, HALL_Z, plaque, mainHallGroup, mainBuddhaSlot, sideBuddhas: [sideBuddhaL, sideBuddhaR],
     marbleMat, palaceRedMat, pillarRedMat, goldRoofMat, hexieMat, darkEaveMat, bronzeMat,
     goldMat, antiqueGoldMat, buddhaFaceMat, turquoiseMat, hallLight, buddhaSpot, lanternLights,
