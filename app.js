@@ -55,11 +55,11 @@
     incense: ['三炷清香', '事业顺遂', '贵人相助'],
     lot: ['灵签初落', '吉运将至']
   };
-  // 《黑神话：悟空》级东方暗金古刹电影光影（高反差冷暖明暗、厚重烟霭、戏剧性丁达尔神光）
+  // 电影级京城古刹三时天色（通透晴秋金光 / 残阳红墙 / 玄夜宫灯）
   const MOODS = [
-    { id: 'day', label: '金乌破晓', skyTop: '#16222f', skyMid: '#4d463c', skyBot: '#c79c5e', fog: 0x3b3127, fogDensity: 0.0082, sunColor: 0xffd28a, sunInt: 2.65, sunPos: [28, 26, 24], ambSky: 0x7b8896, ambGnd: 0x261a12, ambInt: 0.48, hallInt: 3.4, lanternInt: 0.85 },
-    { id: 'dusk', label: '残阳古刹', skyTop: '#14111c', skyMid: '#6e2c1e', skyBot: '#d97634', fog: 0x422118, fogDensity: 0.0102, sunColor: 0xff7b2e, sunInt: 2.35, sunPos: [-32, 12, 22], ambSky: 0x6e473b, ambGnd: 0x1c110d, ambInt: 0.42, hallInt: 4.0, lanternInt: 1.85 },
-    { id: 'night', label: '玄夜幽灯', skyTop: '#05080f', skyMid: '#0d1524', skyBot: '#1b2230', fog: 0x0b0f17, fogDensity: 0.0125, sunColor: 0x7aa2d4, sunInt: 0.55, sunPos: [-20, 32, -22], ambSky: 0x27364d, ambGnd: 0x120d0a, ambInt: 0.34, hallInt: 4.8, lanternInt: 2.9 }
+    { id: 'day', label: '京秋金昼', skyTop: '#24528a', skyMid: '#72a0cc', skyBot: '#ebd8b7', fog: 0xc8c3b4, fogDensity: 0.0044, sunColor: 0xffebc2, sunInt: 2.35, sunPos: [28, 34, 26], ambSky: 0xc4daf2, ambGnd: 0x5c4636, ambInt: 0.78, hallInt: 3.2, lanternInt: 0.45 },
+    { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0068, sunColor: 0xff893b, sunInt: 2.2, sunPos: [-34, 13, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.56, hallInt: 4.0, lanternInt: 1.9 },
+    { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0092, sunColor: 0x8bb4e8, sunInt: 0.62, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.42, hallInt: 4.9, lanternInt: 3.0 }
   ];
 
   function loadJournal() {
@@ -1022,10 +1022,10 @@
 
   const marbleMat = new THREE.MeshStandardMaterial({ map: marbleTex, roughness: 0.58, metalness: 0.04 });
   const palaceRedMat = new THREE.MeshStandardMaterial({ map: redWallTex, roughness: 0.72, metalness: 0.04 });
-  const pillarRedMat = new THREE.MeshStandardMaterial({ color: 0x7d1e17, roughness: 0.36, metalness: 0.08 });
+  const pillarRedMat = new THREE.MeshStandardMaterial({ color: 0x841e16, roughness: 0.26, metalness: 0.14 });
   const goldRoofMat = new THREE.MeshStandardMaterial({
-    map: goldRoofTex, bumpMap: goldRoofBump, bumpScale: 0.08,
-    roughness: 0.28, metalness: 0.34
+    map: goldRoofTex, bumpMap: goldRoofBump, bumpScale: 0.11,
+    roughness: 0.2, metalness: 0.48
   });
   const hexieMat = new THREE.MeshStandardMaterial({ map: hexieTex, roughness: 0.58 });
   const darkEaveMat = new THREE.MeshStandardMaterial({ color: 0x1b3d3c, roughness: 0.7 });
@@ -3297,6 +3297,7 @@
       ap.mesh.material.color.setHex(m.id === 'night' ? 0xffe699 : (i % 2 ? 0xf2c144 : 0xe5a528));
     });
     document.getElementById('mood-txt').textContent = m.label;
+    if (typeof onMoodChange !== 'undefined') onMoodChange.forEach(fn => fn(m));
   }
   applyMood(journal.mood);
 
@@ -3557,14 +3558,17 @@
   const customActions = {};
   const customArrivals = {};
   const extOnTick = [];
+  const onMoodChange = [];
   window.YHG3D = {
-    scene, camera, clickableProps, player, camState, journal,
+    renderer, scene, camera, skyDome, sunLight, ambLight, smokeParticles, MOODS,
+    clickableProps, player, camState, journal,
     HALL_Y, HALL_Z, plaque, mainHallGroup, mainBuddhaSlot, sideBuddhas: [sideBuddhaL, sideBuddhaR],
     marbleMat, palaceRedMat, pillarRedMat, goldRoofMat, hexieMat, darkEaveMat, bronzeMat,
     goldMat, antiqueGoldMat, buddhaFaceMat, turquoiseMat, hallLight, buddhaSpot, lanternLights,
     buildImperialRoof, createMonkMesh, applyRobeToMonk, animateMonk, walkPlayerTo, doAction,
     playSound, showToast, spawnZenWord, surfaceYAt, makeTex, allOverlays,
     onTick: extOnTick,
+    onMoodChange,
     getClockTime: () => clockTime,
     registerAction: (name, fn) => { customActions[name] = fn; },
     registerArrival: (name, fn) => { customArrivals[name] = fn; }

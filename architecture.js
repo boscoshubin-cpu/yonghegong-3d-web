@@ -143,12 +143,93 @@
     });
   }
 
+  // 御制黑漆描金抱柱楹联贴图（竖排金字 + 龙纹金框）
+  const coupletCache = {};
+  function makeCoupletTex(lineText) {
+    if (coupletCache[lineText]) return coupletCache[lineText];
+    const tex = makeTex(96, 640, (c, w, h) => {
+      const g = c.createLinearGradient(0, 0, w, 0);
+      g.addColorStop(0, '#120d0c');
+      g.addColorStop(0.5, '#241816');
+      g.addColorStop(1, '#120d0c');
+      c.fillStyle = g;
+      c.fillRect(0, 0, w, h);
+      c.strokeStyle = '#e3b84f';
+      c.lineWidth = 6;
+      c.strokeRect(6, 6, w - 12, h - 12);
+      c.strokeStyle = 'rgba(245, 212, 120, 0.45)';
+      c.lineWidth = 2;
+      c.strokeRect(13, 13, w - 26, h - 26);
+
+      const chars = Array.from(String(lineText || '').replace(/\s+/g, ''));
+      const count = Math.max(1, chars.length);
+      const step = (h - 76) / count;
+      c.fillStyle = '#fce294';
+      c.font = 'bold 42px "Songti SC","STSong",serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      for (let i = 0; i < chars.length; i++) {
+        c.fillText(chars[i], w / 2, 38 + step * (i + 0.5));
+      }
+    });
+    coupletCache[lineText] = tex;
+    return tex;
+  }
+
+  // 佛前明黄织锦「团龙八吉祥」绣花桌围贴图
+  const altarBrocadeTex = makeTex(512, 160, (c, w, h) => {
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#c88719');
+    g.addColorStop(0.5, '#e09f24');
+    g.addColorStop(1, '#9e620c');
+    c.fillStyle = g;
+    c.fillRect(0, 0, w, h);
+    // 顶部宝蓝织锦云头水波边
+    c.fillStyle = '#183b59';
+    c.fillRect(0, 0, w, 28);
+    c.strokeStyle = '#f8d878';
+    c.lineWidth = 4;
+    c.strokeRect(4, 4, w - 8, h - 8);
+    c.strokeRect(10, 32, w - 20, h - 42);
+    // 三团金龙宝相花纹
+    for (const cx of [w * 0.2, w * 0.5, w * 0.8]) {
+      const cy = h * 0.62;
+      c.strokeStyle = '#ffe694';
+      c.lineWidth = 3;
+      c.beginPath(); c.arc(cx, cy, 36, 0, Math.PI * 2); c.stroke();
+      c.fillStyle = '#9e2419';
+      c.beginPath(); c.arc(cx, cy, 22, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#ffe388';
+      c.beginPath(); c.arc(cx, cy, 10, 0, Math.PI * 2); c.fill();
+    }
+  });
+
+  // 殿内藏式红金盘龙抱柱毯贴图
+  const pillarRugTex = makeTex(256, 512, (c, w, h) => {
+    c.fillStyle = '#7d1b14';
+    c.fillRect(0, 0, w, h);
+    c.fillStyle = '#173c54';
+    c.fillRect(0, 0, w, 36);
+    c.fillRect(0, h - 36, w, 36);
+    c.strokeStyle = '#ebb946';
+    c.lineWidth = 5;
+    c.strokeRect(4, 38, w - 8, h - 76);
+    // 盘柱升龙金纹
+    c.strokeStyle = '#f7d26a';
+    c.lineWidth = 10;
+    c.beginPath();
+    c.moveTo(w * 0.25, h - 60);
+    c.bezierCurveTo(w * 0.85, h * 0.68, w * 0.15, h * 0.36, w * 0.75, 65);
+    c.stroke();
+  });
+
   const latticeDoorMat = new THREE.MeshStandardMaterial({ map: latticeDoorTex, roughness: 0.56 });
   const caissonMat = new THREE.MeshStandardMaterial({ map: caissonTex, roughness: 0.62 });
   const curtainMat = new THREE.MeshStandardMaterial({ map: tibetanCurtainTex, roughness: 0.78, side: THREE.DoubleSide });
+  const pillarRugMat = new THREE.MeshStandardMaterial({ map: pillarRugTex, roughness: 0.72 });
   const butterFlameMat = new THREE.MeshBasicMaterial({ color: 0xffd36e });
 
-  /* ================= 1. 正殿真实菱花隔扇、雀替、藻井天花与藏式供桌 ================= */
+  /* ================= 1. 正殿真实菱花隔扇、抱柱楹联、祥麟法轮、藻井与藏式供桌 ================= */
   // 前檐次间与梢间安装实雕三交六椀菱花隔扇门（明间 [-3.8..3.8] 保持敞开迎客）
   const bayRanges = [[-11.5, -7.6], [-7.6, -3.8], [3.8, 7.6], [7.6, 11.5]];
   for (const [x0, x1] of bayRanges) {
@@ -175,6 +256,98 @@
     mainHallGroup.add(openDoor);
   }
 
+  // 明间前檐抱柱黑漆描金楹联（上联居东 x=3.8，下联居西 x=-3.8，随五殿切换联动更新）
+  const coupletUpMat = new THREE.MeshStandardMaterial({
+    map: makeCoupletTex('法界示吉祥慈云永护'), roughness: 0.35, metalness: 0.15
+  });
+  const coupletDownMat = new THREE.MeshStandardMaterial({
+    map: makeCoupletTex('皇图昭赫奕佛日长明'), roughness: 0.35, metalness: 0.15
+  });
+  const coupletUpMesh = new THREE.Mesh(new THREE.BoxGeometry(0.46, 4.35, 0.12), coupletUpMat);
+  coupletUpMesh.position.set(3.8, HALL_Y + 3.05, -8.98);
+  coupletUpMesh.castShadow = true;
+  mainHallGroup.add(coupletUpMesh);
+
+  const coupletDownMesh = new THREE.Mesh(new THREE.BoxGeometry(0.46, 4.35, 0.12), coupletDownMat);
+  coupletDownMesh.position.set(-3.8, HALL_Y + 3.05, -8.98);
+  coupletDownMesh.castShadow = true;
+  mainHallGroup.add(coupletDownMesh);
+
+  api.setHallCouplet = (upText, downText) => {
+    if (upText) {
+      coupletUpMat.map = makeCoupletTex(upText);
+      coupletUpMat.needsUpdate = true;
+    }
+    if (downText) {
+      coupletDownMat.map = makeCoupletTex(downText);
+      coupletDownMat.needsUpdate = true;
+    }
+  };
+
+  // 殿内柱身包裹藏式盘龙抱柱毯 + 悬垂藏式五彩宝盖幢幡
+  for (const px of [-7.6, -3.8, 3.8, 7.6]) {
+    const rugWrap = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.4, 3.8, 18), pillarRugMat);
+    rugWrap.position.set(px, HALL_Y + 2.35, -9.4);
+    mainHallGroup.add(rugWrap);
+  }
+  const dhvajaStreamers = [];
+  for (const fx of [-6.2, 6.2]) {
+    for (let tier = 0; tier < 3; tier++) {
+      const canopy = new THREE.Mesh(new THREE.ConeGeometry(0.34 - tier * 0.03, 0.24, 16), goldMat);
+      canopy.position.set(fx, HALL_Y + 6.18 - tier * 0.55, -17.5);
+      scene.add(canopy);
+    }
+    const silkBody = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 3.6, 16), curtainMat);
+    silkBody.position.set(fx, HALL_Y + 4.35, -17.5);
+    scene.add(silkBody);
+    dhvajaStreamers.push({ mesh: silkBody, phase: fx });
+  }
+
+  // 正殿屋顶大脊正中：藏传皇家寺院标志「祥麟法轮」（鎏金八辐法轮 + 左右跪拜双鹿）
+  {
+    const dharmachakraGroup = new THREE.Group();
+    dharmachakraGroup.position.set(0, HALL_Y + 14.32, HALL_Z);
+
+    const ped = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.34, 0.52), antiqueGoldMat);
+    dharmachakraGroup.add(ped);
+
+    const wheelOuter = new THREE.Mesh(new THREE.TorusGeometry(0.68, 0.08, 12, 28), goldMat);
+    wheelOuter.position.y = 0.96;
+    dharmachakraGroup.add(wheelOuter);
+    const wheelHub = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 10), goldMat);
+    wheelHub.position.y = 0.96;
+    dharmachakraGroup.add(wheelHub);
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      const spoke = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 1.32, 6), goldMat);
+      spoke.position.y = 0.96;
+      spoke.rotation.z = a;
+      dharmachakraGroup.add(spoke);
+    }
+    const finial = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.34, 8), goldMat);
+    finial.position.y = 1.82;
+    dharmachakraGroup.add(finial);
+
+    // 左右跪拜祥鹿（仰望法轮）
+    for (const side of [-1, 1]) {
+      const deer = new THREE.Group();
+      deer.position.set(side * 1.18, 0.36, 0);
+      const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.16, 0.38, 6, 10), goldMat);
+      body.rotation.z = Math.PI / 2;
+      deer.add(body);
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 0.38, 8), goldMat);
+      neck.position.set(-side * 0.22, 0.26, 0);
+      neck.rotation.z = side * 0.25;
+      deer.add(neck);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 8), goldMat);
+      head.scale.set(1.3, 0.9, 0.85);
+      head.position.set(-side * 0.3, 0.46, 0);
+      deer.add(head);
+      dharmachakraGroup.add(deer);
+    }
+    mainHallGroup.add(dharmachakraGroup);
+  }
+
   // 正殿前檐柱头金绿雕花雀替
   for (const px of [-11.5, -7.6, -3.8, 3.8, 7.6, 11.5]) {
     for (const dir of [-1, 1]) {
@@ -196,19 +369,39 @@
   topCurtain.position.set(0, HALL_Y + 5.55, -9.32);
   mainHallGroup.add(topCurtain);
 
-  // 佛前供桌藏传八吉祥供器：黄绸绣龙桌围 + 七净水碗 + 酥油长明灯 + 景泰蓝宝瓶
+  // 佛前供桌藏传八吉祥供器：团龙刺绣黄绸桌围 + 鎏金曼扎盘 + 七净水碗 + 酥油长明灯 + 景泰蓝金莲宝瓶
   const altarCloth = new THREE.Mesh(
     new THREE.PlaneGeometry(10.8, 1.25),
-    new THREE.MeshStandardMaterial({ color: 0xd49a24, roughness: 0.62, metalness: 0.18 })
+    new THREE.MeshStandardMaterial({ map: altarBrocadeTex, roughness: 0.52, metalness: 0.22 })
   );
   altarCloth.position.set(0, HALL_Y + 0.68, -19.48);
   scene.add(altarCloth);
+
+  // 中央鎏金须弥曼扎盘
+  const mandalaGroup = new THREE.Group();
+  mandalaGroup.position.set(0, HALL_Y + 1.36, -20.1);
+  for (let t = 0; t < 3; t++) {
+    const tier = new THREE.Mesh(new THREE.CylinderGeometry(0.28 - t * 0.07, 0.32 - t * 0.07, 0.12, 16), goldMat);
+    tier.position.y = 0.06 + t * 0.12;
+    mandalaGroup.add(tier);
+  }
+  const mandalaTop = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.22, 12), goldMat);
+  mandalaTop.position.y = 0.46;
+  mandalaGroup.add(mandalaTop);
+  scene.add(mandalaGroup);
 
   const butterFlames = [];
   for (let i = -3; i <= 3; i++) {
     const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.08, 0.14, 14), goldMat);
     bowl.position.set(i * 0.58, HALL_Y + 1.42, -19.72);
     scene.add(bowl);
+    const water = new THREE.Mesh(
+      new THREE.CircleGeometry(0.12, 12),
+      new THREE.MeshStandardMaterial({ color: 0xaad8e6, roughness: 0.15, metalness: 0.3 })
+    );
+    water.rotation.x = -Math.PI / 2;
+    water.position.set(i * 0.58, HALL_Y + 1.48, -19.72);
+    scene.add(water);
   }
   for (const fx of [-2.8, -1.9, 1.9, 2.8]) {
     const lampStem = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.15, 0.42, 12), goldMat);
@@ -222,6 +415,10 @@
     scene.add(flame);
     butterFlames.push({ mesh: flame, phase: fx * 1.7 });
   }
+  const butterLight = new THREE.PointLight(0xffb84d, 1.1, 9);
+  butterLight.position.set(0, HALL_Y + 2.1, -19.6);
+  scene.add(butterLight);
+
   for (const vx of [-4.2, 4.2]) {
     const vase = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 0.68, 14), turquoiseMat);
     vase.position.set(vx, HALL_Y + 1.69, -19.82);
@@ -229,6 +426,17 @@
     const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.16, 0.26, 12), goldMat);
     neck.position.set(vx, HALL_Y + 2.12, -19.82);
     scene.add(neck);
+    // 瓶插鎏金八宝莲花枝
+    for (const ox of [-0.09, 0, 0.09]) {
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.38, 6), goldMat);
+      stem.position.set(vx + ox, HALL_Y + 2.38, -19.82);
+      stem.rotation.z = -ox * 2.2;
+      scene.add(stem);
+      const lotusBud = new THREE.Mesh(new THREE.SphereGeometry(0.07, 10, 8), goldMat);
+      lotusBud.scale.set(0.85, 1.25, 0.85);
+      lotusBud.position.set(vx + ox * 1.5, HALL_Y + 2.58, -19.82);
+      scene.add(lotusBud);
+    }
   }
 
   /* ================= 2. 殿前丹陛一对鎏金青铜狮 ================= */
@@ -453,11 +661,22 @@
         g.add(col);
       }
     }
-    // 门殿左右实墙（中间留宽阔通道）
+    // 门殿左右实墙与菱花窗（中间留宽阔通道 + 汉白玉抱鼓石）
     for (const side of [-1, 1]) {
       const sw = new THREE.Mesh(new THREE.BoxGeometry(4.8, 4.8, 4.8), palaceRedMat);
       sw.position.set(side * 5.0, 0.72 + 2.4, 0);
       g.add(sw);
+      const win = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.8, 0.16), latticeDoorMat);
+      win.position.set(side * 5.0, 0.72 + 2.5, -2.45);
+      g.add(win);
+      // 门前汉白玉抱鼓石（门枕石）
+      const drumBase = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.45, 0.92), marbleMat);
+      drumBase.position.set(side * 2.15, 0.72 + 0.22, -2.95);
+      g.add(drumBase);
+      const drumStone = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.36, 16), marbleMat);
+      drumStone.rotation.z = Math.PI / 2;
+      drumStone.position.set(side * 2.15, 0.72 + 0.62, -3.05);
+      g.add(drumStone);
     }
     const gateFrieze = new THREE.Mesh(new THREE.BoxGeometry(16.2, 0.62, 6.2), hexieMat);
     gateFrieze.position.y = 0.72 + 5.1;
@@ -476,16 +695,70 @@
   }
   buildSouthGate();
 
-  // 东西钟楼与鼓楼（重檐黄瓦二层楼阁）
+  // 东西钟楼与鼓楼（重檐黄瓦二层楼阁：底层城台拱券 + 二层汉白玉平座勾栏 + 檐柱 + 铜钟/大鼓）
   function buildTower(x, z, label) {
     const g = new THREE.Group();
     g.position.set(x, 0, z);
-    const base = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.85, 7.2), marbleMat);
+    const isDrum = x < 0;
+
+    const base = new THREE.Mesh(new THREE.BoxGeometry(7.6, 0.85, 7.6), marbleMat);
     base.position.y = 0.425;
     g.add(base);
-    const floor1 = new THREE.Mesh(new THREE.BoxGeometry(6.0, 4.2, 6.0), palaceRedMat);
-    floor1.position.y = 0.85 + 2.1;
+
+    // 一层礓嚓红墙墩台与券门
+    const floor1 = new THREE.Mesh(new THREE.BoxGeometry(6.2, 3.8, 6.2), palaceRedMat);
+    floor1.position.y = 0.85 + 1.9;
     g.add(floor1);
+
+    // 二层汉白玉平座与雕花勾栏
+    const balcony = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.28, 7.0), marbleMat);
+    balcony.position.y = 4.78;
+    g.add(balcony);
+    for (const s of [-3.32, 3.32]) {
+      const r1 = new THREE.Mesh(new THREE.BoxGeometry(6.7, 0.56, 0.12), marbleMat);
+      r1.position.set(0, 5.2, s);
+      g.add(r1);
+      const r2 = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.56, 6.7), marbleMat);
+      r2.position.set(s, 5.2, 0);
+      g.add(r2);
+    }
+
+    // 二层四面菱花隔扇与四角朱红檐柱
+    const core2 = new THREE.Mesh(new THREE.BoxGeometry(4.3, 2.8, 4.3), latticeDoorMat);
+    core2.position.y = 4.92 + 1.4;
+    g.add(core2);
+    for (const cx of [-2.55, 2.55]) {
+      for (const cz of [-2.55, 2.55]) {
+        const col = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.2, 2.9, 12), pillarRedMat);
+        col.position.set(cx, 4.92 + 1.45, cz);
+        g.add(col);
+      }
+    }
+
+    // 钟楼悬青铜巨钟 / 鼓楼置朱红大法鼓（朝向中轴御道可见）
+    const faceX = isDrum ? 2.45 : -2.45;
+    if (isDrum) {
+      const drumBody = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.68, 0.82, 18), pillarRedMat);
+      drumBody.rotation.z = Math.PI / 2;
+      drumBody.position.set(faceX, 5.95, 0);
+      g.add(drumBody);
+      const drumSkin = new THREE.Mesh(
+        new THREE.CircleGeometry(0.64, 18),
+        new THREE.MeshStandardMaterial({ color: 0xf0e4c8, roughness: 0.6 })
+      );
+      drumSkin.rotation.y = Math.PI / 2;
+      drumSkin.position.set(faceX + 0.42, 5.95, 0);
+      g.add(drumSkin);
+    } else {
+      const bell = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.58, 1.15, 18), bronzeMat);
+      bell.position.set(faceX, 6.05, 0);
+      g.add(bell);
+      const bellRim = new THREE.Mesh(new THREE.TorusGeometry(0.58, 0.05, 8, 18), antiqueGoldMat);
+      bellRim.rotation.x = Math.PI / 2;
+      bellRim.position.set(faceX, 5.5, 0);
+      g.add(bellRim);
+    }
+
     const frieze = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.46, 6.3), hexieMat);
     frieze.position.y = 0.85 + 4.25;
     g.add(frieze);
@@ -493,8 +766,8 @@
       new THREE.BoxGeometry(2.1, 0.82, 0.16),
       new THREE.MeshStandardMaterial({ map: makeHallPlaqueTex(label), roughness: 0.45 })
     );
-    sign.position.set(x < 0 ? 3.12 : -3.12, 0.85 + 3.4, 0);
-    sign.rotation.y = x < 0 ? Math.PI / 2 : -Math.PI / 2;
+    sign.position.set(isDrum ? 3.22 : -3.22, 0.85 + 3.4, 0);
+    sign.rotation.y = isDrum ? Math.PI / 2 : -Math.PI / 2;
     g.add(sign);
     buildImperialRoof(g, 6.4, 6.4, 0.85 + 4.5, true);
     g.traverse(m => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } });
@@ -559,9 +832,13 @@
       mf.mesh.rotation.y = Math.sin(t * 1.9 + mf.phase) * 0.22;
       mf.mesh.rotation.z = Math.cos(t * 1.4 + mf.phase) * 0.06;
     }
+    for (const ds of dhvajaStreamers) {
+      ds.mesh.rotation.y = Math.sin(t * 1.2 + ds.phase) * 0.15;
+    }
     for (const bf of butterFlames) {
       const s = 0.88 + Math.sin(t * 7.5 + bf.phase) * 0.16;
       bf.mesh.scale.set(1, s, 1);
     }
+    butterLight.intensity = 1.05 + Math.sin(t * 8.2) * 0.18;
   });
 })();

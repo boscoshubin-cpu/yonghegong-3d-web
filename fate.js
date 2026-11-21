@@ -16,10 +16,29 @@
   fateTreeGroup.position.set(TREE_X, 0, TREE_Z);
 
   const barkMat = new THREE.MeshStandardMaterial({ color: 0x4d372a, roughness: 0.92 });
-  const redSilkMat = new THREE.MeshStandardMaterial({ color: 0xc92a22, roughness: 0.55, side: THREE.DoubleSide });
+  const ribbonTex = makeTex(64, 256, (c, w, h) => {
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, '#a81d16');
+    g.addColorStop(0.5, '#d12c22');
+    g.addColorStop(1, '#991812');
+    c.fillStyle = g;
+    c.fillRect(0, 0, w, h);
+    c.strokeStyle = 'rgba(246, 210, 122, 0.72)';
+    c.lineWidth = 3;
+    c.strokeRect(5, 6, w - 10, h - 18);
+    c.fillStyle = '#ffe596';
+    c.font = 'bold 22px "Songti SC","STSong",serif';
+    c.textAlign = 'center';
+    const chars = ['良', '缘', '永', '结', '同', '心'];
+    for (let i = 0; i < chars.length; i++) {
+      c.fillText(chars[i], w / 2, 36 + i * 34);
+    }
+  });
+  const redSilkMat = new THREE.MeshStandardMaterial({ map: ribbonTex, roughness: 0.52, side: THREE.DoubleSide });
   const twinGoldSilkMat = new THREE.MeshStandardMaterial({
-    color: 0xe63829, emissive: 0xd46a1c, emissiveIntensity: 0.35,
-    roughness: 0.35, metalness: 0.18, side: THREE.DoubleSide
+    map: ribbonTex,
+    color: 0xffd89e, emissive: 0xd4581c, emissiveIntensity: 0.42,
+    roughness: 0.32, metalness: 0.22, side: THREE.DoubleSide
   });
   const plaqueTex = makeTex(256, 96, (c, w, h) => {
     c.fillStyle = '#7d1b15';
@@ -112,20 +131,49 @@
   twinRibbonGroup.add(twinLight);
   fateTreeGroup.add(twinRibbonGroup);
 
-  // 树前朱漆「姻缘古树」立牌（可点击触发求姻缘）
-  const signPost = new THREE.Mesh(
-    new THREE.BoxGeometry(0.14, 1.55, 0.14),
-    new THREE.MeshStandardMaterial({ color: 0x7a1c15, roughness: 0.45 })
-  );
-  signPost.position.set(1.65, 0.78, 1.35);
-  fateTreeGroup.add(signPost);
+  // 树冠下悬垂的四盏暖红祈缘小宫灯
+  const lanternGlowMat = new THREE.MeshStandardMaterial({
+    color: 0xffd088, emissive: 0xe64d19, emissiveIntensity: 0.95, roughness: 0.35
+  });
+  for (const [lx, ly, lz] of [[-1.35, 3.45, 0.95], [1.4, 3.55, 0.85], [-1.1, 3.6, -1.15], [1.25, 3.5, -1.0]]) {
+    const lant = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 10), lanternGlowMat);
+    lant.scale.set(1, 1.22, 1);
+    lant.position.set(lx, ly, lz);
+    fateTreeGroup.add(lant);
+  }
+
+  // 树前朱漆「姻缘古树」祈愿木牌挂架（挂满朱金姻缘木牌，可点击求姻缘）
+  const rackMat = new THREE.MeshStandardMaterial({ color: 0x7a1c15, roughness: 0.45 });
+  for (const px of [0.95, 2.35]) {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.11, 1.65, 0.11), rackMat);
+    post.position.set(px, 0.82, 1.35);
+    fateTreeGroup.add(post);
+  }
+  const topBeam = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.12, 0.16), rackMat);
+  topBeam.position.set(1.65, 1.66, 1.35);
+  fateTreeGroup.add(topBeam);
+
+  const woodCardMat = new THREE.MeshStandardMaterial({ color: 0xd99b4e, roughness: 0.55 });
+  for (let row = 0; row < 2; row++) {
+    const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 1.4, 8), rackMat);
+    bar.rotation.z = Math.PI / 2;
+    bar.position.set(1.65, 1.15 - row * 0.34, 1.35);
+    fateTreeGroup.add(bar);
+    for (let k = 0; k < 5; k++) {
+      const card = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.22, 0.025), k % 2 === 0 ? woodCardMat : redSilkMat);
+      card.position.set(1.18 + k * 0.23, 1.02 - row * 0.34, 1.35);
+      card.rotation.y = (k - 2) * 0.08;
+      card.userData.propAction = 'fate';
+      fateTreeGroup.add(card);
+      clickableProps.push(card);
+    }
+  }
 
   const signBoard = new THREE.Mesh(
-    new THREE.BoxGeometry(1.18, 0.46, 0.08),
+    new THREE.BoxGeometry(1.18, 0.44, 0.08),
     new THREE.MeshStandardMaterial({ map: plaqueTex, roughness: 0.45 })
   );
-  signBoard.position.set(1.65, 1.55, 1.35);
-  signBoard.rotation.y = 0.32;
+  signBoard.position.set(1.65, 1.88, 1.35);
   signBoard.userData.propAction = 'fate';
   fateTreeGroup.add(signBoard);
   clickableProps.push(signBoard);
