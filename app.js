@@ -3266,22 +3266,25 @@
   document.getElementById('close-temple').onclick = () => templeOverlay.classList.add('hidden');
 
   /* ================= 15. 天色、视角与人数切换 ================= */
+  const onMoodChange = [];
   function applyMood(moodId) {
     const m = MOODS.find(x => x.id === moodId) || MOODS[0];
     journal.mood = m.id;
     saveJournal();
-    const skyTex = makeTex(32, 256, (c, w, h) => {
-      const g = c.createLinearGradient(0, 0, 0, h);
-      g.addColorStop(0, m.skyTop);
-      g.addColorStop(0.45, m.skyMid);
-      g.addColorStop(0.65, m.skyBot);
-      g.addColorStop(1, m.skyBot);
-      c.fillStyle = g;
-      c.fillRect(0, 0, w, h);
-    });
-    if (skyDome.material.map) skyDome.material.map.dispose();
-    skyDome.material.map = skyTex;
-    skyDome.material.needsUpdate = true;
+    if (skyDome.material && 'map' in skyDome.material) {
+      const skyTex = makeTex(32, 256, (c, w, h) => {
+        const g = c.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, m.skyTop);
+        g.addColorStop(0.45, m.skyMid);
+        g.addColorStop(0.65, m.skyBot);
+        g.addColorStop(1, m.skyBot);
+        c.fillStyle = g;
+        c.fillRect(0, 0, w, h);
+      });
+      if (skyDome.material.map) skyDome.material.map.dispose();
+      skyDome.material.map = skyTex;
+      skyDome.material.needsUpdate = true;
+    }
     moonMesh.visible = m.id === 'night';
     scene.fog = new THREE.FogExp2(m.fog, m.fogDensity);
     sunLight.color.setHex(m.sunColor);
@@ -3297,7 +3300,7 @@
       ap.mesh.material.color.setHex(m.id === 'night' ? 0xffe699 : (i % 2 ? 0xf2c144 : 0xe5a528));
     });
     document.getElementById('mood-txt').textContent = m.label;
-    if (typeof onMoodChange !== 'undefined') onMoodChange.forEach(fn => fn(m));
+    onMoodChange.forEach(fn => fn(m));
   }
   applyMood(journal.mood);
 
@@ -3558,7 +3561,6 @@
   const customActions = {};
   const customArrivals = {};
   const extOnTick = [];
-  const onMoodChange = [];
   window.YHG3D = {
     renderer, scene, camera, skyDome, sunLight, ambLight, smokeParticles, MOODS,
     clickableProps, player, camState, journal,
