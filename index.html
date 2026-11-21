@@ -8,6 +8,15 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <div id="intro-curtain" class="intro-curtain" aria-hidden="true">
+    <div class="intro-seal">雍</div>
+    <div class="intro-title">北京 · 雍和宫</div>
+    <div class="intro-sub">红墙黄瓦 · 线上静心祈福</div>
+  </div>
+  <button class="zen-exit-btn" id="btn-zen-exit" type="button">
+    <svg class="svg-ico" viewBox="0 0 24 24"><path d="M2 12s3.8-6.5 10-6.5S22 12 22 12s-3.8 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+    <span>恢复界面</span>
+  </button>
   <div id="scene-wrap">
     <canvas id="webgl"></canvas>
   </div>
@@ -17,9 +26,10 @@
   <header class="hud-top">
     <div class="hud-left">
       <div class="pill pill-brand" id="room-pill" title="点击切换大殿香客人数">
-        <span class="dot-live"></span>
+        <span class="brand-seal">雍</span>
         <span class="brand-name">北京 · 雍和宫</span>
         <span class="divider"></span>
+        <span class="dot-live"></span>
         <span class="peer-num" id="peer-count">2 / 100</span>
       </div>
       <button class="pill pill-btn" id="btn-crowd" type="button" title="切换 2 人静修 / 8 人大殿同拜">
@@ -65,6 +75,10 @@
         <svg class="svg-ico" viewBox="0 0 24 24"><path d="M6 4h11a2 2 0 012 2v13a1 1 0 01-1 1H6a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M8 4v16M11.5 9h4.5M11.5 13h4.5"/></svg>
         <span>手记</span>
       </button>
+      <button class="pill pill-btn" id="btn-zen" type="button" title="隐藏界面纯赏景（快捷键 H）">
+        <svg class="svg-ico" viewBox="0 0 24 24"><path d="M3 12s3.6-6 9-6 9 6 9 6-3.6 6-9 6-9-6-9-6z"/><path d="M4 4l16 16"/></svg>
+        <span>清净</span>
+      </button>
     </div>
   </header>
 
@@ -78,7 +92,10 @@
       <button class="hall-tab" data-hall="wanfu" type="button">⑤ 万福阁·18米大佛</button>
     </div>
     <div class="deity-card">
-      <div class="deity-title" id="deity-title">雍和宫殿 · 三世佛（燃灯佛 · 释迦牟尼佛 · 弥勒佛）</div>
+      <div class="deity-head">
+        <div class="deity-title" id="deity-title">雍和宫殿 · 三世佛（燃灯佛 · 释迦牟尼佛 · 弥勒佛）</div>
+        <button class="deity-toggle" id="deity-toggle" type="button">收起</button>
+      </div>
       <div class="deity-wish" id="deity-wish">主求：事业高升 · 正财顺遂</div>
       <div class="deity-desc" id="deity-desc">中尊释迦牟尼佛右手触地降魔印、左手托金钵；东侧过去燃灯佛托光明宝珠；西侧未来弥勒佛结说法印。</div>
     </div>
@@ -122,6 +139,7 @@
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M8.5 10h7l-.8 9.5h-5.4L8.5 10z"/><path d="M10 10L9.2 5.2M12 10V4.5M14 10l1.1-4.8"/></svg>
       <span class="dock-txt">事业签</span>
     </button>
+    <span class="dock-sep" aria-hidden="true"></span>
     <button class="dock-btn dock-fate" data-act="fate" type="button">
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 20s-6.8-4.2-8.4-8.4C2.4 8.3 4.6 5.5 7.6 5.5c1.9 0 3.4 1.1 4.4 2.6 1-1.5 2.5-2.6 4.4-2.6 3 0 5.2 2.8 4 6.1C18.8 15.8 12 20 12 20z"/></svg>
       <span class="dock-txt">求姻缘</span>
@@ -436,5 +454,6 @@
   <script src="./cushion.js"></script>
   <script src="./fate.js"></script>
   <script src="./world.js"></script>
+  <script src="./ui.js"></script>
 </body>
 </html>
