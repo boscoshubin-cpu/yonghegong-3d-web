@@ -24,21 +24,25 @@
   ];
   const WISH_LOTS = {
     career: [
-      { rank: '上上签', title: '青云直上', lines: ['大鹏一日同风起，扶摇直上九万里。', '红墙金瓦迎贵气，此番谋事必成蹊。'], advice: '宜：果断推进核心项目、主动展现担当' },
-      { rank: '上吉签', title: '贵人扶摇', lines: ['长风破浪会有时，直挂云帆济沧海。', '自有明师兼挚友，一路提携步步高。'], advice: '宜：拓展合作人脉、把握晋升窗口' },
-      { rank: '中吉签', title: '厚积薄发', lines: ['宝剑锋从磨砺出，梅花香自苦寒来。', '莫道眼前阶梯陡，登临绝顶见天开。'], advice: '宜：沉心打磨作品、稳扎稳打' }
+      { no: '第廿八签 · 乾宫', rank: '上上签', title: '青云直上', lines: ['大鹏一日同风起，扶摇直上九万里。', '红墙金瓦迎贵气，此番谋事必成蹊。'], decode: '解曰：云开见日，龙入沧海；贵人暗助，所谋皆遂。', advice: '宜：果断推进核心项目、主动展现担当' },
+      { no: '第十六签 · 巽宫', rank: '上吉签', title: '贵人扶摇', lines: ['长风破浪会有时，直挂云帆济沧海。', '自有明师兼挚友，一路提携步步高。'], decode: '解曰：东风助力，舟行顺水；良朋引路，前程万里。', advice: '宜：拓展合作人脉、把握晋升窗口' },
+      { no: '第卅二签 · 艮宫', rank: '中吉签', title: '厚积薄发', lines: ['宝剑锋从磨砺出，梅花香自苦寒来。', '莫道眼前阶梯陡，登临绝顶见天开。'], decode: '解曰：守正待时，久炼成金；目下勤勉，秋后丰盈。', advice: '宜：沉心打磨作品、稳扎稳打' },
+      { no: '第〇九签 · 离宫', rank: '上上签', title: '紫气东来', lines: ['凤鸣朝阳振金羽，九重春色醉仙桃。', '昔日辛勤今得报，名标金阙步步高。'], decode: '解曰：鸿运当头，名利双收；凡事当机，切莫迟疑。', advice: '宜：求职面试、发布新作、签约履新' }
     ],
     wealth: [
-      { rank: '上上签', title: '八方聚财', lines: ['金秋银杏满宫墙，正财偏财共入囊。', '勤勉持家兼有道，源头活水日日长。'], advice: '宜：稳健布局、专注长期高价值赛道' },
-      { rank: '上吉签', title: '利市大开', lines: ['春风得意马蹄疾，商道通明百事宜。', '诚意待人终得报，丰盈喜乐自相随。'], advice: '宜：谈成新单、合理规划收支' }
+      { no: '第〇八签 · 坤宫', rank: '上上签', title: '八方聚财', lines: ['金秋银杏满宫墙，正财偏财共入囊。', '勤勉持家兼有道，源头活水日日长。'], decode: '解曰：财星高照，库廪丰盈；以诚营商，源远流长。', advice: '宜：稳健布局、专注长期高价值赛道' },
+      { no: '第廿一签 · 兑宫', rank: '上吉签', title: '利市大开', lines: ['春风得意马蹄疾，商道通明百事宜。', '诚意待人终得报，丰盈喜乐自相随。'], decode: '解曰：和气生财，贵客盈门；积少成多，自见奇功。', advice: '宜：谈成新单、合理规划收支' },
+      { no: '第十九签 · 乾宫', rank: '上吉签', title: '金玉满堂', lines: ['宝鼎香烟绕碧空，瑞气千条护华堂。', '耕耘不负四时雨，秋收万斛满仓箱。'], decode: '解曰：正财稳固，小有横财；量入为出，福泽绵长。', advice: '宜：盘点资产、结清尾款、稳步投资' }
     ],
     study: [
-      { rank: '上上签', title: '金榜题名', lines: ['十年寒窗勤伏案，一朝捷报入皇城。', '文昌高照心澄澈，落笔生花万事成。'], advice: '宜：查漏补缺、从容赴考' },
-      { rank: '上吉签', title: '豁然贯通', lines: ['书山有路勤为径，学海无涯乐作舟。', '静气凝神读一卷，灵光乍现解千忧。'], advice: '宜：整理错题笔记、保持规律作息' }
+      { no: '第〇一签 · 乾宫', rank: '上上签', title: '金榜题名', lines: ['十年寒窗勤伏案，一朝捷报入皇城。', '文昌高照心澄澈，落笔生花万事成。'], decode: '解曰：文曲星明，蟾宫折桂；功不唐捐，金榜高悬。', advice: '宜：查漏补缺、从容赴考' },
+      { no: '第十五签 · 坎宫', rank: '上吉签', title: '豁然贯通', lines: ['书山有路勤为径，学海无涯乐作舟。', '静气凝神读一卷，灵光乍现解千忧。'], decode: '解曰：心定神宁，疑云尽散；名师指点，学业精进。', advice: '宜：整理错题笔记、保持规律作息' },
+      { no: '第廿四签 · 震宫', rank: '上吉签', title: '鱼跃龙门', lines: ['桃花浪暖禹门开，锦鳞一跃化龙来。', '莫怕考场风浪急，胸藏万卷自成才。'], decode: '解曰：厚积之力，一朝迸发；沉着应战，必获佳音。', advice: '宜：模拟演练、早睡养神、坚定信心' }
     ],
     peace: [
-      { rank: '上上签', title: '岁岁安澜', lines: ['红墙之外尘嚣远，香火绵延护此身。', '晨钟暮鼓心常定，四季平安喜乐真。'], advice: '宜：规律作息、与家人共进晚餐' },
-      { rank: '上吉签', title: '顺遂无忧', lines: ['行到水穷云起处，心安便是福田深。', '凡事宽怀休计较，清风明月照如今。'], advice: '宜：放下焦虑、轻装慢行' }
+      { no: '第十二签 · 坤宫', rank: '上上签', title: '岁岁安澜', lines: ['红墙之外尘嚣远，香火绵延护此身。', '晨钟暮鼓心常定，四季平安喜乐真。'], decode: '解曰：佛光普照，出入平安；家宅和睦，百福骈臻。', advice: '宜：规律作息、与家人共进晚餐' },
+      { no: '第廿七签 · 巽宫', rank: '上吉签', title: '顺遂无忧', lines: ['行到水穷云起处，心安便是福田深。', '凡事宽怀休计较，清风明月照如今。'], decode: '解曰：逢凶化吉，遇难成祥；放下执念，自在清凉。', advice: '宜：放下焦虑、轻装慢行' },
+      { no: '第卅六签 · 兑宫', rank: '上上签', title: '福寿康宁', lines: ['宝殿香云护吉人，春风化雨润身心。', '旧疾如霜逢日化，从此康泰百岁春。'], decode: '解曰：药师垂慈，灾消福至；气血调和，喜乐安康。', advice: '宜：早起散步、饮茶静心、笑口常开' }
     ]
   };
   const ZEN_WORDS = {
@@ -51,10 +55,11 @@
     incense: ['三炷清香', '事业顺遂', '贵人相助'],
     lot: ['灵签初落', '吉运将至']
   };
+  // 《黑神话：悟空》级东方暗金古刹电影光影（高反差冷暖明暗、厚重烟霭、戏剧性丁达尔神光）
   const MOODS = [
-    { id: 'day', label: '京秋晴昼', skyTop: '#3e6fa8', skyMid: '#86aecf', skyBot: '#dfd9cc', fog: 0xd2d3cc, fogDensity: 0.0056, sunColor: 0xfff1d2, sunInt: 1.85, sunPos: [26, 36, 28], ambSky: 0xc9d9e8, ambGnd: 0x5c4a3c, ambInt: 0.72, hallInt: 2.6, lanternInt: 0.25 },
-    { id: 'dusk', label: '斜阳红墙', skyTop: '#3a3856', skyMid: '#a35d4d', skyBot: '#e8a263', fog: 0xc4825c, fogDensity: 0.0084, sunColor: 0xff9244, sunInt: 1.65, sunPos: [-32, 14, 24], ambSky: 0x996e68, ambGnd: 0x422b22, ambInt: 0.62, hallInt: 3.3, lanternInt: 1.45 },
-    { id: 'night', label: '夜宫灯影', skyTop: '#08101c', skyMid: '#152033', skyBot: '#242c3b', fog: 0x141b28, fogDensity: 0.0112, sunColor: 0x8fb2de, sunInt: 0.42, sunPos: [-20, 32, -22], ambSky: 0x354761, ambGnd: 0x1c1714, ambInt: 0.45, hallInt: 4.2, lanternInt: 2.5 }
+    { id: 'day', label: '金乌破晓', skyTop: '#16222f', skyMid: '#4d463c', skyBot: '#c79c5e', fog: 0x3b3127, fogDensity: 0.0082, sunColor: 0xffd28a, sunInt: 2.65, sunPos: [28, 26, 24], ambSky: 0x7b8896, ambGnd: 0x261a12, ambInt: 0.48, hallInt: 3.4, lanternInt: 0.85 },
+    { id: 'dusk', label: '残阳古刹', skyTop: '#14111c', skyMid: '#6e2c1e', skyBot: '#d97634', fog: 0x422118, fogDensity: 0.0102, sunColor: 0xff7b2e, sunInt: 2.35, sunPos: [-32, 12, 22], ambSky: 0x6e473b, ambGnd: 0x1c110d, ambInt: 0.42, hallInt: 4.0, lanternInt: 1.85 },
+    { id: 'night', label: '玄夜幽灯', skyTop: '#05080f', skyMid: '#0d1524', skyBot: '#1b2230', fog: 0x0b0f17, fogDensity: 0.0125, sunColor: 0x7aa2d4, sunInt: 0.55, sunPos: [-20, 32, -22], ambSky: 0x27364d, ambGnd: 0x120d0a, ambInt: 0.34, hallInt: 4.8, lanternInt: 2.9 }
   ];
 
   function loadJournal() {
@@ -284,98 +289,551 @@
     c.fillText('雍  和  宫', w / 2, h / 2 + 4);
   });
 
-  const dragonRampTex = makeTex(256, 512, (c, w, h) => {
-    c.fillStyle = '#dfd9cd';
+  // 皇家丹陛「海水江崖云龙御路石」浮雕纹理与凹凸贴图
+  function drawDragonRampCanvas(c, w, h, isBump) {
+    c.fillStyle = isBump ? '#787878' : '#dfd8cb';
     c.fillRect(0, 0, w, h);
-    c.strokeStyle = 'rgba(130,122,108,0.55)';
-    c.lineWidth = 8;
-    c.strokeRect(10, 10, w - 20, h - 20);
-    c.lineWidth = 3;
-    for (let y = 55; y < h - 40; y += 64) {
-      c.beginPath();
-      c.arc(w / 2, y, 42, 0, Math.PI * 2);
-      c.stroke();
-      c.beginPath();
-      c.arc(w / 2 - 48, y + 24, 24, 0, Math.PI);
-      c.arc(w / 2 + 48, y + 24, 24, 0, Math.PI);
-      c.stroke();
+    // 汉白玉石材细密颗粒
+    if (!isBump) {
+      for (let i = 0; i < 900; i++) {
+        c.fillStyle = i % 2 ? 'rgba(255,252,245,0.16)' : 'rgba(120,112,98,0.12)';
+        c.fillRect((i * 73) % w, (i * 137) % h, 2, 2);
+      }
     }
-  });
+    // 双层卷草回纹边框
+    c.strokeStyle = isBump ? '#d8d8d8' : '#9c9282';
+    c.lineWidth = 10;
+    c.strokeRect(10, 10, w - 20, h - 20);
+    c.strokeStyle = isBump ? '#4a4a4a' : '#b8afa0';
+    c.lineWidth = 3;
+    c.strokeRect(22, 22, w - 44, h - 44);
 
+    // 底部海水江崖（寿山福海波涛纹）
+    for (let row = 0; row < 3; row++) {
+      const by = h - 32 - row * 22;
+      for (let col = 0; col < 5; col++) {
+        const bx = 34 + col * 46 + (row % 2) * 20;
+        c.fillStyle = isBump ? '#cfcfcf' : '#cfc7b8';
+        c.strokeStyle = isBump ? '#ffffff' : '#857b6b';
+        c.lineWidth = 2.5;
+        c.beginPath();
+        c.arc(bx, by, 24, Math.PI, 0);
+        c.fill();
+        c.stroke();
+      }
+    }
+
+    // 盘旋升龙躯干（S形龙身 + 龙鳞 + 火焰宝珠 + 祥云）
+    c.save();
+    c.strokeStyle = isBump ? '#efefef' : '#8c8270';
+    c.lineWidth = 22;
+    c.lineCap = 'round';
+    c.beginPath();
+    c.moveTo(w * 0.5, h - 85);
+    c.bezierCurveTo(w * 0.14, h * 0.72, w * 0.86, h * 0.54, w * 0.5, h * 0.38);
+    c.bezierCurveTo(w * 0.18, h * 0.24, w * 0.82, h * 0.18, w * 0.5, 92);
+    c.stroke();
+
+    c.strokeStyle = isBump ? '#ffffff' : '#f2ece0';
+    c.lineWidth = 13;
+    c.stroke();
+
+    // 顶部二龙戏珠之火焰宝珠
+    c.fillStyle = isBump ? '#ffffff' : '#e8dfd0';
+    c.strokeStyle = isBump ? '#dcdcdc' : '#7d7364';
+    c.lineWidth = 3;
+    c.beginPath();
+    c.arc(w * 0.5, 62, 20, 0, Math.PI * 2);
+    c.fill();
+    c.stroke();
+
+    // 四周浮雕如意祥云
+    const clouds = [
+      [58, 120], [198, 130], [54, 230], [202, 245],
+      [62, 340], [194, 355], [128, 195], [128, 305]
+    ];
+    for (const [cx, cy] of clouds) {
+      c.fillStyle = isBump ? '#e2e2e2' : '#e7e0d2';
+      c.strokeStyle = isBump ? '#ffffff' : '#8e8474';
+      c.lineWidth = 2.2;
+      for (const [ox, oy, r] of [[0, 0, 16], [-13, 6, 11], [13, 6, 11]]) {
+        c.beginPath();
+        c.arc(cx + ox, cy + oy, r, 0, Math.PI * 2);
+        c.fill();
+        c.stroke();
+      }
+    }
+    c.restore();
+  }
+
+  const dragonRampTex = makeTex(256, 512, (c, w, h) => drawDragonRampCanvas(c, w, h, false));
+  const dragonRampBump = makeTex(256, 512, (c, w, h) => drawDragonRampCanvas(c, w, h, true), 1, 1, false);
+
+  // 清代御窑「苏州金砖」殿内地面纹理（深润青黑、细密包浆与金丝砖缝）
   const hallFloorTex = makeTex(512, 512, (c, w, h) => {
-    c.fillStyle = '#38241b';
+    c.fillStyle = '#261b16';
     c.fillRect(0, 0, w, h);
     const n = 4, s = w / n;
     for (let r = 0; r < n; r++) {
       for (let col = 0; col < n; col++) {
-        c.fillStyle = (r + col) % 2 ? '#412b20' : '#3a261c';
-        c.fillRect(col * s + 2, r * s + 2, s - 4, s - 4);
+        const x = col * s, y = r * s;
+        const g = c.createLinearGradient(x, y, x + s, y + s);
+        const even = (r + col) % 2 === 0;
+        g.addColorStop(0, even ? '#3b281f' : '#35231b');
+        g.addColorStop(0.5, even ? '#473126' : '#402c22');
+        g.addColorStop(1, even ? '#33221a' : '#2e1e17');
+        c.fillStyle = g;
+        c.fillRect(x + 2, y + 2, s - 4, s - 4);
+        c.strokeStyle = 'rgba(218,178,102,0.12)';
+        c.lineWidth = 1;
+        c.strokeRect(x + 5, y + 5, s - 10, s - 10);
       }
     }
   }, 8, 5);
 
-  const muralTex = makeTex(1024, 512, (c, w, h) => {
+  // 藏传转经筒六字真言「嗡嘛呢叭咪吽」鎏金浮雕贴图
+  const prayerWheelTex = makeTex(512, 256, (c, w, h) => {
     const g = c.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, '#4a1612');
-    g.addColorStop(0.5, '#6b2219');
-    g.addColorStop(1, '#310f0c');
+    g.addColorStop(0, '#8c5812');
+    g.addColorStop(0.18, '#e3ad3b');
+    g.addColorStop(0.5, '#b8291e');
+    g.addColorStop(0.82, '#e3ad3b');
+    g.addColorStop(1, '#8c5812');
     c.fillStyle = g;
     c.fillRect(0, 0, w, h);
-    const drawMandala = (cx, cy, r, col) => {
+    // 上下仰覆莲瓣纹带
+    c.fillStyle = '#f8d36c';
+    c.fillRect(0, 26, w, 8);
+    c.fillRect(0, h - 34, w, 8);
+    for (let x = 16; x < w; x += 32) {
+      c.strokeStyle = '#633b05';
+      c.lineWidth = 2;
+      c.beginPath(); c.arc(x, 14, 12, 0, Math.PI); c.stroke();
+      c.beginPath(); c.arc(x, h - 14, 12, Math.PI, Math.PI * 2); c.stroke();
+      // 绿松石与珊瑚嵌宝点
+      c.fillStyle = (x / 32) % 2 === 0 ? '#2ca6a4' : '#d63e2d';
+      c.beginPath(); c.arc(x, 50, 4.5, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.arc(x, h - 50, 4.5, 0, Math.PI * 2); c.fill();
+    }
+    // 中圈鎏金浮雕六字大明咒
+    c.fillStyle = '#ffe58f';
+    c.strokeStyle = '#4a120b';
+    c.lineWidth = 3;
+    c.font = 'bold 56px "Songti SC","STSong",serif';
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    const mantra = ['嗡', '嘛', '呢', '叭', '咪', '吽'];
+    for (let i = 0; i < 6; i++) {
+      const mx = (i + 0.5) * (w / 6);
+      c.strokeText(mantra[i], mx, h / 2 + 2);
+      c.fillText(mantra[i], mx, h / 2 + 2);
+    }
+  });
+
+  // 乾隆青铜宝鼎腹身「鱼龙变化 · 双龙戏珠」古铜浮雕贴图
+  const dingReliefTex = makeTex(512, 256, (c, w, h) => {
+    c.fillStyle = '#463a29';
+    c.fillRect(0, 0, w, h);
+    // 雷纹回纹底带
+    c.strokeStyle = '#735f42';
+    c.lineWidth = 3;
+    for (let x = 8; x < w; x += 32) {
+      c.strokeRect(x, 16, 22, 22);
+      c.strokeRect(x, h - 38, 22, 22);
+    }
+    // 浮雕云雷纹与兽面夔龙纹
+    c.strokeStyle = '#9c8257';
+    c.lineWidth = 4;
+    for (let x = 42; x < w; x += 85) {
+      c.beginPath();
+      c.arc(x, h / 2, 28, 0, Math.PI * 2);
+      c.stroke();
+      c.fillStyle = '#b89860';
+      c.beginPath();
+      c.arc(x - 10, h / 2 - 4, 4.5, 0, Math.PI * 2);
+      c.arc(x + 10, h / 2 - 4, 4.5, 0, Math.PI * 2);
+      c.fill();
+    }
+  });
+
+  // 清代宫廷重彩描金藏传巨幅壁画（支持五殿主题 + 自动加载 assets/mural_main.png 写实高清壁画）
+  function drawImperialThangkaMural(c, w, h, opts) {
+    const cfg = opts || {};
+    const bgTop = cfg.bgTop || '#162842';
+    const bgMid = cfg.bgMid || '#5c1914';
+    const bgBot = cfg.bgBot || '#24120e';
+
+    // 1. 矿物颜料底色（青金石天穹 + 朱砂红殿堂 + 檀褐地基）
+    const g = c.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, bgTop);
+    g.addColorStop(0.38, bgMid);
+    g.addColorStop(0.82, '#471510');
+    g.addColorStop(1, bgBot);
+    c.fillStyle = g;
+    c.fillRect(0, 0, w, h);
+
+    // 壁画斑驳矿物肌理与金粉星点
+    for (let i = 0; i < 2600; i++) {
+      const px = (i * 173) % w;
+      const py = (i * 251) % h;
+      c.fillStyle = i % 5 === 0 ? 'rgba(255, 224, 140, 0.08)' : (i % 2 ? 'rgba(18, 8, 5, 0.09)' : 'rgba(255, 240, 210, 0.035)');
+      c.fillRect(px, py, 2 + (i % 3), 2 + (i % 3));
+    }
+
+    // 2. 远景青绿山水须弥圣境（孔雀石绿与石青层峦 + 金线勾勒山脊）
+    const mountLayers = [
+      { yBase: h * 0.72, amp: 58, freq: 0.009, fill: 'rgba(24, 68, 62, 0.55)', stroke: 'rgba(238, 198, 104, 0.45)' },
+      { yBase: h * 0.82, amp: 42, freq: 0.014, fill: 'rgba(32, 86, 68, 0.62)', stroke: 'rgba(246, 212, 118, 0.52)' }
+    ];
+    for (const ml of mountLayers) {
+      c.beginPath();
+      c.moveTo(0, h);
+      for (let x = 0; x <= w; x += 8) {
+        const y = ml.yBase - Math.abs(Math.sin(x * ml.freq)) * ml.amp - Math.cos(x * ml.freq * 2.3) * (ml.amp * 0.35);
+        c.lineTo(x, y);
+      }
+      c.lineTo(w, h);
+      c.closePath();
+      c.fillStyle = ml.fill;
+      c.fill();
+      c.strokeStyle = ml.stroke;
+      c.lineWidth = 2;
+      c.stroke();
+    }
+
+    // 3. 顶部「千佛金龛带」（藏传寺院壁画经典规制：百尊小金佛端坐莲龛）
+    c.fillStyle = 'rgba(22, 11, 9, 0.72)';
+    c.fillRect(26, 24, w - 52, 54);
+    c.strokeStyle = 'rgba(242, 202, 106, 0.65)';
+    c.lineWidth = 2;
+    c.strokeRect(26, 24, w - 52, 54);
+    for (let x = 52; x < w - 42; x += 38) {
+      // 尖拱佛龛
+      c.fillStyle = 'rgba(138, 34, 24, 0.75)';
+      c.beginPath();
+      c.arc(x, 52, 13, Math.PI, 0);
+      c.lineTo(x + 13, 72);
+      c.lineTo(x - 13, 72);
+      c.closePath();
+      c.fill();
+      c.strokeStyle = 'rgba(245, 208, 115, 0.75)';
+      c.lineWidth = 1.4;
+      c.stroke();
+      // 龛内泥金小坐佛剪影
+      c.fillStyle = '#f5cb68';
+      c.beginPath(); c.arc(x, 47, 4.2, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.ellipse(x, 59, 7.5, 6, 0, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#2ca6a4';
+      c.fillRect(x - 8, 66, 16, 3);
+    }
+
+    // 4. 泥金五彩祥云瑞霭（围绕佛光四周翻涌）
+    const cloudCoords = [
+      [120, 140, 1], [310, 125, 0.9], [714, 125, 0.9], [904, 140, 1],
+      [95, 360, 1.05], [335, 375, 0.88], [689, 375, 0.88], [929, 360, 1.05],
+      [255, 240, 0.82], [769, 240, 0.82]
+    ];
+    for (const [cx, cy, sc] of cloudCoords) {
       c.save();
-      c.strokeStyle = col;
+      c.translate(cx, cy);
+      c.scale(sc, sc);
+      for (const [ox, oy, r, col] of [
+        [-22, 6, 18, 'rgba(34, 96, 108, 0.72)'],
+        [22, 6, 18, 'rgba(168, 48, 34, 0.72)'],
+        [0, 0, 24, 'rgba(235, 190, 92, 0.35)']
+      ]) {
+        c.fillStyle = col;
+        c.beginPath(); c.arc(ox, oy, r, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = '#f6d275';
+        c.lineWidth = 2.2;
+        c.stroke();
+      }
+      // 祥云拖尾金线
+      c.strokeStyle = 'rgba(248, 214, 122, 0.78)';
       c.lineWidth = 2.5;
-      c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.stroke();
-      c.beginPath(); c.arc(cx, cy, r * 0.78, 0, Math.PI * 2); c.stroke();
-      c.beginPath(); c.arc(cx, cy, r * 0.52, 0, Math.PI * 2); c.stroke();
-      for (let i = 0; i < 24; i++) {
-        const a = i * Math.PI / 12;
+      c.beginPath();
+      c.moveTo(-42, 14);
+      c.bezierCurveTo(-18, 26, 18, 26, 46, 10);
+      c.stroke();
+      c.restore();
+    }
+
+    // 5. 藏传重彩描金「六拿具火焰曼荼罗背光坛城」绘制函数
+    const drawSacredMandala = (cx, cy, r, isMain) => {
+      c.save();
+      // 外层佛光放射金晕
+      const auraG = c.createRadialGradient(cx, cy, r * 0.15, cx, cy, r * 1.18);
+      auraG.addColorStop(0, 'rgba(255, 232, 148, 0.42)');
+      auraG.addColorStop(0.55, 'rgba(218, 92, 34, 0.36)');
+      auraG.addColorStop(0.85, 'rgba(26, 78, 98, 0.32)');
+      auraG.addColorStop(1, 'rgba(26, 12, 10, 0)');
+      c.fillStyle = auraG;
+      c.beginPath(); c.arc(cx, cy, r * 1.18, 0, Math.PI * 2); c.fill();
+
+      // 外圈熊熊智慧火焰纹环（36 簇金红火舌）
+      const flameCnt = isMain ? 40 : 28;
+      for (let i = 0; i < flameCnt; i++) {
+        const a = (i / flameCnt) * Math.PI * 2;
+        const r0 = r * 0.94;
+        const r1 = r * (1.12 + (i % 2) * 0.07);
+        c.fillStyle = i % 2 === 0 ? 'rgba(232, 84, 34, 0.82)' : 'rgba(246, 196, 78, 0.85)';
         c.beginPath();
-        c.moveTo(cx + Math.cos(a) * r * 0.25, cy + Math.sin(a) * r * 0.25);
-        c.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
+        c.moveTo(cx + Math.cos(a - 0.07) * r0, cy + Math.sin(a - 0.07) * r0);
+        c.quadraticCurveTo(
+          cx + Math.cos(a + 0.04) * ((r0 + r1) * 0.54),
+          cy + Math.sin(a + 0.04) * ((r0 + r1) * 0.54),
+          cx + Math.cos(a) * r1,
+          cy + Math.sin(a) * r1
+        );
+        c.lineTo(cx + Math.cos(a + 0.07) * r0, cy + Math.sin(a + 0.07) * r0);
+        c.closePath();
+        c.fill();
+      }
+
+      // 五彩同心法界宝轮（青金石蓝 + 孔雀绿 + 朱砂红 + 泥金连珠圈）
+      const rings = [
+        [0.95, '#173e5e', '#f7d372', 4],
+        [0.82, '#1f5e4b', '#f7d372', 3],
+        [0.68, '#7a1c15', '#ffe28a', 3.5],
+        [0.48, '#2b1612', '#f7d372', 2.5]
+      ];
+      for (const [ratio, fillCol, strokeCol, lw] of rings) {
+        c.fillStyle = fillCol;
+        c.beginPath(); c.arc(cx, cy, r * ratio, 0, Math.PI * 2); c.fill();
+        c.strokeStyle = strokeCol;
+        c.lineWidth = lw;
+        c.stroke();
+      }
+
+      // 32 瓣重彩仰莲花瓣圈（位于 0.68..0.82 环带之间）
+      const petalCnt = isMain ? 32 : 24;
+      for (let i = 0; i < petalCnt; i++) {
+        const a0 = (i / petalCnt) * Math.PI * 2;
+        const a1 = ((i + 0.5) / petalCnt) * Math.PI * 2;
+        const a2 = ((i + 1) / petalCnt) * Math.PI * 2;
+        c.fillStyle = i % 2 === 0 ? '#d94b34' : '#28827a';
+        c.strokeStyle = '#fbe08a';
+        c.lineWidth = 1.6;
+        c.beginPath();
+        c.moveTo(cx + Math.cos(a0) * r * 0.68, cy + Math.sin(a0) * r * 0.68);
+        c.quadraticCurveTo(cx + Math.cos(a1) * r * 0.85, cy + Math.sin(a1) * r * 0.85, cx + Math.cos(a2) * r * 0.68, cy + Math.sin(a2) * r * 0.68);
+        c.closePath();
+        c.fill();
+        c.stroke();
+      }
+
+      // 细密泥金放射毫光（96 道金丝佛光）
+      const rayCnt = isMain ? 72 : 48;
+      c.strokeStyle = 'rgba(252, 220, 128, 0.62)';
+      c.lineWidth = 1.3;
+      for (let i = 0; i < rayCnt; i++) {
+        const a = (i / rayCnt) * Math.PI * 2;
+        c.beginPath();
+        c.moveTo(cx + Math.cos(a) * r * 0.14, cy + Math.sin(a) * r * 0.14);
+        c.lineTo(cx + Math.cos(a) * r * 0.67, cy + Math.sin(a) * r * 0.67);
+        c.stroke();
+      }
+
+      // 连珠纹金钉圈（0.90 半径处）
+      c.fillStyle = '#fff0b3';
+      const pearlCnt = isMain ? 48 : 32;
+      for (let i = 0; i < pearlCnt; i++) {
+        const a = (i / pearlCnt) * Math.PI * 2;
+        c.beginPath();
+        c.arc(cx + Math.cos(a) * r * 0.885, cy + Math.sin(a) * r * 0.885, isMain ? 3.2 : 2.4, 0, Math.PI * 2);
+        c.fill();
+      }
+
+      // 坛城顶部大鹏金翅鸟（琼鸟）徽印与底部莲台
+      if (isMain) {
+        c.fillStyle = '#f8d26a';
+        c.beginPath();
+        c.arc(cx, cy - r * 0.98, 16, 0, Math.PI * 2);
+        c.fill();
+        c.beginPath();
+        c.moveTo(cx - 58, cy - r * 0.92);
+        c.quadraticCurveTo(cx, cy - r * 1.12, cx + 58, cy - r * 0.92);
+        c.lineWidth = 6;
+        c.strokeStyle = '#f8d26a';
         c.stroke();
       }
       c.restore();
     };
-    drawMandala(w * 0.5, h * 0.48, 190, 'rgba(245,204,104,0.58)');
-    drawMandala(w * 0.18, h * 0.52, 115, 'rgba(230,185,88,0.34)');
-    drawMandala(w * 0.82, h * 0.52, 115, 'rgba(230,185,88,0.34)');
-    c.strokeStyle = 'rgba(242,202,102,0.72)';
-    c.lineWidth = 10;
-    c.strokeRect(14, 14, w - 28, h - 28);
-  });
 
-  // 鎏金大佛慈祥法相面部贴图（眉弓、白毫、垂目、慈唇）
+    // 绘制中尊大坛城与左右胁侍坛城
+    drawSacredMandala(w * 0.5, h * 0.52, 178, true);
+    drawSacredMandala(w * 0.185, h * 0.56, 118, false);
+    drawSacredMandala(w * 0.815, h * 0.56, 118, false);
+
+    // 6. 四周皇家藏式织锦回纹与忍冬莲花金框
+    c.strokeStyle = '#f0c45d';
+    c.lineWidth = 12;
+    c.strokeRect(10, 10, w - 20, h - 20);
+    c.strokeStyle = '#1b4d5c';
+    c.lineWidth = 5;
+    c.strokeRect(20, 20, w - 40, h - 40);
+    c.strokeStyle = 'rgba(252, 224, 138, 0.82)';
+    c.lineWidth = 2;
+    c.strokeRect(26, 26, w - 52, h - 52);
+  }
+
+  const muralTex = makeTex(1024, 512, (c, w, h) => drawImperialThangkaMural(c, w, h));
+  const muralBumpTex = makeTex(512, 256, (c, w, h) => {
+    drawImperialThangkaMural(c, w, h);
+  }, 1, 1, false);
+
+  // 若存在写实高清唐卡壁画图片 assets/mural_main.png，自动加载并融合凹凸质感
+  {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const cv = muralTex.image;
+      const ctx = cv.getContext('2d');
+      ctx.drawImage(img, 0, 0, cv.width, cv.height);
+      muralTex.needsUpdate = true;
+      const bCv = muralBumpTex.image;
+      const bCtx2 = bCv.getContext('2d');
+      bCtx2.drawImage(img, 0, 0, bCv.width, bCv.height);
+      muralBumpTex.needsUpdate = true;
+    };
+    img.src = './assets/mural_main.png';
+  }
+
+  // 佛衣垂坠褶皱与织金暗纹凹凸贴图（赋予佛像袈裟真实立体衣褶与雕刻光影）
+  const buddhaRobeBumpTex = makeTex(512, 512, (c, w, h) => {
+    c.fillStyle = '#808080';
+    c.fillRect(0, 0, w, h);
+    // 垂坠弧形衣纹褶皱
+    for (let i = 0; i < 18; i++) {
+      const y = (i / 18) * h;
+      const g = c.createLinearGradient(0, y, 0, y + h / 18);
+      g.addColorStop(0, '#525252');
+      g.addColorStop(0.45, '#e6e6e6');
+      g.addColorStop(1, '#4a4a4a');
+      c.fillStyle = g;
+      c.fillRect(0, y, w, h / 18);
+    }
+    // 藏式织金团莲暗纹
+    c.strokeStyle = 'rgba(255,255,255,0.35)';
+    c.lineWidth = 3;
+    for (let y = 32; y < h; y += 64) {
+      for (let x = 32; x < w; x += 64) {
+        c.beginPath(); c.arc(x, y, 16, 0, Math.PI * 2); c.stroke();
+        c.beginPath(); c.arc(x, y, 7, 0, Math.PI * 2); c.stroke();
+      }
+    }
+  }, 3, 3, false);
+
+  // 宫廷泥金造像写实佛颜贴图（配合 3D 雕塑眉弓/眼睑/高鼻/慈唇/螺发，呈现庄严立体光影）
   const buddhaFaceTex = makeTex(512, 512, (c, w, h) => {
-    const g = c.createRadialGradient(w * 0.5, h * 0.48, 30, w * 0.5, h * 0.5, w * 0.56);
-    g.addColorStop(0, '#ffdf78');
-    g.addColorStop(0.65, '#e8b53e');
-    g.addColorStop(1, '#b8821c');
+    const g = c.createRadialGradient(w * 0.5, h * 0.46, 24, w * 0.5, h * 0.5, w * 0.56);
+    g.addColorStop(0, '#ffe694');
+    g.addColorStop(0.48, '#ebb946');
+    g.addColorStop(0.78, '#c99224');
+    g.addColorStop(1, '#8f5e0d');
     c.fillStyle = g;
     c.fillRect(0, 0, w, h);
-    c.strokeStyle = '#5c390b';
-    c.lineWidth = 7;
+
+    // 眼窝、鼻翼两侧与面颊柔和立体晕染
+    for (const sx of [-1, 1]) {
+      const ex = w * (0.5 + sx * 0.088);
+      const eg = c.createRadialGradient(ex, h * 0.465, 4, ex, h * 0.465, 42);
+      eg.addColorStop(0, 'rgba(110, 64, 10, 0.36)');
+      eg.addColorStop(1, 'rgba(110, 64, 10, 0)');
+      c.fillStyle = eg;
+      c.beginPath(); c.arc(ex, h * 0.465, 42, 0, Math.PI * 2); c.fill();
+    }
+
+    // 藏传泥金开脸：修长柳叶弯眉（石青底线 + 泥金描边）
     c.lineCap = 'round';
-    c.beginPath(); c.moveTo(w * 0.34, h * 0.41); c.quadraticCurveTo(w * 0.42, h * 0.36, w * 0.48, h * 0.41); c.stroke();
-    c.beginPath(); c.moveTo(w * 0.52, h * 0.41); c.quadraticCurveTo(w * 0.58, h * 0.36, w * 0.66, h * 0.41); c.stroke();
-    c.fillStyle = '#fff5d6';
-    c.beginPath(); c.arc(w * 0.5, h * 0.39, 8, 0, Math.PI * 2); c.fill();
-    c.strokeStyle = '#996414';
-    c.lineWidth = 2;
-    c.stroke();
-    c.strokeStyle = '#472a08';
-    c.lineWidth = 5;
-    c.beginPath(); c.moveTo(w * 0.36, h * 0.47); c.quadraticCurveTo(w * 0.42, h * 0.51, w * 0.47, h * 0.47); c.stroke();
-    c.beginPath(); c.moveTo(w * 0.53, h * 0.47); c.quadraticCurveTo(w * 0.58, h * 0.51, w * 0.64, h * 0.47); c.stroke();
-    c.strokeStyle = 'rgba(130,82,16,0.45)';
-    c.lineWidth = 4;
-    c.beginPath(); c.moveTo(w * 0.5, h * 0.43); c.lineTo(w * 0.5, h * 0.56); c.stroke();
-    c.fillStyle = '#b03c2a';
+    for (const sx of [-1, 1]) {
+      c.strokeStyle = '#2d1c0a';
+      c.lineWidth = 6.5;
+      c.beginPath();
+      c.moveTo(w * (0.5 + sx * 0.024), h * 0.405);
+      c.quadraticCurveTo(w * (0.5 + sx * 0.09), h * 0.352, w * (0.5 + sx * 0.165), h * 0.408);
+      c.stroke();
+    }
+
+    // 眉间白毫相（珍珠光泽 + 金圈）
+    const ug = c.createRadialGradient(w * 0.498, h * 0.382, 1, w * 0.5, h * 0.385, 9);
+    ug.addColorStop(0, '#ffffff');
+    ug.addColorStop(0.7, '#ffe8a8');
+    ug.addColorStop(1, '#9c6510');
+    c.fillStyle = ug;
+    c.beginPath(); c.arc(w * 0.5, h * 0.385, 8.5, 0, Math.PI * 2); c.fill();
+
+    // 慈悲半垂瑞凤佛眼（二分之一微睁俯视众生：含眼白、青黑瞳仁、金线重睑）
+    for (const sx of [-1, 1]) {
+      const cx = w * (0.5 + sx * 0.088);
+      const cy = h * 0.472;
+      // 重睑折线
+      c.strokeStyle = 'rgba(92, 52, 8, 0.65)';
+      c.lineWidth = 2.5;
+      c.beginPath();
+      c.moveTo(cx - sx * 26, cy - 8);
+      c.quadraticCurveTo(cx, cy - 19, cx + sx * 30, cy - 6);
+      c.stroke();
+
+      // 半垂眼裂（瓷白眼白 + 深邃青黑牟尼珠瞳仁）
+      c.save();
+      c.beginPath();
+      c.moveTo(cx - 28, cy);
+      c.quadraticCurveTo(cx, cy - 8, cx + 28, cy);
+      c.quadraticCurveTo(cx, cy + 13, cx - 28, cy);
+      c.closePath();
+      c.fillStyle = '#f8f2e4';
+      c.fill();
+      c.clip();
+      c.fillStyle = '#1d242b';
+      c.beginPath(); c.arc(cx, cy - 1, 9.5, 0, Math.PI * 2); c.fill();
+      c.fillStyle = '#fff6d6';
+      c.beginPath(); c.arc(cx - 3, cy - 2, 2.4, 0, Math.PI * 2); c.fill();
+      c.restore();
+
+      // 上下眼线
+      c.strokeStyle = '#261607';
+      c.lineWidth = 4.2;
+      c.beginPath();
+      c.moveTo(cx - 29, cy);
+      c.quadraticCurveTo(cx, cy - 8, cx + 30, cy + 1);
+      c.stroke();
+      c.strokeStyle = 'rgba(78, 45, 10, 0.72)';
+      c.lineWidth = 2.2;
+      c.beginPath();
+      c.moveTo(cx - 26, cy + 1);
+      c.quadraticCurveTo(cx, cy + 12, cx + 26, cy + 1);
+      c.stroke();
+    }
+
+    // 鼻梁高光与鼻翼阴影
+    const ng = c.createLinearGradient(w * 0.475, 0, w * 0.525, 0);
+    ng.addColorStop(0, 'rgba(110, 68, 12, 0.35)');
+    ng.addColorStop(0.5, 'rgba(255, 246, 200, 0.65)');
+    ng.addColorStop(1, 'rgba(110, 68, 12, 0.38)');
+    c.fillStyle = ng;
+    c.fillRect(w * 0.482, h * 0.41, w * 0.036, h * 0.165);
+
+    // 饱满朱砂仰月佛唇（上下唇瓣 + 嘴角微扬慈悲笑意）
+    const ly = h * 0.642;
+    const lipG = c.createLinearGradient(0, ly - 14, 0, ly + 18);
+    lipG.addColorStop(0, '#c43e2b');
+    lipG.addColorStop(0.5, '#962719');
+    lipG.addColorStop(1, '#d6533e');
+    c.fillStyle = lipG;
     c.beginPath();
-    c.moveTo(w * 0.43, h * 0.64);
-    c.quadraticCurveTo(w * 0.5, h * 0.615, w * 0.57, h * 0.64);
-    c.quadraticCurveTo(w * 0.5, h * 0.68, w * 0.43, h * 0.64);
+    c.moveTo(w * 0.432, ly);
+    c.quadraticCurveTo(w * 0.475, ly - 13, w * 0.5, ly - 8);
+    c.quadraticCurveTo(w * 0.525, ly - 13, w * 0.568, ly);
+    c.quadraticCurveTo(w * 0.5, ly + 19, w * 0.432, ly);
+    c.closePath();
     c.fill();
+    c.strokeStyle = '#5e1a0d';
+    c.lineWidth = 2.2;
+    c.beginPath();
+    c.moveTo(w * 0.428, ly - 1);
+    c.quadraticCurveTo(w * 0.5, ly + 4, w * 0.572, ly - 1);
+    c.stroke();
   });
 
   // 写实真人面部与亚麻棉织纹理（默认人物用）
@@ -779,27 +1237,91 @@
     scene.add(step);
   }
   const dragonRamp = new THREE.Mesh(
-    new THREE.BoxGeometry(2.3, 0.2, 4.1),
-    new THREE.MeshStandardMaterial({ map: dragonRampTex, roughness: 0.55 })
+    new THREE.BoxGeometry(2.38, 0.24, 4.18),
+    new THREE.MeshStandardMaterial({
+      map: dragonRampTex,
+      bumpMap: dragonRampBump,
+      bumpScale: 0.08,
+      roughness: 0.48
+    })
   );
   dragonRamp.position.set(0, 0.92, -5.95);
   dragonRamp.rotation.x = 0.42;
   dragonRamp.castShadow = true;
+  dragonRamp.receiveShadow = true;
   scene.add(dragonRamp);
 
+  // 丹陛踏跺两侧垂带石、斜栏板与望柱（还原皇家御路三出陛规制）
+  for (const sx of [-4.2, -1.28, 1.28, 4.2]) {
+    const curb = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.34, 4.28), marbleMat);
+    curb.position.set(sx, 0.92, -5.95);
+    curb.rotation.x = 0.42;
+    curb.castShadow = true;
+    curb.receiveShadow = true;
+    scene.add(curb);
+  }
+  for (const sx of [-4.2, 4.2]) {
+    const slopeRail = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.58, 4.15), marbleMat);
+    slopeRail.position.set(sx, 1.32, -5.95);
+    slopeRail.rotation.x = 0.42;
+    slopeRail.castShadow = true;
+    scene.add(slopeRail);
+    const footPost = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.05, 0.28), marbleMat);
+    footPost.position.set(sx, 0.52, -4.08);
+    footPost.castShadow = true;
+    scene.add(footPost);
+    const footLotus = new THREE.Mesh(new THREE.SphereGeometry(0.17, 10, 8), marbleMat);
+    footLotus.scale.set(0.9, 1.25, 0.9);
+    footLotus.position.set(sx, 1.12, -4.08);
+    scene.add(footLotus);
+  }
+
+  // 台基前檐与两侧汉白玉雕花勾栏、望柱与排水螭首（龙头吐水构件）
   for (const bx of [-14.2, -11.4, -8.6, -5.8, -4.2, 4.2, 5.8, 8.6, 11.4, 14.2]) {
     const post = new THREE.Mesh(new THREE.BoxGeometry(0.28, 1.12, 0.28), marbleMat);
     post.position.set(bx, HALL_Y + 0.56, -7.85);
     post.castShadow = true;
     scene.add(post);
-    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.18, 10, 8), marbleMat);
-    ball.position.set(bx, HALL_Y + 1.22, -7.85);
+    const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.19, 0.08, 10), marbleMat);
+    collar.position.set(bx, HALL_Y + 1.14, -7.85);
+    scene.add(collar);
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.17, 10, 8), marbleMat);
+    ball.scale.set(0.92, 1.25, 0.92);
+    ball.position.set(bx, HALL_Y + 1.28, -7.85);
     scene.add(ball);
   }
   for (const [rx, rw] of [[-9.2, 10.0], [9.2, 10.0]]) {
     const rail = new THREE.Mesh(new THREE.BoxGeometry(rw, 0.68, 0.15), marbleMat);
     rail.position.set(rx, HALL_Y + 0.42, -7.85);
+    rail.castShadow = true;
     scene.add(rail);
+    const topBar = new THREE.Mesh(new THREE.BoxGeometry(rw, 0.12, 0.22), marbleMat);
+    topBar.position.set(rx, HALL_Y + 0.82, -7.85);
+    scene.add(topBar);
+  }
+  // 台基东西两侧护栏
+  for (const side of [-1, 1]) {
+    const sx = side * 14.2;
+    const sRail = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.68, 16.8), marbleMat);
+    sRail.position.set(sx, HALL_Y + 0.42, HALL_Z);
+    scene.add(sRail);
+    for (let pz = -10.6; pz >= -24.6; pz -= 3.5) {
+      const sp = new THREE.Mesh(new THREE.BoxGeometry(0.26, 1.1, 0.26), marbleMat);
+      sp.position.set(sx, HALL_Y + 0.55, pz);
+      scene.add(sp);
+    }
+  }
+  // 须弥座汉白玉排水螭首（台基前侧 6 尊）
+  for (const cx of [-14.2, -10.0, -5.8, 5.8, 10.0, 14.2]) {
+    const chishou = new THREE.Group();
+    chishou.position.set(cx, HALL_Y - 0.14, -7.65);
+    const neck = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.24, 0.55), marbleMat);
+    neck.position.z = 0.22;
+    chishou.add(neck);
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.28, 0.32), marbleMat);
+    head.position.set(0, 0.04, 0.48);
+    chishou.add(head);
+    scene.add(chishou);
   }
 
   const hallFloor = new THREE.Mesh(
@@ -1147,82 +1669,227 @@
   const burnerGroup = new THREE.Group();
   burnerGroup.position.set(0, 0, 2.2);
   const bronzeMat = new THREE.MeshStandardMaterial({ color: 0x4b3f2d, metalness: 0.78, roughness: 0.32 });
-  const burnerBase = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.5, 0.92, 20), marbleMat);
-  burnerBase.position.y = 0.46;
+  const bronzeReliefMat = new THREE.MeshStandardMaterial({ map: dingReliefTex, metalness: 0.76, roughness: 0.34 });
+
+  // 汉白玉雕花须弥底座（上中下三层束腰）
+  const burnerBase = new THREE.Mesh(new THREE.CylinderGeometry(1.42, 1.62, 0.42, 24), marbleMat);
+  burnerBase.position.y = 0.21;
   burnerGroup.add(burnerBase);
-  const burnerBowl = new THREE.Mesh(new THREE.CylinderGeometry(1.22, 0.95, 1.15, 20), bronzeMat);
-  burnerBowl.position.y = 1.5;
+  const burnerWaist = new THREE.Mesh(new THREE.CylinderGeometry(1.18, 1.18, 0.32, 20), marbleMat);
+  burnerWaist.position.y = 0.56;
+  burnerGroup.add(burnerWaist);
+  const burnerTopSlab = new THREE.Mesh(new THREE.CylinderGeometry(1.36, 1.24, 0.22, 24), marbleMat);
+  burnerTopSlab.position.y = 0.82;
+  burnerGroup.add(burnerTopSlab);
+
+  // 乾隆御制鱼龙变化铜鼎腹身
+  const burnerBowl = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 0.96, 1.18, 28), bronzeReliefMat);
+  burnerBowl.position.y = 1.52;
   burnerBowl.userData.propAction = 'incense';
   burnerGroup.add(burnerBowl);
   clickableProps.push(burnerBowl);
-  for (const ex of [-1.22, 1.22]) {
-    const ear = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.07, 8, 16), bronzeMat);
-    ear.position.set(ex, 1.98, 0);
+
+  // 鼎口双层回纹折沿
+  const burnerLip = new THREE.Mesh(new THREE.TorusGeometry(1.24, 0.065, 10, 32), bronzeMat);
+  burnerLip.rotation.x = Math.PI / 2;
+  burnerLip.position.y = 2.11;
+  burnerGroup.add(burnerLip);
+
+  // 左右镂空立耳与盘龙耳饰
+  for (const ex of [-1.25, 1.25]) {
+    const ear = new THREE.Mesh(new THREE.TorusGeometry(0.32, 0.075, 10, 18), bronzeMat);
+    ear.position.set(ex, 2.02, 0);
     burnerGroup.add(ear);
+    const earCrest = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 8), antiqueGoldMat);
+    earCrest.position.set(ex * 1.12, 2.28, 0);
+    burnerGroup.add(earCrest);
   }
-  const ash = new THREE.Mesh(new THREE.CylinderGeometry(1.06, 1.06, 0.08, 20), new THREE.MeshStandardMaterial({ color: 0xc2b9a7 }));
+
+  // 香灰层与暗红香火微光
+  const ash = new THREE.Mesh(
+    new THREE.CylinderGeometry(1.12, 1.12, 0.1, 24),
+    new THREE.MeshStandardMaterial({ color: 0xc8bfb0, roughness: 0.95 })
+  );
   ash.position.y = 2.08;
   burnerGroup.add(ash);
-  for (const sx of [-0.18, 0, 0.18]) {
-    const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.62, 6), new THREE.MeshStandardMaterial({ color: 0x99592b }));
-    stick.position.set(sx, 2.36, 0);
-    burnerGroup.add(stick);
-    const tip = new THREE.Mesh(new THREE.SphereGeometry(0.032, 6, 6), new THREE.MeshBasicMaterial({ color: 0xff6b2b }));
-    tip.position.set(sx, 2.68, 0);
-    burnerGroup.add(tip);
+
+  const emberLight = new THREE.PointLight(0xff6b24, 0.85, 4.5);
+  emberLight.position.set(0, 2.38, 0);
+  burnerGroup.add(emberLight);
+
+  // 炉内众香客敬奉的错落香束 + 玩家敬香动态插香组
+  const incenseStickMat = new THREE.MeshStandardMaterial({ color: 0x9e5426, roughness: 0.75 });
+  const incenseCrimsonMat = new THREE.MeshStandardMaterial({ color: 0x8f1d14, roughness: 0.8 });
+  const emberTipMat = new THREE.MeshBasicMaterial({ color: 0xff6e26 });
+  const emberTips = [];
+
+  function addIncenseCluster(cx, cz, tiltScale) {
+    for (const sx of [-0.055, 0, 0.055]) {
+      const st = new THREE.Group();
+      st.position.set(cx + sx, 2.1, cz);
+      st.rotation.z = -sx * 0.9 * (tiltScale || 1);
+      st.rotation.x = (cz * 0.08);
+      const lower = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.22, 6), incenseCrimsonMat);
+      lower.position.y = 0.11;
+      st.add(lower);
+      const upper = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 0.42, 6), incenseStickMat);
+      upper.position.y = 0.42;
+      st.add(upper);
+      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.026, 6, 6), emberTipMat);
+      tip.position.y = 0.64;
+      st.add(tip);
+      emberTips.push({ mesh: tip, phase: Math.random() * 6.28 });
+      burnerGroup.add(st);
+    }
   }
+  addIncenseCluster(0, 0, 1);
+  addIncenseCluster(-0.38, -0.22, 1.2);
+  addIncenseCluster(0.42, -0.18, 1.2);
+  addIncenseCluster(-0.22, 0.32, 0.8);
+  addIncenseCluster(0.28, 0.26, 0.9);
+
+  // 玩家敬香时新插入的前排三炷高香（带缓入升烟反馈）
+  const playerOfferIncenseGroup = new THREE.Group();
+  playerOfferIncenseGroup.position.set(0, 2.1, 0.46);
+  for (const sx of [-0.07, 0, 0.07]) {
+    const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.68, 8), incenseStickMat);
+    stick.position.set(sx, 0.34, 0);
+    playerOfferIncenseGroup.add(stick);
+    const tip = new THREE.Mesh(new THREE.SphereGeometry(0.032, 8, 8), emberTipMat);
+    tip.position.set(sx, 0.69, 0);
+    playerOfferIncenseGroup.add(tip);
+    emberTips.push({ mesh: tip, phase: sx * 10 });
+  }
+  burnerGroup.add(playerOfferIncenseGroup);
+  let incenseFlareUntil = 0;
+
   burnerGroup.traverse(m => { if (m.isMesh) m.castShadow = true; });
   scene.add(burnerGroup);
 
   const smokeParticles = [];
-  const smokeGeo = new THREE.SphereGeometry(0.18, 8, 8);
-  for (let i = 0; i < 12; i++) {
-    const s = new THREE.Mesh(smokeGeo, new THREE.MeshBasicMaterial({ color: 0xf8f1e0, transparent: true, opacity: 0.3 }));
-    s.position.set(0, 2.75 + i * 0.3, 2.2);
+  const smokeGeo = new THREE.SphereGeometry(0.18, 10, 10);
+  for (let i = 0; i < 18; i++) {
+    const s = new THREE.Mesh(
+      smokeGeo,
+      new THREE.MeshBasicMaterial({ color: 0xf6efe0, transparent: true, opacity: 0.26, depthWrite: false })
+    );
+    s.position.set(0, 2.75 + i * 0.24, 2.2);
     scene.add(s);
-    smokeParticles.push({ mesh: s, phase: i / 12 });
+    smokeParticles.push({ mesh: s, phase: i / 18, lane: (i % 3) - 1 });
   }
 
+  // 藏传六字真言鎏金转经筒长廊架
   const prayerWheels = [];
   const wheelRack = new THREE.Group();
   wheelRack.position.set(7.8, 0, 0.6);
-  const rackFrame = new THREE.Mesh(new THREE.BoxGeometry(3.2, 0.2, 0.5), pillarRedMat);
-  rackFrame.position.y = 2.05;
+  const wheelBase = new THREE.Mesh(new THREE.BoxGeometry(3.55, 0.28, 0.86), marbleMat);
+  wheelBase.position.y = 0.14;
+  wheelRack.add(wheelBase);
+  const rackBottomBeam = new THREE.Mesh(new THREE.BoxGeometry(3.15, 0.12, 0.36), pillarRedMat);
+  rackBottomBeam.position.y = 0.68;
+  wheelRack.add(rackBottomBeam);
+  const rackFrame = new THREE.Mesh(new THREE.BoxGeometry(3.35, 0.22, 0.56), hexieMat);
+  rackFrame.position.y = 2.08;
   wheelRack.add(rackFrame);
-  for (const rx of [-1.45, 1.45]) {
-    const post = new THREE.Mesh(new THREE.BoxGeometry(0.18, 2.05, 0.22), pillarRedMat);
-    post.position.set(rx, 1.025, 0);
+  // 转经筒廊架黄琉璃瓦顶檐
+  const rackRoof = new THREE.Mesh(new THREE.ConeGeometry(2.35, 0.52, 4), goldRoofMat);
+  rackRoof.rotation.y = Math.PI / 4;
+  rackRoof.scale.set(1.12, 1, 0.42);
+  rackRoof.position.y = 2.42;
+  wheelRack.add(rackRoof);
+
+  for (const rx of [-1.48, 1.48]) {
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.12, 2.05, 12), pillarRedMat);
+    post.position.set(rx, 1.12, 0);
     wheelRack.add(post);
   }
-  for (const wx of [-0.88, 0, 0.88]) {
-    const wMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.92, 18), goldMat);
-    wMesh.position.set(wx, 1.32, 0);
-    wMesh.userData.propAction = 'wheel';
-    wheelRack.add(wMesh);
-    clickableProps.push(wMesh);
-    prayerWheels.push({ mesh: wMesh, vel: 0 });
+  const wheelMantraMat = new THREE.MeshStandardMaterial({
+    map: prayerWheelTex, metalness: 0.72, roughness: 0.26, emissive: 0x3d2204, emissiveIntensity: 0.15
+  });
+  for (const wx of [-0.92, 0, 0.92]) {
+    const wGroup = new THREE.Group();
+    wGroup.position.set(wx, 1.36, 0);
+    const spindle = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 1.38, 10), antiqueGoldMat);
+    wGroup.add(spindle);
+    const drum = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.88, 24), wheelMantraMat);
+    drum.userData.propAction = 'wheel';
+    wGroup.add(drum);
+    clickableProps.push(drum);
+    for (const sy of [-0.45, 0.45]) {
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(0.285, 0.032, 8, 24), goldMat);
+      rim.rotation.x = Math.PI / 2;
+      rim.position.y = sy;
+      wGroup.add(rim);
+    }
+    const topCap = new THREE.Mesh(new THREE.ConeGeometry(0.29, 0.16, 16), goldMat);
+    topCap.position.y = 0.53;
+    wGroup.add(topCap);
+    wheelRack.add(wGroup);
+    prayerWheels.push({ mesh: wGroup, vel: 0 });
   }
   wheelRack.traverse(m => { if (m.isMesh) m.castShadow = true; });
   scene.add(wheelRack);
 
+  // 雍和宫灵签祈愿案台（织锦桌旗 + 朱砂签筒 + 供烛小炉 + 灵签立牌）
   const lotGroup = new THREE.Group();
   lotGroup.position.set(-7.6, 0, 0.6);
-  const lotStand = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.92, 1.0), pillarRedMat);
-  lotStand.position.y = 0.46;
+  const lotBase = new THREE.Mesh(new THREE.BoxGeometry(1.65, 0.18, 1.18), marbleMat);
+  lotBase.position.y = 0.09;
+  lotGroup.add(lotBase);
+  const lotStand = new THREE.Mesh(new THREE.BoxGeometry(1.42, 0.84, 0.95), pillarRedMat);
+  lotStand.position.y = 0.58;
   lotGroup.add(lotStand);
-  const cylinder = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.22, 0.19, 0.72, 16),
-    new THREE.MeshStandardMaterial({ color: 0xb6863c, roughness: 0.48 })
+  const lotTableTop = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.08, 1.06), pillarRedMat);
+  lotTableTop.position.y = 1.02;
+  lotGroup.add(lotTableTop);
+  const lotRunner = new THREE.Mesh(
+    new THREE.BoxGeometry(0.68, 0.88, 1.09),
+    new THREE.MeshStandardMaterial({ color: 0xd99e2b, roughness: 0.55, metalness: 0.2 })
   );
-  cylinder.position.y = 1.28;
+  lotRunner.position.y = 0.61;
+  lotGroup.add(lotRunner);
+
+  const cylinder = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.21, 0.18, 0.64, 20),
+    new THREE.MeshStandardMaterial({ color: 0x8c4a1d, roughness: 0.42, metalness: 0.12 })
+  );
+  cylinder.position.y = 1.36;
   cylinder.userData.propAction = 'lot';
   lotGroup.add(cylinder);
   clickableProps.push(cylinder);
-  for (let i = 0; i < 7; i++) {
-    const stick = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.44, 0.018), new THREE.MeshStandardMaterial({ color: 0xe8cb82 }));
-    stick.position.set(Math.cos(i) * 0.08, 1.65, Math.sin(i) * 0.08);
-    stick.rotation.z = (i - 3) * 0.08;
+  for (const ry of [1.14, 1.56]) {
+    const band = new THREE.Mesh(new THREE.TorusGeometry(0.205, 0.018, 8, 20), goldMat);
+    band.rotation.x = Math.PI / 2;
+    band.position.y = ry;
+    lotGroup.add(band);
+  }
+  const bambooMat = new THREE.MeshStandardMaterial({ color: 0xe8cb82, roughness: 0.55 });
+  const redTipMat = new THREE.MeshStandardMaterial({ color: 0xb8251a, roughness: 0.5 });
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    const r = 0.06 + (i % 3) * 0.032;
+    const stick = new THREE.Group();
+    stick.position.set(Math.cos(a) * r, 1.66, Math.sin(a) * r);
+    stick.rotation.z = Math.cos(a) * 0.14;
+    stick.rotation.x = Math.sin(a) * 0.14;
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.38, 0.014), bambooMat);
+    stick.add(body);
+    const tip = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.09, 0.016), redTipMat);
+    tip.position.y = 0.21;
+    stick.add(tip);
     lotGroup.add(stick);
+  }
+  // 案台两侧祈愿红烛
+  for (const cx of [-0.52, 0.52]) {
+    const holder = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.08, 0.16, 10), goldMat);
+    holder.position.set(cx, 1.14, 0.12);
+    lotGroup.add(holder);
+    const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.034, 0.038, 0.24, 10), redTipMat);
+    candle.position.set(cx, 1.32, 0.12);
+    lotGroup.add(candle);
+    const flame = new THREE.Mesh(new THREE.ConeGeometry(0.026, 0.09, 6), new THREE.MeshBasicMaterial({ color: 0xffd268 }));
+    flame.position.set(cx, 1.48, 0.12);
+    lotGroup.add(flame);
   }
   lotGroup.traverse(m => { if (m.isMesh) m.castShadow = true; });
   scene.add(lotGroup);
@@ -1230,11 +1897,19 @@
   const barkMat = new THREE.MeshStandardMaterial({ color: 0x4b3b2e, roughness: 0.94 });
   const ginkgoCardMat = new THREE.MeshStandardMaterial({ map: ginkgoLeafTex, alphaTest: 0.32, side: THREE.DoubleSide, roughness: 0.85 });
   const cypressCardMat = new THREE.MeshStandardMaterial({ map: cypressLeafTex, alphaTest: 0.32, side: THREE.DoubleSide, roughness: 0.9 });
+  const fallenGinkgoMat = new THREE.MeshStandardMaterial({
+    map: ginkgoLeafTex, alphaTest: 0.25, transparent: true, opacity: 0.88, roughness: 0.9
+  });
 
   function addRealisticTree(x, z, scale, isGinkgo) {
     const g = new THREE.Group();
     g.position.set(x, 0, z);
     g.scale.setScalar(scale);
+
+    // 树根抓地盘根与主干
+    const rootFlare = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.62, 0.55, 10), barkMat);
+    rootFlare.position.y = 0.275;
+    g.add(rootFlare);
 
     const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.44, 4.6, 10), barkMat);
     trunk.position.y = 2.3;
@@ -1268,6 +1943,18 @@
         card.rotation.x = (k - 1) * 0.22;
         card.castShadow = true;
         g.add(card);
+      }
+    }
+
+    // 银杏古树下铺满金黄落叶地毯
+    if (isGinkgo) {
+      for (let m = 0; m < 4; m++) {
+        const patch = new THREE.Mesh(new THREE.CircleGeometry(1.45 - m * 0.2, 14), fallenGinkgoMat);
+        patch.rotation.x = -Math.PI / 2;
+        patch.rotation.z = m * 1.3;
+        patch.position.set(Math.cos(m * 1.7) * 0.65, 0.015 + m * 0.003, Math.sin(m * 1.7) * 0.65);
+        patch.receiveShadow = true;
+        g.add(patch);
       }
     }
     scene.add(g);
@@ -1535,14 +2222,69 @@
     bodyPivot.add(armL);
     bodyPivot.add(armR);
 
-    const woodfish = new THREE.Mesh(
-      new THREE.SphereGeometry(0.12, 12, 10),
-      new THREE.MeshStandardMaterial({ color: 0x9b5a34, roughness: 0.6 })
+    // 右手木鱼槌（敲木鱼时显现）
+    const woodfishStriker = new THREE.Group();
+    woodfishStriker.position.set(0, -0.5, 0.06);
+    woodfishStriker.rotation.x = Math.PI / 2;
+    const strikerStick = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.01, 0.22, 8), beadWoodMat);
+    strikerStick.position.y = 0.08;
+    woodfishStriker.add(strikerStick);
+    const strikerHead = new THREE.Mesh(new THREE.SphereGeometry(0.022, 10, 8), sashMat);
+    strikerHead.position.y = 0.2;
+    woodfishStriker.add(strikerHead);
+    woodfishStriker.visible = false;
+    armR.add(woodfishStriker);
+
+    // 敬香时双手间恭敬持握的三炷清香（含暗红香火头）
+    const handIncense = new THREE.Group();
+    handIncense.position.set(0, 1.18, 0.34);
+    handIncense.rotation.x = 0.25;
+    for (const sx of [-0.025, 0, 0.025]) {
+      const st = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, 0.42, 6), beadWoodMat);
+      st.position.set(sx, 0.16, 0);
+      st.rotation.z = -sx * 0.6;
+      handIncense.add(st);
+      const tip = new THREE.Mesh(new THREE.SphereGeometry(0.011, 6, 6), new THREE.MeshBasicMaterial({ color: 0xff6e26 }));
+      tip.position.set(sx * 1.12, 0.38, 0);
+      handIncense.add(tip);
+    }
+    handIncense.visible = false;
+    bodyPivot.add(handIncense);
+
+    // 雕花紫檀木鱼 + 红锦软垫
+    const woodfish = new THREE.Group();
+    woodfish.position.set(0, 0.92, 0.36);
+    const wfPad = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.12, 0.13, 0.04, 14),
+      new THREE.MeshStandardMaterial({ color: 0x8f2219, roughness: 0.78 })
     );
-    woodfish.scale.set(1.15, 0.85, 1.0);
-    woodfish.position.set(0, 0.94, 0.36);
+    wfPad.position.y = -0.06;
+    woodfish.add(wfPad);
+    const wfBody = new THREE.Mesh(
+      new THREE.SphereGeometry(0.115, 14, 12),
+      new THREE.MeshStandardMaterial({ color: 0x8c4c27, roughness: 0.46, metalness: 0.08 })
+    );
+    wfBody.scale.set(1.18, 0.84, 1.02);
+    woodfish.add(wfBody);
     woodfish.visible = false;
     root.add(woodfish);
+
+    // 脚底柔和接触阴影（消除浮空感）
+    const shadowTex = makeTex(64, 64, (c, w, h) => {
+      const g = c.createRadialGradient(w / 2, h / 2, 4, w / 2, h / 2, w / 2);
+      g.addColorStop(0, 'rgba(18, 10, 6, 0.48)');
+      g.addColorStop(0.65, 'rgba(18, 10, 6, 0.18)');
+      g.addColorStop(1, 'rgba(18, 10, 6, 0)');
+      c.fillStyle = g;
+      c.fillRect(0, 0, w, h);
+    });
+    const contactShadow = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.82, 0.82),
+      new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false })
+    );
+    contactShadow.rotation.x = -Math.PI / 2;
+    contactShadow.position.y = 0.012;
+    root.add(contactShadow);
 
     const aura = new THREE.Mesh(
       new THREE.RingGeometry(0.42, 0.52, 24),
@@ -1558,9 +2300,9 @@
 
     scene.add(root);
     return {
-      root, builtInGroup, bodyPivot, glbPivot,
+      root, builtInGroup, bodyPivot, glbPivot, headGroup,
       legL, legR, armL, armR, eyeL, eyeR,
-      robeMat, sashMat, woodfish, aura, nameSprite,
+      robeMat, sashMat, woodfish, woodfishStriker, handIncense, aura, nameSprite,
       glbState: null
     };
   }
@@ -1850,20 +2592,25 @@
     target: new THREE.Vector3(0, 2.2, 7.2),
     inHallView: false
   };
+  const camSmooth = { yaw: 0, pitch: 0.22, dist: 16.5 };
 
   function updateCamera(dt) {
     const goalX = player.x;
     const goalY = player.y + (camState.inHallView ? 2.1 : 2.6);
     const goalZ = player.z - (camState.inHallView ? 2.5 : 4.2);
     const k = 1 - Math.exp(-dt * 5.5);
+    const rk = 1 - Math.exp(-dt * 7.2);
     camState.target.x += (goalX - camState.target.x) * k;
     camState.target.y += (goalY - camState.target.y) * k;
     camState.target.z += (goalZ - camState.target.z) * k;
+    camSmooth.yaw += (camState.yaw - camSmooth.yaw) * rk;
+    camSmooth.pitch += (camState.pitch - camSmooth.pitch) * rk;
+    camSmooth.dist += (camState.dist - camSmooth.dist) * rk;
 
-    const r = camState.dist;
-    const cx = camState.target.x + Math.sin(camState.yaw) * Math.cos(camState.pitch) * r;
-    const cy = Math.max(1.5, camState.target.y + Math.sin(camState.pitch) * r);
-    const cz = camState.target.z + Math.cos(camState.yaw) * Math.cos(camState.pitch) * r;
+    const r = camSmooth.dist;
+    const cx = camState.target.x + Math.sin(camSmooth.yaw) * Math.cos(camSmooth.pitch) * r;
+    const cy = Math.max(1.5, camState.target.y + Math.sin(camSmooth.pitch) * r);
+    const cz = camState.target.z + Math.cos(camSmooth.yaw) * Math.cos(camSmooth.pitch) * r;
     camera.position.set(cx, cy, cz);
     camera.lookAt(camState.target.x, camState.target.y + (camState.inHallView ? 0.8 : 1.5), camState.target.z - 4.0);
   }
@@ -1885,6 +2632,8 @@
   function animateMonk(entity, t, dt) {
     const m = entity.mesh;
     m.woodfish.visible = entity.pose === 'wood';
+    if (m.woodfishStriker) m.woodfishStriker.visible = entity.pose === 'wood';
+    if (m.handIncense) m.handIncense.visible = entity.pose === 'incense';
     m.aura.material.opacity = 0;
 
     if (m.glbState) {
@@ -1914,8 +2663,13 @@
         m.eyeL.scale.y = blink ? 0.12 : 1;
         m.eyeR.scale.y = blink ? 0.12 : 1;
       }
+      if (m.headGroup) {
+        m.headGroup.rotation.y = entity.pose === 'idle' ? Math.sin(t * 0.75 + (entity.x || 0)) * 0.08 : 0;
+        m.headGroup.rotation.x = entity.pose === 'hands' || entity.pose === 'incense' ? 0.14 : (entity.pose === 'sit' ? 0.06 : 0);
+      }
       m.bodyPivot.position.y = 0;
       m.bodyPivot.rotation.x = 0;
+      m.bodyPivot.scale.set(1, 1, 1);
       m.armL.rotation.set(0, 0, 0.1);
       m.armR.rotation.set(0, 0, -0.1);
       m.legL.rotation.x = 0;
@@ -1926,12 +2680,15 @@
       if (entity.pose === 'walk') {
         const s = Math.sin(t * 9.2);
         m.bodyPivot.position.y = Math.abs(s) * 0.04;
+        m.bodyPivot.rotation.z = s * 0.025;
         m.armL.rotation.x = s * 0.48;
         m.armR.rotation.x = -s * 0.48;
         m.legL.rotation.x = -s * 0.52;
         m.legR.rotation.x = s * 0.52;
       } else if (entity.pose === 'sit') {
-        m.bodyPivot.position.y = -0.46 + Math.sin(t * 1.6) * 0.01;
+        const breath = Math.sin(t * 1.6);
+        m.bodyPivot.position.y = -0.46 + breath * 0.01;
+        m.bodyPivot.scale.set(1 + breath * 0.012, 1 + breath * 0.008, 1 + breath * 0.012);
         m.legL.visible = false;
         m.legR.visible = false;
         m.armL.rotation.set(-0.62, 0.32, -0.16);
@@ -1939,7 +2696,14 @@
         m.aura.material.opacity = 0.28 + 0.2 * Math.sin(t * 2.2);
         const sc = 1 + 0.2 * ((t * 0.35) % 1);
         m.aura.scale.set(sc, sc, 1);
-      } else if (entity.pose === 'hands' || entity.pose === 'incense' || entity.pose === 'wheel') {
+      } else if (entity.pose === 'incense') {
+        // 举香齐眉，三拜敬香
+        const bowWave = Math.sin(t * 3.6) * 0.14;
+        m.bodyPivot.rotation.x = 0.16 + Math.max(0, bowWave);
+        m.armL.rotation.set(-1.32 - bowWave * 0.5, 0.42, -0.22);
+        m.armR.rotation.set(-1.32 - bowWave * 0.5, -0.42, 0.22);
+        m.aura.material.opacity = 0.48;
+      } else if (entity.pose === 'hands' || entity.pose === 'wheel') {
         m.bodyPivot.rotation.x = 0.1 + Math.sin(t * 3) * 0.02;
         m.armL.rotation.set(-1.12, 0.38, -0.2);
         m.armR.rotation.set(-1.12, -0.38, 0.2);
@@ -1952,11 +2716,17 @@
         m.armR.rotation.set(-1.15, -0.38, 0.2);
         m.aura.material.opacity = 0.56 * bend;
       } else if (entity.pose === 'wood') {
-        const hit = Math.sin(t * 8) * 0.22;
-        m.armR.rotation.set(-0.82 + hit, -0.28, 0.14);
+        const wave = Math.sin(t * 9.5);
+        const hit = wave * 0.26;
+        m.armR.rotation.set(-0.84 + hit, -0.28, 0.14);
         m.armL.rotation.set(-0.68, 0.28, -0.14);
+        const pop = 1 + Math.max(0, -wave) * 0.08;
+        m.woodfish.scale.set(pop, 2 - pop, pop);
       } else {
-        m.bodyPivot.position.y = Math.sin(t * 1.8) * 0.01;
+        const breath = Math.sin(t * 1.9);
+        m.bodyPivot.position.y = breath * 0.01;
+        m.bodyPivot.scale.set(1 + breath * 0.01, 1 + breath * 0.006, 1 + breath * 0.01);
+        m.bodyPivot.rotation.z = 0;
       }
     }
 
@@ -2081,20 +2851,21 @@
       saveJournal();
       player.pose = 'incense';
       player.rotY = Math.PI;
-      player.poseUntil = clockTime + 2.2;
+      player.poseUntil = clockTime + 2.4;
+      incenseFlareUntil = clockTime + 4.5;
       playSound('incense');
       spawnZenWord('incense');
-      showToast('乾隆宝鼎敬香三炷 · 愿事业顺遂、贵人常伴');
+      showToast('乾隆宝鼎敬奉三炷高香 · 愿事业顺遂、贵人常伴');
     } else if (arrival === 'wheel_arrive') {
       journal.wheel++;
       saveJournal();
       player.pose = 'wheel';
       player.rotY = Math.PI;
       player.poseUntil = clockTime + 1.8;
-      prayerWheels.forEach(w => { w.vel = 9.5; });
+      prayerWheels.forEach((w, idx) => { w.vel = 10.5 - idx * 0.8; });
       playSound('bell');
       spawnZenWord('wheel');
-      showToast('轻转经筒 · 福运流转、万事顺遂');
+      showToast('轻转六字真言经筒 · 福运流转、万事顺遂');
     } else if (arrival === 'lot_arrive') {
       player.pose = 'hands';
       player.rotY = Math.PI;
@@ -2207,34 +2978,149 @@
   const beadCanvas = document.getElementById('bead-canvas');
   const bCtx = beadCanvas.getContext('2d');
   let beadAngle = 0;
+  let tasselSwing = 0;
 
   function drawBeadRing() {
     const w = beadCanvas.width, h = beadCanvas.height;
     bCtx.clearRect(0, 0, w, h);
     const mat = BEAD_MATERIALS.find(m => m.id === journal.beadMat) || BEAD_MATERIALS[0];
-    const cx = w / 2, cy = h / 2, rx = 104, ry = 70;
-    bCtx.strokeStyle = 'rgba(236,199,116,0.42)';
-    bCtx.lineWidth = 2;
-    bCtx.beginPath(); bCtx.ellipse(cx, cy, rx, ry, -0.12, 0, Math.PI * 2); bCtx.stroke();
-    for (let i = 0; i < 18; i++) {
-      const a = i * Math.PI * 2 / 18 + beadAngle;
-      const bx = cx + Math.cos(a) * rx;
-      const by = cy + Math.sin(a) * ry;
-      const r = i === 0 ? 15 : 12.5;
-      const grad = bCtx.createRadialGradient(bx - 4, by - 4, 2, bx, by, r);
-      grad.addColorStop(0, i === 0 ? '#f0ca6e' : mat.hi);
-      grad.addColorStop(1, i === 0 ? '#9e2b1f' : mat.fill);
-      bCtx.fillStyle = grad;
-      bCtx.beginPath(); bCtx.arc(bx, by, r, 0, Math.PI * 2); bCtx.fill();
-      bCtx.strokeStyle = 'rgba(28,16,10,0.55)';
-      bCtx.lineWidth = 1.2;
+    const cx = w / 2, cy = h / 2 - 8, rx = 104, ry = 66;
+
+    // 锦缎托盘底纹暗影与禅意莲纹
+    const trayG = bCtx.createRadialGradient(cx, cy, 18, cx, cy, 130);
+    trayG.addColorStop(0, 'rgba(236, 199, 116, 0.1)');
+    trayG.addColorStop(1, 'rgba(18, 8, 6, 0)');
+    bCtx.fillStyle = trayG;
+    bCtx.beginPath(); bCtx.ellipse(cx, cy, 128, 86, 0, 0, Math.PI * 2); bCtx.fill();
+
+    // 双股丝绦穿绳（底层阴影 + 金红穿绳）
+    bCtx.strokeStyle = 'rgba(15, 7, 5, 0.55)';
+    bCtx.lineWidth = 4.2;
+    bCtx.beginPath(); bCtx.ellipse(cx, cy + 3, rx, ry, 0, 0, Math.PI * 2); bCtx.stroke();
+    bCtx.strokeStyle = '#b83728';
+    bCtx.lineWidth = 2.4;
+    bCtx.beginPath(); bCtx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); bCtx.stroke();
+
+    // 计算母珠（三通佛头，i=0）坐标，先绘制佛塔、背云、记子留与丝穗流苏
+    const guruA = beadAngle + Math.PI * 0.5;
+    const gx = cx + Math.cos(guruA) * rx;
+    const gy = cy + Math.sin(guruA) * ry;
+    const outDx = Math.cos(guruA), outDy = Math.sin(guruA);
+    const sway = Math.sin(tasselSwing) * 6;
+
+    // 佛塔（三通外延葫芦塔头）+ 背云 + 朱红丝穗流苏
+    const stupaX = gx + outDx * 18, stupaY = gy + outDy * 16;
+    const tasselX = stupaX + outDx * 12 + sway * 0.5;
+    const tasselY = Math.min(h - 14, stupaY + Math.max(12, outDy * 18) + 18);
+
+    // 双侧「记子留」计数器支线（各5颗鎏金小计数珠）
+    for (const side of [-1, 1]) {
+      const branchA = guruA + side * 0.55;
+      const bx0 = cx + Math.cos(branchA) * rx;
+      const by0 = cy + Math.sin(branchA) * ry;
+      bCtx.strokeStyle = '#9e2b1f';
+      bCtx.lineWidth = 1.5;
+      bCtx.beginPath();
+      bCtx.moveTo(bx0, by0);
+      bCtx.quadraticCurveTo(bx0 + side * 18, by0 + 18, bx0 + side * 22 + sway * 0.3, by0 + 36);
+      bCtx.stroke();
+      for (let k = 1; k <= 4; k++) {
+        const t = k / 4.5;
+        const kx = bx0 + side * 20 * t + sway * 0.2 * t;
+        const ky = by0 + 32 * t;
+        bCtx.fillStyle = k === 4 ? '#2ca6a4' : '#e5b84b';
+        bCtx.beginPath(); bCtx.arc(kx, ky, 3.2, 0, Math.PI * 2); bCtx.fill();
+      }
+    }
+
+    // 流苏丝线束与背云牌
+    bCtx.strokeStyle = '#a8291d';
+    bCtx.lineWidth = 2.2;
+    bCtx.beginPath(); bCtx.moveTo(gx, gy); bCtx.lineTo(stupaX, stupaY); bCtx.stroke();
+    for (let s = -4; s <= 4; s++) {
+      bCtx.strokeStyle = s % 2 === 0 ? '#c93326' : '#a12116';
+      bCtx.lineWidth = 1.3;
+      bCtx.beginPath();
+      bCtx.moveTo(stupaX, stupaY + 4);
+      bCtx.quadraticCurveTo(stupaX + s * 1.6 + sway * 0.4, (stupaY + tasselY) * 0.5, tasselX + s * 2.4, tasselY);
       bCtx.stroke();
     }
+    // 佛塔椎体与绿松石背云珠
+    bCtx.fillStyle = '#e5b84b';
+    bCtx.beginPath(); bCtx.arc(stupaX, stupaY, 6.2, 0, Math.PI * 2); bCtx.fill();
+    bCtx.fillStyle = '#2ca6a4';
+    bCtx.beginPath(); bCtx.arc((stupaX + tasselX) * 0.5, (stupaY + tasselY) * 0.5 - 3, 4.8, 0, Math.PI * 2); bCtx.fill();
+
+    // 按 Y 轴深度排序绘制 18 颗代表珠（含三通母珠 + 隔珠 + 子珠包浆纹理）
+    const order = Array.from({ length: 18 }, (_, i) => i);
+    order.sort((a, b) => Math.sin(a * Math.PI * 2 / 18 + guruA) - Math.sin(b * Math.PI * 2 / 18 + guruA));
+
+    for (const i of order) {
+      const a = i * Math.PI * 2 / 18 + guruA;
+      const bx = cx + Math.cos(a) * rx;
+      const by = cy + Math.sin(a) * ry;
+      const isGuru = i === 0;
+      const isSpacer = i === 6 || i === 12;
+      const r = isGuru ? 15.8 : (isSpacer ? 13.6 : 12.6);
+
+      // 珠体接触投影
+      bCtx.fillStyle = 'rgba(12, 5, 3, 0.45)';
+      bCtx.beginPath(); bCtx.arc(bx + 1.5, by + 3.5, r, 0, Math.PI * 2); bCtx.fill();
+
+      // 珠体立体球面渐变
+      const grad = bCtx.createRadialGradient(bx - r * 0.35, by - r * 0.35, 1.8, bx, by, r);
+      if (isGuru) {
+        grad.addColorStop(0, '#ffe79e');
+        grad.addColorStop(0.55, '#c93828');
+        grad.addColorStop(1, '#5e140d');
+      } else if (isSpacer) {
+        grad.addColorStop(0, '#a6f0ea');
+        grad.addColorStop(0.55, '#2ca6a4');
+        grad.addColorStop(1, '#104948');
+      } else {
+        grad.addColorStop(0, mat.hi);
+        grad.addColorStop(0.65, mat.fill);
+        grad.addColorStop(1, '#261510');
+      }
+      bCtx.fillStyle = grad;
+      bCtx.beginPath(); bCtx.arc(bx, by, r, 0, Math.PI * 2); bCtx.fill();
+
+      // 材质纹理细节：木质年轮金星 / 香灰琉璃冰裂纹 / 玉石润泽内光
+      bCtx.save();
+      bCtx.beginPath(); bCtx.arc(bx, by, r - 0.8, 0, Math.PI * 2); bCtx.clip();
+      if (!isGuru && !isSpacer) {
+        if (mat.id === 'sandal' || mat.id === 'rosewood') {
+          bCtx.strokeStyle = mat.id === 'rosewood' ? 'rgba(245,198,118,0.28)' : 'rgba(58,28,12,0.28)';
+          bCtx.lineWidth = 1.1;
+          for (let g = -2; g <= 2; g++) {
+            bCtx.beginPath();
+            bCtx.arc(bx + g * 4, by, r * 0.85, -0.8, 0.8);
+            bCtx.stroke();
+          }
+        } else if (mat.id === 'ash') {
+          // 香灰琉璃细微金砂与冰裂纹理
+          bCtx.fillStyle = 'rgba(255, 232, 168, 0.45)';
+          bCtx.fillRect(bx - 3 + (i % 3), by - 2, 1.6, 1.6);
+          bCtx.fillRect(bx + 2, by + 3 - (i % 2), 1.4, 1.4);
+        }
+      }
+      // 温润包浆高光点
+      bCtx.fillStyle = 'rgba(255, 255, 255, 0.48)';
+      bCtx.beginPath();
+      bCtx.ellipse(bx - r * 0.34, by - r * 0.36, r * 0.24, r * 0.13, -0.6, 0, Math.PI * 2);
+      bCtx.fill();
+      bCtx.restore();
+
+      bCtx.strokeStyle = isGuru ? 'rgba(245, 206, 116, 0.7)' : 'rgba(28, 16, 10, 0.6)';
+      bCtx.lineWidth = isGuru ? 1.5 : 1.1;
+      bCtx.beginPath(); bCtx.arc(bx, by, r, 0, Math.PI * 2); bCtx.stroke();
+    }
+
     const cur = journal.beads === 0 ? 0 : ((journal.beads - 1) % 108) + 1;
     const rounds = Math.floor(journal.beads / 108);
     document.getElementById('bead-count-txt').textContent = cur + ' / 108 颗';
     document.getElementById('bead-round-txt').textContent = '已满 ' + rounds + ' 圈（累计 ' + journal.beads + '）';
-    document.getElementById('bead-sub').textContent = mat.name + ' · 轻点或滑动盘珠';
+    document.getElementById('bead-sub').textContent = mat.name + ' · 三通佛塔 · 轻点或滑动盘珠';
   }
 
   function renderBeadMats() {
@@ -2263,6 +3149,7 @@
     const prev = journal.beads;
     journal.beads++;
     beadAngle -= Math.PI * 2 / 18;
+    tasselSwing += 1.35;
     saveJournal();
     const mat = BEAD_MATERIALS.find(m => m.id === journal.beadMat) || BEAD_MATERIALS[0];
     playSound(mat.sound);
@@ -2273,7 +3160,7 @@
       showToast('解锁雍和宫手串「' + newly.name + '」', 3200);
     } else if (Math.floor(journal.beads / 108) > Math.floor(prev / 108)) {
       playSound('bell');
-      showToast('圆满一圈 · 诸事顺遂', 3000);
+      showToast('圆满一圈 108 颗 · 诸事顺遂', 3000);
     }
   }
 
@@ -2293,24 +3180,51 @@
     beadLast = null;
   });
 
-  function renderLotByWish(wishKey) {
+  let lotSalt = 0;
+  function renderLotByWish(wishKey, reshake) {
     journal.wishType = wishKey;
     saveJournal();
     document.querySelectorAll('.wish-tab').forEach(tb => {
       tb.classList.toggle('active', tb.dataset.wish === wishKey);
     });
+    if (reshake) lotSalt++;
     const pool = WISH_LOTS[wishKey] || WISH_LOTS.career;
-    const idx = (new Date().getDate() + journal.incense + journal.bow) % pool.length;
+    const idx = (new Date().getDate() + journal.incense + journal.bow + lotSalt) % pool.length;
     const lot = pool[idx];
+    const noEl = document.getElementById('lot-no');
+    if (noEl) noEl.textContent = lot.no || '第一签 · 乾宫';
     document.getElementById('lot-seal').textContent = lot.rank.slice(0, 1);
     document.getElementById('lot-rank').textContent = lot.rank + ' · ' + lot.title;
     document.getElementById('lot-poem').innerHTML = lot.lines.join('<br>');
+    const decEl = document.getElementById('lot-decode');
+    if (decEl) decEl.textContent = lot.decode || '';
     document.getElementById('lot-advice').textContent = lot.advice;
+
+    if (reshake) {
+      const slipEl = document.querySelector('.lot-card');
+      if (slipEl) {
+        slipEl.classList.remove('lot-shaking');
+        void slipEl.offsetWidth;
+        slipEl.classList.add('lot-shaking');
+      }
+    }
   }
-  function openLotModal() { renderLotByWish(journal.wishType || 'career'); lotOverlay.classList.remove('hidden'); }
-  document.querySelectorAll('.wish-tab').forEach(tb => { tb.onclick = () => { playSound('lot'); renderLotByWish(tb.dataset.wish); }; });
+  function openLotModal() { renderLotByWish(journal.wishType || 'career', false); lotOverlay.classList.remove('hidden'); }
+  document.querySelectorAll('.wish-tab').forEach(tb => { tb.onclick = () => { playSound('lot'); renderLotByWish(tb.dataset.wish, true); }; });
+  const reshakeBtn = document.getElementById('reshake-lot');
+  if (reshakeBtn) {
+    reshakeBtn.onclick = () => {
+      playSound('lot');
+      renderLotByWish(journal.wishType || 'career', true);
+      showToast('诚心重摇签筒 · 新签已落');
+    };
+  }
   document.getElementById('close-lot').onclick = () => lotOverlay.classList.add('hidden');
-  document.getElementById('ok-lot').onclick = () => lotOverlay.classList.add('hidden');
+  document.getElementById('ok-lot').onclick = () => {
+    lotOverlay.classList.add('hidden');
+    playSound('jade');
+    showToast('已敬受吉签 · 愿所求皆如愿');
+  };
 
   function openJournalModal() {
     const merit = calcMerit();
@@ -2448,8 +3362,8 @@
     if (Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) > 6) drag.moved = true;
     if (drag.moved) {
       fadeHint();
-      camState.yaw -= dx * 0.006;
-      camState.pitch = THREE.MathUtils.clamp(camState.pitch + dy * 0.0048, 0.1, 0.95);
+      camState.yaw -= dx * 0.0024;
+      camState.pitch = THREE.MathUtils.clamp(camState.pitch + dy * 0.002, 0.08, 0.88);
     }
     drag.lastX = e.clientX;
     drag.lastY = e.clientY;
@@ -2485,7 +3399,7 @@
 
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
-    camState.dist = THREE.MathUtils.clamp(camState.dist + e.deltaY * 0.015, 6.0, 34);
+    camState.dist = THREE.MathUtils.clamp(camState.dist + e.deltaY * 0.0085, 6.0, 34);
   }, { passive: false });
 
   window.addEventListener('keydown', e => {
@@ -2589,12 +3503,22 @@
       }
     }
 
+    const incenseActive = clockTime < incenseFlareUntil;
+    emberLight.intensity = (incenseActive ? 1.65 : 0.78) + Math.sin(clockTime * 6.5) * 0.18;
+    for (const et of emberTips) {
+      const s = 0.88 + Math.sin(clockTime * 7.2 + et.phase) * 0.22 + (incenseActive ? 0.25 : 0);
+      et.mesh.scale.setScalar(s);
+    }
+
     for (const sp of smokeParticles) {
-      const f = (clockTime * 0.22 + sp.phase) % 1;
-      sp.mesh.position.y = 2.75 + f * 3.8;
-      sp.mesh.position.x = Math.sin(clockTime * 1.2 + sp.phase * 6) * 0.3 * f;
-      sp.mesh.scale.setScalar(0.75 + f * 2.1);
-      sp.mesh.material.opacity = Math.sin(f * Math.PI) * 0.34;
+      const speed = incenseActive ? 0.32 : 0.22;
+      const f = (clockTime * speed + sp.phase) % 1;
+      const laneX = (sp.lane || 0) * 0.22;
+      sp.mesh.position.y = 2.72 + f * 4.2;
+      sp.mesh.position.x = laneX + Math.sin(clockTime * 1.3 + sp.phase * 6.2) * (0.14 + 0.36 * f);
+      sp.mesh.position.z = 2.2 + Math.cos(clockTime * 1.1 + sp.phase * 5.4) * (0.12 * f);
+      sp.mesh.scale.setScalar(0.65 + f * (incenseActive ? 2.6 : 2.1));
+      sp.mesh.material.opacity = Math.sin(f * Math.PI) * (incenseActive ? 0.44 : 0.31);
     }
 
     const isNight = journal.mood === 'night';
