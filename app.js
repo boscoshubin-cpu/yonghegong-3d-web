@@ -57,9 +57,9 @@
   };
   // 电影级京城古刹三时天色（通透晴秋金光 / 残阳红墙 / 玄夜宫灯）
   const MOODS = [
-    { id: 'day', label: '宫廷金秋', skyTop: '#2b5582', skyMid: '#8db0cc', skyBot: '#f5d9a8', fog: 0xd9c7a6, fogDensity: 0.0038, sunColor: 0xffd996, sunInt: 2.65, sunPos: [-34, 19, 20], ambSky: 0xbcd4ec, ambGnd: 0x6b4e38, ambInt: 0.72, hallInt: 3.4, lanternInt: 0.55 },
-    { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0064, sunColor: 0xff893b, sunInt: 2.35, sunPos: [-36, 12, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.54, hallInt: 4.2, lanternInt: 2.0 },
-    { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0088, sunColor: 0x8bb4e8, sunInt: 0.68, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.44, hallInt: 5.0, lanternInt: 3.1 }
+    { id: 'day', label: '宫廷金秋', skyTop: '#285485', skyMid: '#86accb', skyBot: '#f2d6a6', fog: 0xd8c8ac, fogDensity: 0.0031, sunColor: 0xffe0a8, sunInt: 2.35, sunPos: [-32, 21, 22], ambSky: 0xc2daf2, ambGnd: 0x5c4330, ambInt: 0.76, hallInt: 3.3, lanternInt: 0.5 },
+    { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0056, sunColor: 0xff8f42, sunInt: 2.2, sunPos: [-36, 13, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.56, hallInt: 4.1, lanternInt: 2.0 },
+    { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0082, sunColor: 0x8bb4e8, sunInt: 0.68, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.45, hallInt: 5.0, lanternInt: 3.1 }
   ];
 
   function loadJournal() {
@@ -2590,11 +2590,11 @@
 
   /* ================= 11. 低仰角宏伟电影相机 ================= */
   const camState = {
-    yaw: 0, pitch: 0.22, dist: 16.5,
-    target: new THREE.Vector3(0, 2.2, 7.2),
+    yaw: 0, pitch: 0.19, dist: 14.8,
+    target: new THREE.Vector3(0, 2.1, 7.2),
     inHallView: false
   };
-  const camSmooth = { yaw: 0, pitch: 0.22, dist: 16.5 };
+  const camSmooth = { yaw: 0, pitch: 0.19, dist: 14.8 };
 
   function updateCamera(dt) {
     const goalX = player.x;

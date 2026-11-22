@@ -17,7 +17,7 @@
   // =========================================================================
 
   // 1. 电影级曝光与 360° 宫廷金秋穹顶环境反射贴图 (IBL)
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = 1.05;
   try {
     const pmrem = new THREE.PMREMGenerator(renderer);
     const envScene = new THREE.Scene();
@@ -101,7 +101,7 @@
         c.strokeRect(bx + 3, by + 3, bw - 6, bh - 6);
       }
     }
-  }, 18, 18);
+  }, 24, 24);
 
   const imperialBrickRough = makeTex(512, 512, (c, w, h) => {
     c.fillStyle = '#f2f2f2'; // 砖缝保持完全哑光
@@ -120,7 +120,7 @@
         c.fillRect(bx + 2, by + 2, bw - 4, bh - 4);
       }
     }
-  }, 18, 18, false);
+  }, 24, 24, false);
 
   const imperialBrickBump = makeTex(512, 512, (c, w, h) => {
     c.fillStyle = '#1a1a1a';
@@ -134,7 +134,7 @@
         c.fillRect(col * bw + offset + 2, r * bh + 2, bw - 4, bh - 4);
       }
     }
-  }, 18, 18, false);
+  }, 24, 24, false);
 
   if (ground && ground.material) {
     ground.material.map = imperialBrickDiffuse;
@@ -359,23 +359,21 @@
     map: rayTex,
     color: 0xffe4a6,
     transparent: true,
-    opacity: 0.26,
+    opacity: 0.11,
     blending: THREE.AdditiveBlending,
     depthWrite: false,
     side: THREE.DoubleSide
   });
   const godRays = [];
   const raySpecs = [
-    [-8.5, 6.8, 3.6, 4.6, 17, -0.62, 0.34],
-    [-4.2, 6.2, 0.4, 5.2, 18, -0.62, 0.32],
-    [1.8, 7.2, -3.5, 5.8, 19, -0.6, 0.3],
-    [-9.8, 6.4, 11.2, 4.2, 16, -0.62, 0.36],
-    [6.4, 6.5, 4.2, 4.4, 16, -0.6, 0.3]
+    [-8.2, 7.0, 3.8, 2.2, 5.2, 16, -0.58, 0.28],
+    [-3.6, 6.6, 0.6, 2.5, 5.8, 17, -0.58, 0.26],
+    [2.0, 7.4, -3.2, 2.8, 6.2, 18, -0.56, 0.24]
   ];
-  for (const [rx, ry, rz, rw, rh, rotZ, rotX] of raySpecs) {
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(rw, rh), godRayMat);
+  for (const [rx, ry, rz, rTop, rBot, rh, rotZ, rotX] of raySpecs) {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(rTop, rBot, rh, 18, 1, true), godRayMat);
     m.position.set(rx, ry, rz);
-    m.rotation.set(rotX, 0.25, rotZ);
+    m.rotation.set(rotX, 0.2, rotZ);
     scene.add(m);
     godRays.push({ mesh: m, baseY: ry, phase: rx * 0.4 + rz * 0.2 });
   }
@@ -425,14 +423,15 @@
     color: 0x4b5c6e, roughness: 0.96, metalness: 0.02
   });
   const mountainRing = new THREE.Group();
-  for (let i = 0; i < 24; i++) {
-    const a = (i / 24) * Math.PI * 2;
-    const dist = 82 + (i % 3) * 14;
-    const h = 14 + ((i * 19) % 16);
-    const r = 18 + ((i * 11) % 12);
-    const peak = new THREE.Mesh(new THREE.ConeGeometry(r, h, 7), mountainMat);
-    peak.position.set(Math.cos(a) * dist, h * 0.42 - 1.5, Math.sin(a) * dist);
-    peak.rotation.y = i * 0.7;
+  for (let i = 0; i < 28; i++) {
+    const a = (i / 28) * Math.PI * 2;
+    const dist = 88 + (i % 3) * 14;
+    const h = 11 + ((i * 17) % 12);
+    const r = 26 + ((i * 13) % 16);
+    const peak = new THREE.Mesh(new THREE.SphereGeometry(r, 16, 10, 0, Math.PI * 2, 0, Math.PI * 0.5), mountainMat);
+    peak.scale.set(1.25, h / r, 0.92);
+    peak.position.set(Math.cos(a) * dist, -2.5, Math.sin(a) * dist);
+    peak.rotation.y = i * 0.6;
     mountainRing.add(peak);
   }
   scene.add(mountainRing);
@@ -564,7 +563,7 @@
     skyUniforms.uNightFactor.value = isNight ? 1.0 : 0.0;
     skyFillLight.intensity = isNight ? 0.18 : (isDusk ? 0.28 : 0.44);
     skyFillLight.color.setHex(isDusk ? 0x7c8cc4 : 0x90b9e8);
-    godRayMat.opacity = isNight ? 0.0 : (isDusk ? 0.22 : 0.26);
+    godRayMat.opacity = isNight ? 0.0 : (isDusk ? 0.1 : 0.12);
     godRayMat.color.setHex(isDusk ? 0xffb36b : 0xffe4a6);
     cloudMat.opacity = isNight ? 0.14 : (isDusk ? 0.46 : 0.52);
     cloudMat.color.setHex(isDusk ? 0xffb580 : (isNight ? 0x3b4d6b : 0xfff8ea));

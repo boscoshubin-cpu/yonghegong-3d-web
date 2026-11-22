@@ -120,7 +120,8 @@ html, body {
 body.zen-mode .hud-top,
 body.zen-mode .hall-switcher,
 body.zen-mode .hud-dock,
-body.zen-mode .sit-hud {
+body.zen-mode .sit-hud,
+body.zen-mode .move-pad {
   opacity: 0 !important;
   pointer-events: none !important;
   transform: translateY(-8px);
@@ -1519,4 +1520,95 @@ body.zen-mode .zen-exit-btn {
   }
   .fate-chat-log { height: 112px; }
   .model-slot-controls { gap: 6px; }
+}
+
+/* ================= 左下角暗金琉璃行走摇杆 ================= */
+.move-pad {
+  position: fixed;
+  left: 22px;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: 11;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+  touch-action: none;
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-spring);
+}
+.move-ring {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(36, 16, 14, 0.56) 0%, rgba(18, 8, 7, 0.78) 100%);
+  border: 1px solid rgba(239, 208, 132, 0.36);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 240, 198, 0.16),
+    inset 0 0 0 8px rgba(239, 208, 132, 0.04);
+  cursor: grab;
+  touch-action: none;
+}
+.move-ring.active {
+  border-color: var(--gold-border-strong);
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.48),
+    0 0 18px rgba(239, 208, 132, 0.22),
+    inset 0 1px 0 rgba(255, 240, 198, 0.22);
+  cursor: grabbing;
+}
+.move-dir {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  color: rgba(239, 208, 132, 0.52);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.14s ease, transform 0.14s ease;
+}
+.move-dir:hover, .move-dir.lit { color: var(--accent-bright); transform: scale(1.15); }
+.move-up { top: 4px; left: 50%; transform: translateX(-50%); }
+.move-up:hover, .move-up.lit { transform: translateX(-50%) scale(1.15); }
+.move-down { bottom: 4px; left: 50%; transform: translateX(-50%); }
+.move-down:hover, .move-down.lit { transform: translateX(-50%) scale(1.15); }
+.move-left { left: 4px; top: 50%; transform: translateY(-50%); }
+.move-left:hover, .move-left.lit { transform: translateY(-50%) scale(1.15); }
+.move-right { right: 4px; top: 50%; transform: translateY(-50%); }
+.move-right:hover, .move-right.lit { transform: translateY(-50%) scale(1.15); }
+.move-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 32%, #ffe9ad 0%, #d49b38 58%, #854f12 100%);
+  border: 1.5px solid rgba(255, 246, 218, 0.78);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.48), inset 0 1px 3px rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  transition: transform 0.08s linear;
+}
+.move-hint {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: rgba(253, 246, 231, 0.66);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.65);
+}
+@media (max-width: 920px) {
+  .move-pad {
+    left: 12px;
+    bottom: calc(max(12px, env(safe-area-inset-bottom)) + 74px);
+  }
+  .move-ring { width: 92px; height: 92px; }
+  .move-knob { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
+  .move-hint { display: none; }
 }

@@ -43,7 +43,7 @@
     </div>
 
     <div class="hud-center">
-      <div class="hint-bar" id="hint-bar">点击御道或拜垫漫步 · 点左侧红绸古树求姻缘配对 · 点右上角「3D模型」可导入 .glb</div>
+      <div class="hint-bar" id="hint-bar">WASD / 方向键或左下角摇杆自由漫步 · 点击御道直达 · 拖拽旋转视角</div>
       <button class="fate-float-pill hidden" id="fate-float-pill" type="button">
         <span class="fate-dot"></span>
         <span id="fate-float-txt">已结缘 · 点击查看资料与对话</span>
@@ -104,6 +104,18 @@
   <!-- 轻提示与飘字 -->
   <div id="toast" class="toast" aria-live="polite"></div>
   <div id="float-words" aria-hidden="true"></div>
+
+  <!-- 左下角暗金琉璃行走摇杆（支持触控拖拽、鼠标按住与 WASD/方向键） -->
+  <div class="move-pad" id="move-pad" aria-label="人物行走控制">
+    <div class="move-ring" id="move-ring">
+      <button class="move-dir move-up" data-dx="0" data-dz="-1" type="button" aria-label="向前走">▲</button>
+      <button class="move-dir move-down" data-dx="0" data-dz="1" type="button" aria-label="向后退">▼</button>
+      <button class="move-dir move-left" data-dx="-1" data-dz="0" type="button" aria-label="向左走">◄</button>
+      <button class="move-dir move-right" data-dx="1" data-dz="0" type="button" aria-label="向右走">►</button>
+      <div class="move-knob" id="move-knob"></div>
+    </div>
+    <div class="move-hint">漫步 · WASD</div>
+  </div>
 
   <!-- 底部操作浮条（雍和宫专属祈福操作） -->
   <nav class="hud-dock" aria-label="雍和宫祈福操作">

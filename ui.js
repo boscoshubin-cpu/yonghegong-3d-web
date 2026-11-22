@@ -50,4 +50,155 @@
       }
     });
   });
+
+  // 5. 人物自由行走控制（WASD / 方向键 + Shift 轻跑 + 左下角暗金摇杆与方向键）
+  const api = window.YHG3D;
+  const moveRing = document.getElementById('move-ring');
+  const moveKnob = document.getElementById('move-knob');
+  if (api && api.player && api.onTick) {
+    const keys = { up: false, down: false, left: false, right: false, shift: false };
+    const padVec = { x: 0, z: 0, active: false };
+    let manualWalking = false;
+
+    const dirBtns = {
+      up: document.querySelector('.move-up'),
+      down: document.querySelector('.move-down'),
+      left: document.querySelector('.move-left'),
+      right: document.querySelector('.move-right')
+    };
+
+    function anyModalOpen() {
+      return (api.allOverlays || []).some(ov => ov && !ov.classList.contains('hidden'));
+    }
+
+    function setKeyState(code, isDown) {
+      if (code === 'KeyW' || code === 'ArrowUp') keys.up = isDown;
+      else if (code === 'KeyS' || code === 'ArrowDown') keys.down = isDown;
+      else if (code === 'KeyA' || code === 'ArrowLeft') keys.left = isDown;
+      else if (code === 'KeyD' || code === 'ArrowRight') keys.right = isDown;
+      else if (code === 'ShiftLeft' || code === 'ShiftRight') keys.shift = isDown;
+      else return false;
+      return true;
+    }
+
+    window.addEventListener('keydown', e => {
+      if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+      if (anyModalOpen()) return;
+      if (setKeyState(e.code, true) && e.code.startsWith('Arrow')) e.preventDefault();
+    });
+    window.addEventListener('keyup', e => { setKeyState(e.code, false); });
+    window.addEventListener('blur', () => {
+      keys.up = keys.down = keys.left = keys.right = keys.shift = false;
+      padVec.x = padVec.z = 0;
+      padVec.active = false;
+      if (moveKnob) moveKnob.style.transform = 'translate(0px, 0px)';
+      if (moveRing) moveRing.classList.remove('active');
+    });
+
+    // 摇杆拖拽 + 方向键按住（兼容鼠标与触控）
+    if (moveRing && moveKnob) {
+      let dragId = null;
+      const maxR = 30;
+
+      const updateStick = (clientX, clientY) => {
+        const rect = moveRing.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        let dx = clientX - cx;
+        let dy = clientY - cy;
+        const dist = Math.hypot(dx, dy);
+        if (dist > maxR) {
+          dx = (dx / dist) * maxR;
+          dy = (dy / dist) * maxR;
+        }
+        moveKnob.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+        padVec.x = dist > 5 ? dx / maxR : 0;
+        padVec.z = dist > 5 ? dy / maxR : 0;
+        padVec.active = dist > 5;
+      };
+
+      const resetStick = () => {
+        dragId = null;
+        padVec.x = 0;
+        padVec.z = 0;
+        padVec.active = false;
+        moveRing.classList.remove('active');
+        moveKnob.style.transform = 'translate(0px, 0px)';
+      };
+
+      moveRing.addEventListener('pointerdown', e => {
+        e.stopPropagation();
+        dragId = e.pointerId;
+        moveRing.setPointerCapture(e.pointerId);
+        moveRing.classList.add('active');
+        updateStick(e.clientX, e.clientY);
+      });
+      moveRing.addEventListener('pointermove', e => {
+        if (dragId !== e.pointerId) return;
+        e.stopPropagation();
+        updateStick(e.clientX, e.clientY);
+      });
+      moveRing.addEventListener('pointerup', e => {
+        if (dragId !== e.pointerId) return;
+        e.stopPropagation();
+        resetStick();
+      });
+      moveRing.addEventListener('pointercancel', resetStick);
+    }
+
+    api.onTick.push((t, dt) => {
+      let ix = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+      let iz = (keys.down ? 1 : 0) - (keys.up ? 1 : 0);
+      if (padVec.active) {
+        ix = padVec.x;
+        iz = padVec.z;
+      }
+
+      if (dirBtns.up) dirBtns.up.classList.toggle('lit', iz < -0.25);
+      if (dirBtns.down) dirBtns.down.classList.toggle('lit', iz > 0.25);
+      if (dirBtns.left) dirBtns.left.classList.toggle('lit', ix < -0.25);
+      if (dirBtns.right) dirBtns.right.classList.toggle('lit', ix > 0.25);
+
+      const mag = Math.hypot(ix, iz);
+      if (mag > 0.08 && !anyModalOpen()) {
+        const normX = ix / Math.max(1, mag);
+        const normZ = iz / Math.max(1, mag);
+        const yaw = api.camState ? api.camState.yaw : 0;
+        // 相对当前镜头朝向计算世界坐标移动方向
+        const cosY = Math.cos(yaw);
+        const sinY = Math.sin(yaw);
+        const worldDx = normX * cosY + normZ * sinY;
+        const worldDz = -normX * sinY + normZ * cosY;
+
+        const speed = (keys.shift ? 6.6 : 4.5) * Math.min(1, mag);
+        const p = api.player;
+        p.target = null;
+        p.poseUntil = 0;
+        p.pose = 'walk';
+        p.x = Math.max(-22, Math.min(22, p.x + worldDx * speed * dt));
+        p.z = Math.max(-19.5, Math.min(24, p.z + worldDz * speed * dt));
+        p.y = api.surfaceYAt(p.x, p.z);
+        p.rotY = Math.atan2(worldDx, worldDz);
+
+        // 进出大殿时自然切换视角高度
+        if (api.camState) {
+          const inHall = p.z < -8.2 && Math.abs(p.x) < 13.5;
+          if (api.camState.inHallView !== inHall) {
+            api.camState.inHallView = inHall;
+            const vt = document.getElementById('view-txt');
+            if (vt) vt.textContent = inHall ? '出庭院' : '进大殿';
+          }
+        }
+
+        const hintBar = document.getElementById('hint-bar');
+        if (hintBar) hintBar.classList.add('faded');
+        manualWalking = true;
+      } else if (manualWalking) {
+        manualWalking = false;
+        if (api.player.pose === 'walk' && !api.player.target) {
+          api.player.pose = 'idle';
+        }
+      }
+    });
+  }
 })();
