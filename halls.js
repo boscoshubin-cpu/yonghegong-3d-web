@@ -30,10 +30,10 @@
       plaque: '雍  和  宫',
       deity: '三世佛（燃灯佛 · 释迦牟尼佛 · 弥勒佛）',
       wish: '主求：事业高升 · 正财顺遂',
-      desc: '中尊释迦牟尼佛右手触地降魔印、左手托金钵；东侧过去燃灯佛托光明宝珠；西侧未来弥勒佛结说法印，两侧十八罗汉侍立。',
+      desc: '中央触地印坐佛采用明尼阿波利斯艺术博物馆开放的缅甸造像模型，作为游戏美术演绎。',
       coupletUp: '法界示吉祥慈云永护',
       coupletDown: '皇图昭赫奕佛日长明',
-      camDist: 10.8, camPitch: 0.2, hallInt: 2.8, spotInt: 3.4
+      camDist: 10.8, camPitch: 0.2, hallInt: 1.05, spotInt: 1.5
     },
     {
       id: 'yongyou',
@@ -753,6 +753,28 @@
     center.scale.setScalar(1.42);
     g.add(center);
 
+    // Keep the built-in figure available until all local scan textures are ready.
+    new THREE.GLTFLoader().load('./assets/enshrined-buddha.glb', ({ scene: scan }) => {
+      const pedestal = scan.getObjectByName('pCube1');
+      if (pedestal) pedestal.removeFromParent();
+      const bounds = new THREE.Box3().setFromObject(scan);
+      const midpoint = bounds.getCenter(new THREE.Vector3());
+      const scale = 5.15 / (bounds.max.y - bounds.min.y);
+      const mount = new THREE.Group();
+      mount.name = 'enshrined-buddha';
+      mount.scale.setScalar(scale);
+      mount.position.set(-midpoint.x * scale, -bounds.min.y * scale, -midpoint.z * scale);
+      scan.traverse(part => {
+        if (!part.isMesh) return;
+        part.castShadow = part.receiveShadow = true;
+        part.material.envMapIntensity = 0.42;
+      });
+      mount.add(scan);
+      g.add(mount);
+      g.remove(center);
+      document.getElementById('view-statue').disabled = false;
+    }, undefined, () => console.warn('主像资源未能加载，已保留内置佛像。'));
+
     const left = buildSeatedBuddha({ mudra: 'dhyana', artifact: 'orb', garuda: false });
     left.scale.setScalar(0.92);
     left.position.set(-3.85, 0, 0);
@@ -925,6 +947,7 @@
   function selectHall(hallId, moveCamera) {
     const cfg = HALLS.find(h => h.id === hallId) || HALLS[1];
     activeHallId = cfg.id;
+    document.getElementById('view-statue').hidden = cfg.id !== 'yonghegong';
 
     Object.keys(hallGroups).forEach(k => {
       hallGroups[k].visible = (k === cfg.id);

@@ -17,7 +17,6 @@
   // =========================================================================
 
   // 1. 电影级曝光与 360° 宫廷金秋穹顶环境反射贴图 (IBL)
-  renderer.toneMappingExposure = 1.05;
   try {
     const pmrem = new THREE.PMREMGenerator(renderer);
     const envScene = new THREE.Scene();
@@ -559,11 +558,12 @@
     skyUniforms.uSunDir.value.set(m.sunPos[0], m.sunPos[1], m.sunPos[2]).normalize();
     const isNight = m.id === 'night';
     const isDusk = m.id === 'dusk';
+    renderer.toneMappingExposure = m.id === 'day' ? 0.74 : 1.05;
     skyUniforms.uSunStrength.value = isNight ? 0.36 : (isDusk ? 1.35 : 1.2);
     skyUniforms.uNightFactor.value = isNight ? 1.0 : 0.0;
     skyFillLight.intensity = isNight ? 0.18 : (isDusk ? 0.28 : 0.44);
     skyFillLight.color.setHex(isDusk ? 0x7c8cc4 : 0x90b9e8);
-    godRayMat.opacity = isNight ? 0.0 : (isDusk ? 0.1 : 0.12);
+    godRayMat.opacity = isNight ? 0.0 : (isDusk ? 0.1 : 0.055);
     godRayMat.color.setHex(isDusk ? 0xffb36b : 0xffe4a6);
     cloudMat.opacity = isNight ? 0.14 : (isDusk ? 0.46 : 0.52);
     cloudMat.color.setHex(isDusk ? 0xffb580 : (isNight ? 0x3b4d6b : 0xfff8ea));

@@ -1,0 +1,5 @@
+Enshrined Buddha, c. 1850 CE. Myanmar. Minneapolis Institute of Art.
+Collection: https://collections.artsmia.org/art/12058/enshrined-buddha-myanmar
+3D model: https://sketchfab.com/3d-models/enshrined-buddha-c-1850-ce-e6a846a1ab9149d3a0614c7b82bcc8eb
+Model license: CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/
+Game presentation: museum display plinth removed at runtime, model scaled and relit.

@@ -57,7 +57,7 @@
   };
   // 电影级京城古刹三时天色（通透晴秋金光 / 残阳红墙 / 玄夜宫灯）
   const MOODS = [
-    { id: 'day', label: '宫廷金秋', skyTop: '#285485', skyMid: '#86accb', skyBot: '#f2d6a6', fog: 0xd8c8ac, fogDensity: 0.0031, sunColor: 0xffe0a8, sunInt: 2.35, sunPos: [-32, 21, 22], ambSky: 0xc2daf2, ambGnd: 0x5c4330, ambInt: 0.76, hallInt: 3.3, lanternInt: 0.5 },
+    { id: 'day', label: '宫廷金秋', skyTop: '#285485', skyMid: '#86accb', skyBot: '#f2d6a6', fog: 0xd8c8ac, fogDensity: 0.0031, sunColor: 0xffe0a8, sunInt: 1.85, sunPos: [-32, 21, 22], ambSky: 0xc2daf2, ambGnd: 0x5c4330, ambInt: 0.76, hallInt: 3.3, lanternInt: 0.5 },
     { id: 'dusk', label: '斜阳红墙', skyTop: '#1d1c38', skyMid: '#944332', skyBot: '#f09c54', fog: 0x8f503a, fogDensity: 0.0056, sunColor: 0xff8f42, sunInt: 2.2, sunPos: [-36, 13, 22], ambSky: 0x9c6658, ambGnd: 0x331d16, ambInt: 0.56, hallInt: 4.1, lanternInt: 2.0 },
     { id: 'night', label: '夜宫灯影', skyTop: '#050a14', skyMid: '#101c30', skyBot: '#1e283b', fog: 0x0d1422, fogDensity: 0.0082, sunColor: 0x8bb4e8, sunInt: 0.68, sunPos: [-22, 34, -24], ambSky: 0x344a6e, ambGnd: 0x18120e, ambInt: 0.45, hallInt: 5.0, lanternInt: 3.1 }
   ];
@@ -456,7 +456,7 @@
     }
   });
 
-  // 清代宫廷重彩描金藏传巨幅壁画（支持五殿主题 + 自动加载 assets/mural_main.png 写实高清壁画）
+  // 清代宫廷重彩描金藏传巨幅壁画（支持五殿主题 + 自动加载 assets/mural_main.jpg 写实高清壁画）
   function drawImperialThangkaMural(c, w, h, opts) {
     const cfg = opts || {};
     const bgTop = cfg.bgTop || '#162842';
@@ -682,7 +682,7 @@
     drawImperialThangkaMural(c, w, h);
   }, 1, 1, false);
 
-  // 若存在写实高清唐卡壁画图片 assets/mural_main.png，自动加载并融合凹凸质感
+  // 若存在写实高清唐卡壁画图片 assets/mural_main.jpg，自动加载并融合凹凸质感
   {
     const img = new Image();
     img.crossOrigin = 'anonymous';
@@ -696,7 +696,7 @@
       bCtx2.drawImage(img, 0, 0, bCv.width, bCv.height);
       muralBumpTex.needsUpdate = true;
     };
-    img.src = './assets/mural_main.png';
+    img.src = './assets/mural_main.jpg';
   }
 
   // 佛衣垂坠褶皱与织金暗纹凹凸贴图（赋予佛像袈裟真实立体衣褶与雕刻光影）
@@ -948,7 +948,8 @@
   if ('outputEncoding' in renderer && THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.2, 260);
+  const portraitScreen = matchMedia("(max-width: 700px) and (orientation: portrait)");
+  const camera = new THREE.PerspectiveCamera(portraitScreen.matches ? 54 : 42, window.innerWidth / window.innerHeight, 0.2, 260);
 
   // 生成暖金大殿环境贴图 (IBL)，让鎏金大佛和导入的 .glb 写实金属/人物拥有真实高光反射
   try {
@@ -1011,7 +1012,7 @@
   scene.add(hallLight);
 
   const buddhaSpot = new THREE.SpotLight(0xffe4a0, 3.2, 26, Math.PI / 4, 0.55, 1.1);
-  buddhaSpot.position.set(0, 8.6, -15.2);
+  buddhaSpot.position.set(-4.5, 8.2, -16.4);
   buddhaSpot.target.position.set(0, 4.2, -21.4);
   scene.add(buddhaSpot);
   scene.add(buddhaSpot.target);
@@ -1369,7 +1370,7 @@
 
   const mural = new THREE.Mesh(
     new THREE.PlaneGeometry(18.5, 5.8),
-    new THREE.MeshStandardMaterial({ map: muralTex, roughness: 0.58 })
+    new THREE.MeshStandardMaterial({ map: muralTex, color: 0x48403b, roughness: 0.93, envMapIntensity: 0.18 })
   );
   mural.position.set(0, HALL_Y + 3.45, -23.52);
   mainHallGroup.add(mural);
@@ -2596,7 +2597,65 @@
   };
   const camSmooth = { yaw: 0, pitch: 0.19, dist: 14.8 };
 
+  const incenseMarker = document.getElementById('incense-marker');
+  const markerPoint = new THREE.Vector3();
+  incenseMarker.onclick = () => doAction('incense');
+
+  function placeIncenseMarker() {
+    if (!portraitScreen.matches || camState.inHallView || player.target || player.pose !== 'idle' ||
+        Math.hypot(player.x - burnerGroup.position.x, player.z - burnerGroup.position.z) > 14) {
+      incenseMarker.hidden = true;
+      return;
+    }
+    markerPoint.set(1.8, 2.45, 0);
+    burnerGroup.localToWorld(markerPoint);
+    markerPoint.project(camera);
+    const x = (markerPoint.x + 1) * innerWidth / 2;
+    const y = (1 - markerPoint.y) * innerHeight / 2;
+    incenseMarker.hidden = markerPoint.z < -1 || markerPoint.z > 1 || x < 36 ||
+      x > innerWidth - 36 || y < 92 || y > innerHeight - 160;
+    if (!incenseMarker.hidden) {
+      incenseMarker.style.left = Math.round(x) + 'px';
+      incenseMarker.style.top = Math.round(y) + 'px';
+    }
+  }
+
+  const inspectButton = document.getElementById('view-statue');
+  const inspectBar = document.getElementById('statue-view-bar');
+  const exitInspect = document.getElementById('exit-statue');
+  let inspectAngle = 0;
+  function inspectStatue(open) {
+    inspectBar.hidden = !open;
+    document.body.classList.toggle('viewing-statue', open);
+    if (open) {
+      inspectAngle = 0.08;
+      exitInspect.focus();
+    } else {
+      const focusTarget = portraitScreen.matches ? document.getElementById('tool-menu') : inspectButton;
+      focusTarget.focus();
+    }
+  }
+  inspectButton.addEventListener('click', () => inspectStatue(true));
+  exitInspect.addEventListener('click', () => inspectStatue(false));
+  window.addEventListener('keydown', event => {
+    if (inspectBar.hidden) return;
+    if (event.key === 'Escape') inspectStatue(false);
+    if (event.key === 'ArrowLeft') inspectAngle = Math.max(-0.77, inspectAngle - 0.08);
+    if (event.key === 'ArrowRight') inspectAngle = Math.min(0.77, inspectAngle + 0.08);
+    if (event.key !== 'Tab' && event.key !== 'Enter' && event.key !== ' ') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }, true);
+
   function updateCamera(dt) {
+    if (!inspectBar.hidden) {
+      const radius = Math.max(5.0, 3.45 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)),
+        2.08 / (camera.aspect * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))));
+      camera.position.set(Math.sin(inspectAngle) * radius, 5.83, -21.4 + Math.cos(inspectAngle) * radius);
+      camera.lookAt(0, 5.55, -21.4);
+      return;
+    }
     const goalX = player.x;
     const goalY = player.y + (camState.inHallView ? 2.1 : 2.6);
     const goalZ = player.z - (camState.inHallView ? 2.5 : 4.2);
@@ -2609,12 +2668,13 @@
     camSmooth.pitch += (camState.pitch - camSmooth.pitch) * rk;
     camSmooth.dist += (camState.dist - camSmooth.dist) * rk;
 
-    const r = camSmooth.dist;
+    const portrait = portraitScreen.matches;
+    const r = portrait && !camState.inHallView ? camSmooth.dist * 0.93 : camSmooth.dist;
     const cx = camState.target.x + Math.sin(camSmooth.yaw) * Math.cos(camSmooth.pitch) * r;
     const cy = Math.max(1.5, camState.target.y + Math.sin(camSmooth.pitch) * r);
     const cz = camState.target.z + Math.cos(camSmooth.yaw) * Math.cos(camSmooth.pitch) * r;
     camera.position.set(cx, cy, cz);
-    camera.lookAt(camState.target.x, camState.target.y + (camState.inHallView ? 0.8 : 1.5), camState.target.z - 4.0);
+    camera.lookAt(camState.target.x, camState.target.y + (portrait ? -0.65 : camState.inHallView ? 0.8 : 1.5), camState.target.z - 4.0);
   }
 
   /* ================= 12. 角色动画（内置关节 + .glb 骨骼动画融合） ================= */
@@ -3366,7 +3426,9 @@
     if (!drag || drag.id !== e.pointerId) return;
     const dx = e.clientX - drag.lastX, dy = e.clientY - drag.lastY;
     if (Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) > 6) drag.moved = true;
-    if (drag.moved) {
+    if (drag.moved && !inspectBar.hidden) {
+      inspectAngle = THREE.MathUtils.clamp(inspectAngle - dx * 0.005, -0.77, 0.77);
+    } else if (drag.moved) {
       fadeHint();
       camState.yaw -= dx * 0.0024;
       camState.pitch = THREE.MathUtils.clamp(camState.pitch + dy * 0.002, 0.08, 0.88);
@@ -3379,7 +3441,7 @@
     if (!drag || drag.id !== e.pointerId) return;
     const wasMoved = drag.moved;
     drag = null;
-    if (wasMoved) return;
+    if (wasMoved || !inspectBar.hidden) return;
 
     pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
     pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -3405,6 +3467,7 @@
 
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
+    if (!inspectBar.hidden) return;
     camState.dist = THREE.MathUtils.clamp(camState.dist + e.deltaY * 0.0085, 6.0, 34);
   }, { passive: false });
 
@@ -3419,6 +3482,7 @@
   });
 
   window.addEventListener('resize', () => {
+    camera.fov = portraitScreen.matches ? 54 : 42;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -3558,6 +3622,7 @@
     for (const fn of extOnTick) fn(clockTime, dt);
     updateCamera(dt);
     renderer.render(scene, camera);
+    placeIncenseMarker();
   }
 
   const customActions = {};

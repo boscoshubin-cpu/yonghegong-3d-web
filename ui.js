@@ -202,3 +202,51 @@
     });
   }
 })();
+
+(() => {
+  const portrait = matchMedia('(max-width: 700px) and (orientation: portrait)');
+  const menus = [
+    [document.getElementById('hall-menu'), document.getElementById('hall-panel'), 'halls'],
+    [document.getElementById('tool-menu'), document.getElementById('tool-panel'), 'tools'],
+    [document.getElementById('action-menu'), document.querySelector('.hud-dock'), 'actions']
+  ];
+  const extraTools = ['btn-crowd', 'btn-temple'].map(id => document.getElementById(id));
+  const home = document.querySelector('.hud-left');
+  function setMenu(name) {
+    document.body.dataset.mobileMenu = name;
+    for (const [button, , key] of menus) {
+      button.setAttribute('aria-expanded', String(name === key));
+    }
+    menus[2][0].textContent = name === 'actions' ? '收起动作' : '更多动作';
+  }
+  for (const [button, panel, key] of menus) {
+    button.addEventListener('click', () => setMenu(document.body.dataset.mobileMenu === key ? '' : key));
+    panel.addEventListener('click', event => {
+      const item = event.target.closest('button');
+      if (!portrait.matches || !item || item === button) return;
+      if (item.matches('.hall-tab')) {
+        menus[0][0].textContent = item.textContent.split('·')[0].replace(/^\S+\s+/, '') + ' ▾';
+      }
+      if (item.id !== 'deity-toggle') setMenu('');
+    });
+  }
+  document.addEventListener('pointerdown', event => {
+    if (!menus.some(([button, panel]) => button.contains(event.target) || panel.contains(event.target))) setMenu('');
+  });
+  document.addEventListener('keydown', event => {
+    const active = menus.find(([, , key]) => document.body.dataset.mobileMenu === key);
+    if (active && event.key === 'Escape') {
+      setMenu('');
+      active[0].focus();
+    }
+  });
+  function adapt() {
+    setMenu('');
+    const parent = portrait.matches ? menus[1][1] : home;
+    for (const tool of extraTools) parent.append(tool);
+    const selected = document.querySelector('.hall-tab.active');
+    if (selected) menus[0][0].textContent = selected.textContent.split('·')[0].replace(/^\S+\s+/, '') + ' ▾';
+  }
+  portrait.addEventListener('change', adapt);
+  adapt();
+})();

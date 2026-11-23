@@ -1612,3 +1612,75 @@ body.zen-mode .zen-exit-btn {
   .move-knob { width: 34px; height: 34px; margin: -17px 0 0 -17px; }
   .move-hint { display: none; }
 }
+
+.mobile-nav, #action-menu, #incense-marker { display: none; }
+@media (max-width: 700px) and (orientation: portrait) {
+  .hud-top { flex-direction: row; align-items: center; gap: 4px; }
+  .mobile-nav { display: flex; gap: 4px; pointer-events: auto; }
+  .mobile-nav .pill, #room-pill { height: 44px; }
+  .hud-right, .hall-switcher { display: none; }
+  body[data-mobile-menu="halls"] .hall-switcher,
+  body[data-mobile-menu="tools"] .hud-right {
+    position: fixed;
+    top: calc(max(10px, env(safe-area-inset-top)) + 50px);
+    right: 10px;
+    left: auto;
+    width: min(318px, calc(100vw - 20px));
+    display: grid;
+    padding: 10px;
+    border: 1px solid var(--gold-border);
+    background: rgba(37, 22, 18, .97);
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+  .hall-tabs, body[data-mobile-menu="tools"] .hud-right { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .hall-tab, .hud-right .pill { height: 44px; font-size: 12px; justify-content: center; }
+  .deity-desc { display: block; }
+  .hud-dock { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; overflow: visible; }
+  .hud-dock .dock-btn, .hud-dock .dock-sep { display: none; }
+  .hud-dock [data-act="incense"], .hud-dock [data-act="sit"], .hud-dock [data-act="lot"],
+  body[data-mobile-menu="actions"] .hud-dock .dock-btn { display: flex; }
+  #action-menu { display: block; min-height: 48px; border: 0; border-radius: 14px;
+    background: rgba(244, 214, 155, .12); color: #fff1d1; font: inherit; font-size: 12px; }
+  body[data-mobile-menu="actions"] .hud-dock { z-index: 24; background: rgba(37, 22, 18, .97); }
+  #incense-marker:not([hidden]) {
+    display: block; position: fixed; z-index: 5; transform: translate(-50%, -50%);
+    min-width: 54px; min-height: 44px; border-radius: 24px; color: #fff2cb;
+    border: 1px solid #cfa964; background: rgba(47, 30, 20, .88);
+    font-size: 13px; letter-spacing: .08em;
+  }
+  body.zen-mode #incense-marker, body[data-mobile-menu]:not([data-mobile-menu=""]) #incense-marker,
+  body:has(.overlay:not(.hidden)) #incense-marker { display: none; }
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .hud-left { min-width: 0; }
+  .brand-site { display: none; }
+  .brand-name { flex: none; white-space: nowrap; }
+  #room-pill { max-width: 100%; overflow: hidden; }
+  #peer-count { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-nav { flex-shrink: 0; }
+}
+
+/* 深漆底色与哑金选中态 */
+:root {
+  --lacquer-deep: rgba(30, 29, 25, .91);
+  --gold-border: rgba(213, 191, 146, .24);
+  --accent: #ceb886;
+}
+.hud-right, .hud-dock, .mobile-nav .pill, #room-pill {
+  background: rgba(32, 32, 28, .91);
+  border-color: rgba(216, 196, 157, .23);
+  box-shadow: 0 3px 12px rgba(18, 14, 10, .17);
+}
+.hud-dock .dock-btn { color: #ebe5d7; }
+.hud-dock .dock-btn.active { color: #efcf8b; background: #484033; }
+#view-statue[hidden], .statue-view-bar[hidden] { display: none; }
+.statue-view-bar {
+  position: fixed; left: 14px; top: max(14px, env(safe-area-inset-top)); z-index: 22;
+  display: flex; align-items: center; gap: 10px; color: #faf4e8;
+  padding: 4px 12px 4px 4px; border-radius: 25px; background: rgba(31, 30, 26, .91);
+  font: 13px var(--sans);
+}
+#exit-statue { height: 44px; cursor: pointer; }
+body.viewing-statue :is(.hud-top,.hall-switcher,.hud-dock,.move-pad,.sit-hud,#incense-marker,.toast,#float-words) { display: none; }
