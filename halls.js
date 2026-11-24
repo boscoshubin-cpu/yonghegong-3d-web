@@ -19,10 +19,10 @@
       plaque: '雍  和  门',
       deity: '弥勒佛（大肚布袋笑佛 · 四大天王护法）',
       wish: '主求：喜乐平安 · 开运纳福',
-      desc: '袒胸露腹、笑口常开，右手执佛珠、左手倚乾坤布袋；两侧四大天王持琵琶、宝剑、赤龙、宝伞威严护法。',
+      desc: '中央为木雕笑佛，笑眼、大肚与层叠的衣襟取自布袋和尚雕像；两侧列四大天王。',
       coupletUp: '大肚能容容天下难容之事',
       coupletDown: '慈颜常笑笑世间可笑之人',
-      camDist: 10.2, camPitch: 0.19, hallInt: 2.9, spotInt: 3.2
+      camDist: 10.2, camPitch: 0.19, hallInt: 1.1, spotInt: 1.45
     },
     {
       id: 'yonghegong',
@@ -30,7 +30,7 @@
       plaque: '雍  和  宫',
       deity: '三世佛（燃灯佛 · 释迦牟尼佛 · 弥勒佛）',
       wish: '主求：事业高升 · 正财顺遂',
-      desc: '中央触地印坐佛采用明尼阿波利斯艺术博物馆开放的缅甸造像模型，作为游戏美术演绎。',
+      desc: '中央保留缅甸触地印坐佛，两侧分别用带背光的石雕坐佛和弥勒造像碑演绎过去佛与未来佛。',
       coupletUp: '法界示吉祥慈云永护',
       coupletDown: '皇图昭赫奕佛日长明',
       camDist: 10.8, camPitch: 0.2, hallInt: 1.05, spotInt: 1.5
@@ -39,34 +39,34 @@
       id: 'yongyou',
       short: '永佑殿',
       plaque: '永  佑  殿',
-      deity: '三尊木雕佛（药师佛 · 无量寿佛 · 狮吼佛）',
+      deity: '三尊造像（药师佛 · 无量寿佛 · 狮吼佛）',
       wish: '主求：消灾延寿 · 身心安康',
-      desc: '中尊无量寿佛双手捧长寿宝瓶；左尊药师佛托青琉璃药钵、持诃子药枝；右尊狮吼佛结法印，左右奉藏式尊胜菩提白塔。',
+      desc: '游戏以宝瓶表现无量寿佛，以青钵表现药师佛，以举手说法的木雕演绎狮吼佛；两侧白塔环侍。',
       coupletUp: '慧日丽璇霄光明万象',
       coupletDown: '慈云覆玉宇福佑千秋',
-      camDist: 10.6, camPitch: 0.2, hallInt: 2.6, spotInt: 3.2
+      camDist: 10.6, camPitch: 0.2, hallInt: 1.1, spotInt: 1.45
     },
     {
       id: 'falun',
       short: '法轮殿',
       plaque: '法  轮  殿',
-      deity: '宗喀巴大师鎏金像 · 紫檀五百罗汉山',
+      deity: '宗喀巴大师 · 罗汉山',
       wish: '主求：学业有成 · 智慧开明 · 仕途稳进',
-      desc: '格鲁派祖师头戴明黄班智达尖帽、双手结转法轮印，双肩青莲托宝剑与经函；身后耸立木雕三绝之一「紫檀五百罗汉山」。',
+      desc: '游戏以僧人木雕为造型基础，加配班智达黄帽来演绎宗喀巴大师。可近观帽脊、衣褶与说法手势。',
       coupletUp: '法轮常转明心开般若',
       coupletDown: '宝相庄严持戒证菩提',
-      camDist: 10.2, camPitch: 0.2, hallInt: 3.0, spotInt: 3.5
+      camDist: 10.2, camPitch: 0.2, hallInt: 1.1, spotInt: 1.45
     },
     {
       id: 'wanfu',
       short: '万福阁',
       plaque: '万  福  阁',
-      deity: '白檀木雕弥勒大佛立像（18米独木巨佛）',
+      deity: '弥勒大佛立像',
       wish: '主求：大运亨通 · 万福圆满',
-      desc: '雍和宫木雕三绝之首，整根白檀巨木雕成，巍峨立姿直通三层飞虹回廊，戴五佛宝冠、佩绿松石红珊瑚璎珞。',
+      desc: '本阁以漆金木质菩萨立像演绎弥勒，举手立于两侧飞廊之间。可转动视角观察袍缘与金漆肌理。',
       coupletUp: '万福萃瑶林白檀焕彩',
       coupletDown: '千祥环宝阁金粟腾辉',
-      camDist: 12.8, camPitch: 0.14, hallInt: 3.3, spotInt: 4.1
+      camDist: 12.8, camPitch: 0.14, hallInt: 1.1, spotInt: 1.45
     }
   ];
 
@@ -695,6 +695,121 @@
   const altarY = HALL_Y + 1.35;
   const altarZ = -21.4;
 
+  // Slot order follows the visitor's view: principal figure, then left and right.
+  const sculptures = {
+    yonghemen: [['布袋弥勒', 'budai', 4.05]],
+    yonghegong: [['释迦牟尼佛', 'enshrined-buddha', 5.15], ['燃灯佛', 'past', 3.45], ['弥勒佛', 'maitreya-stele', 3.6]],
+    yongyou: [['无量寿佛', 'longevity', 4.75], ['药师佛', 'medicine', 3.45], ['狮吼佛', 'discourse', 3.45]],
+    falun: [['宗喀巴大师', 'teacher', 4.75]],
+    wanfu: [['弥勒大佛', 'standing', 5.17]]
+  };
+  const placed = {};
+  const loader = new THREE.GLTFLoader();
+  const chooser = document.getElementById('figure-select');
+  let focusedIndex = 0;
+
+  function attachFigure(hall, fallback) {
+    const slots = placed[hall] || (placed[hall] = []);
+    const [name, asset, height] = sculptures[hall][slots.length];
+    hallGroups[hall].add(fallback);
+    slots.push({ name, asset, height, x: fallback.position.x, fallback, loading: false, ready: false });
+  }
+
+  function loadFigure(hall, slot) {
+    if (slot.ready || slot.loading) return;
+    slot.loading = true;
+    const original = slot.asset === 'enshrined-buddha';
+    const url = original ? './assets/enshrined-buddha.glb' : './assets/statues/' + slot.asset + '.glb';
+    loader.load(url, ({ scene: sculpture }) => {
+      if (original) sculpture.getObjectByName('pCube1')?.removeFromParent();
+      orientFigure(slot.asset, sculpture);
+      const bounds = new THREE.Box3().setFromObject(sculpture, true);
+      const size = bounds.getSize(new THREE.Vector3());
+      const center = bounds.getCenter(new THREE.Vector3());
+      const scale = slot.height / size.y;
+      const mount = new THREE.Group();
+      mount.name = slot.asset;
+      const normalized = new THREE.Group();
+      normalized.scale.setScalar(scale);
+      normalized.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
+      normalized.add(sculpture);
+      mount.add(normalized);
+      mount.position.x = slot.x;
+      sculpture.traverse(part => {
+        if (!part.isMesh) return;
+        part.castShadow = true;
+        part.receiveShadow = true;
+        part.material.envMapIntensity = 0.42;
+      });
+      dressFigure(slot.asset, mount, slot.height);
+      hallGroups[hall].add(mount);
+      hallGroups[hall].remove(slot.fallback);
+      slot.width = size.x * scale;
+      slot.ready = true;
+      slot.loading = false;
+    }, undefined, () => {
+      slot.loading = false;
+      console.warn('造像资源未能加载，已保留内置造像：' + slot.name);
+    });
+  }
+
+  function orientFigure(asset, sculpture) {
+    const yaw = { budai: -Math.PI / 2, discourse: -Math.PI / 2, standing: -Math.PI / 4, past: -0.16 };
+    if (yaw[asset]) sculpture.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), yaw[asset]);
+  }
+
+  const gilt = new THREE.MeshStandardMaterial({color: 0xaa8040, metalness: 0.53, roughness: 0.49});
+  const saffron = new THREE.MeshStandardMaterial({color: 0x73501b, envMapIntensity: 0.06, metalness: 0.02, roughness: 0.96, side: THREE.DoubleSide});
+  const lapis = new THREE.MeshStandardMaterial({color: 0x102538, envMapIntensity: 0.16, roughness: 0.58, metalness: 0.22});
+  const copper = new THREE.MeshStandardMaterial({color: 0x644225, envMapIntensity: 0.2, roughness: 0.56, metalness: 0.46});
+  function vessel(profile, material) {
+    return new THREE.Mesh(new THREE.LatheGeometry(profile.map(([r,y]) => new THREE.Vector2(r,y)), 48), material);
+  }
+  function dressFigure(asset, mount, height) {
+    const detail = new THREE.Group();
+    detail.scale.setScalar(height);
+    if (asset === 'teacher') {
+      // The folded pandita hat has a high central ridge and cloth lappets on either side.
+      const rows = [[0,.116,.124], [.032,.128,.125], [.083,.104,.117], [.139,.063,.092], [.191,.012,.050], [.199,.001,.004]];
+      const pos = [], idx = [];
+      rows.forEach(([y,rx,rz], row) => {
+        for (let i=0;i<=48;i++) {
+          const a=i*Math.PI/24;
+          pos.push(Math.sin(a)*rx, y + .018*Math.cos(a), Math.cos(a)*rz-.15*y);
+          if(row && i) {
+            const k=row*49+i;
+            idx.push(k-50,k-49,k,k-50,k,k-1);
+          }
+        }
+      });
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+      geometry.setIndex(idx); geometry.computeVertexNormals();
+      const cap = new THREE.Mesh(geometry,saffron);
+      cap.position.set(.075,.896,.018); cap.rotation.z = -.11;
+      for (const side of [-1,1]) {
+        const lappet = new THREE.Shape();
+        lappet.moveTo(0,0); lappet.quadraticCurveTo(.024,-.06,.006,-.152);
+        lappet.quadraticCurveTo(-.036,-.12,-.037,0);
+        const flap = new THREE.Mesh(new THREE.ExtrudeGeometry(lappet,{depth:.007,bevelEnabled:false}),saffron);
+        flap.position.set(side*.102,.017,.043);flap.rotation.z=side*.12;cap.add(flap);
+      }
+      detail.add(cap);
+    } else if (asset === 'medicine') {
+      const bowl = vessel([[.001,0],[.046,0],[.061,.01],[.09,.048],[.095,.068],[.091,.073],[.084,.07],[.074,.045],[.042,.018],[.001,.015]],lapis);
+      bowl.position.set(0,.283,.165); detail.add(bowl);
+    } else if (asset === 'longevity') {
+      const vase = vessel([[.001,0],[.055,0],[.058,.012],[.035,.024],[.045,.038],[.066,.065],[.069,.085],[.056,.108],[.023,.128],[.021,.147],[.034,.155],[.029,.166],[.001,.166]],copper);
+      vase.position.set(0,.256,.139);
+      const finial=vessel([[.033,0],[.036,.006],[.018,.012],[.01,.029],[.001,.039]],gilt);
+      finial.position.y=.164; vase.add(finial);detail.add(vase);
+    }
+    if(detail.children.length) mount.add(detail);
+  }
+
+  chooser.addEventListener('change', () => { focusedIndex = chooser.selectedIndex; });
+  api.inspectedFigure = () => placed[activeHallId][focusedIndex];
+
   function makeHallRoot(id) {
     const g = new THREE.Group();
     g.position.set(0, altarY, altarZ);
@@ -707,7 +822,7 @@
   // ① 雍和门殿（天王殿）
   {
     const g = makeHallRoot('yonghemen');
-    g.add(buildLaughingMaitreya());
+    attachFigure('yonghemen', buildLaughingMaitreya());
 
     const armorColors = [0x2c6e49, 0x1d4e89, 0x9e2a2b, 0xd4a338];
     const kingPositions = [[-4.8, 0.2], [-3.1, -0.3], [3.1, -0.3], [4.8, 0.2]];
@@ -751,39 +866,17 @@
     const g = makeHallRoot('yonghegong');
     const center = buildSeatedBuddha({ mudra: 'earth_bowl', garuda: true });
     center.scale.setScalar(1.42);
-    g.add(center);
-
-    // Keep the built-in figure available until all local scan textures are ready.
-    new THREE.GLTFLoader().load('./assets/enshrined-buddha.glb', ({ scene: scan }) => {
-      const pedestal = scan.getObjectByName('pCube1');
-      if (pedestal) pedestal.removeFromParent();
-      const bounds = new THREE.Box3().setFromObject(scan);
-      const midpoint = bounds.getCenter(new THREE.Vector3());
-      const scale = 5.15 / (bounds.max.y - bounds.min.y);
-      const mount = new THREE.Group();
-      mount.name = 'enshrined-buddha';
-      mount.scale.setScalar(scale);
-      mount.position.set(-midpoint.x * scale, -bounds.min.y * scale, -midpoint.z * scale);
-      scan.traverse(part => {
-        if (!part.isMesh) return;
-        part.castShadow = part.receiveShadow = true;
-        part.material.envMapIntensity = 0.42;
-      });
-      mount.add(scan);
-      g.add(mount);
-      g.remove(center);
-      document.getElementById('view-statue').disabled = false;
-    }, undefined, () => console.warn('主像资源未能加载，已保留内置佛像。'));
+    attachFigure('yonghegong', center);
 
     const left = buildSeatedBuddha({ mudra: 'dhyana', artifact: 'orb', garuda: false });
     left.scale.setScalar(0.92);
     left.position.set(-3.85, 0, 0);
-    g.add(left);
+    attachFigure('yonghegong', left);
 
     const right = buildSeatedBuddha({ mudra: 'dharmachakra', garuda: false });
     right.scale.setScalar(0.92);
     right.position.set(3.85, 0, 0);
-    g.add(right);
+    attachFigure('yonghegong', right);
 
     for (const side of [-1, 1]) {
       for (let k = 0; k < 3; k++) {
@@ -809,17 +902,17 @@
     const g = makeHallRoot('yongyou');
     const center = buildSeatedBuddha({ mudra: 'dhyana', artifact: 'vase', matMain: sandalwoodGoldMat, matSub: warmBronzeMat, skinMat: sandalwoodGoldMat });
     center.scale.setScalar(1.36);
-    g.add(center);
+    attachFigure('yongyou', center);
 
     const left = buildSeatedBuddha({ mudra: 'dhyana', artifact: 'medicine', matMain: sandalwoodGoldMat, matSub: warmBronzeMat, skinMat: sandalwoodGoldMat });
     left.scale.setScalar(0.94);
     left.position.set(-3.8, 0, 0);
-    g.add(left);
+    attachFigure('yongyou', left);
 
     const right = buildSeatedBuddha({ mudra: 'dharmachakra', matMain: sandalwoodGoldMat, matSub: warmBronzeMat, skinMat: sandalwoodGoldMat });
     right.scale.setScalar(0.94);
     right.position.set(3.8, 0, 0);
-    g.add(right);
+    attachFigure('yongyou', right);
 
     for (const sx of [-6.1, 6.1]) {
       const stupa = new THREE.Group();
@@ -844,6 +937,18 @@
     }
   }
 
+  function palaceWoodGrain() {
+    return makeTex(128, 256, (ctx, w, h) => {
+      ctx.fillStyle = '#49312c'; ctx.fillRect(0, 0, w, h);
+      for(let i=0;i<84;i++) {
+        const x = i*w/84;
+        ctx.strokeStyle = i%3 ? '#38251e' : '#5e4435';
+        ctx.beginPath();ctx.moveTo(x,0);
+        ctx.bezierCurveTo(x+7,h*.25,x-8,h*.72,x+2,h);ctx.stroke();
+      }
+    });
+  }
+
   // ④ 法轮殿（宗喀巴大师 + 紫檀五百罗汉山）
   {
     const g = makeHallRoot('falun');
@@ -855,11 +960,12 @@
       robeMat: crimsonRobeMat
     });
     master.scale.setScalar(1.48);
-    g.add(master);
+    attachFigure('falun', master);
 
     const mountainGroup = new THREE.Group();
     mountainGroup.position.set(0, 0, -1.35);
-    const rosewoodCliffMat = new THREE.MeshStandardMaterial({ color: 0x3d1c17, roughness: 0.58, metalness: 0.14 });
+    const rosewoodCliffMat = new THREE.MeshStandardMaterial({ color: 0x26180e, roughness: 0.95, metalness: 0.01, envMapIntensity: 0.025 });
+    rosewoodCliffMat.map = palaceWoodGrain();
     const peakSpecs = [
       [0, 2.3, 1.35, 4.6], [-1.9, 1.85, 1.05, 3.7], [1.9, 1.9, 1.05, 3.8],
       [-3.5, 1.45, 0.88, 2.9], [3.5, 1.5, 0.88, 3.0], [-0.95, 2.1, 0.95, 4.1], [0.95, 2.1, 0.95, 4.1]
@@ -886,7 +992,7 @@
   // ⑤ 万福阁（18米白檀木雕弥勒大佛立像 + 飞虹木廊）
   {
     const g = makeHallRoot('wanfu');
-    g.add(buildStandingSandalwoodMaitreya());
+    attachFigure('wanfu', buildStandingSandalwoodMaitreya());
 
     const galleryMat = new THREE.MeshStandardMaterial({ color: 0x761b14, roughness: 0.42 });
     for (const side of [-1, 1]) {
@@ -947,7 +1053,11 @@
   function selectHall(hallId, moveCamera) {
     const cfg = HALLS.find(h => h.id === hallId) || HALLS[1];
     activeHallId = cfg.id;
-    document.getElementById('view-statue').hidden = cfg.id !== 'yonghegong';
+    focusedIndex = 0;
+    chooser.replaceChildren(...placed[cfg.id].map(slot => new Option(slot.name, slot.asset)));
+    chooser.hidden = placed[cfg.id].length === 1;
+    document.getElementById('view-statue').disabled = false;
+    placed[cfg.id].forEach(slot => loadFigure(cfg.id, slot));
 
     Object.keys(hallGroups).forEach(k => {
       hallGroups[k].visible = (k === cfg.id);

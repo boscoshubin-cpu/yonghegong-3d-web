@@ -1684,3 +1684,11 @@ body.zen-mode .zen-exit-btn {
 }
 #exit-statue { height: 44px; cursor: pointer; }
 body.viewing-statue :is(.hud-top,.hall-switcher,.hud-dock,.move-pad,.sit-hud,#incense-marker,.toast,#float-words) { display: none; }
+#figure-select {
+  color: #f6ead3; background: #39362f; border: 1px solid #776c53;
+  border-radius: 8px; padding: 6px; min-height: 40px; font: inherit;
+}
+.statue-view-bar { max-width: calc(100vw - 28px); }
+@media (max-width: 360px) { .statue-view-bar:has(#figure-select:not([hidden])) span { display:none; } }
+
+.statue-credits { color: var(--accent); font-size: 12px; }

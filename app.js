@@ -2650,10 +2650,14 @@
 
   function updateCamera(dt) {
     if (!inspectBar.hidden) {
-      const radius = Math.max(5.0, 3.45 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)),
-        2.08 / (camera.aspect * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))));
-      camera.position.set(Math.sin(inspectAngle) * radius, 5.83, -21.4 + Math.cos(inspectAngle) * radius);
-      camera.lookAt(0, 5.55, -21.4);
+      const figure = window.YHG3D.inspectedFigure();
+      const angle = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+      const radius = Math.max(figure.height * 0.66 / angle,
+        (figure.width || figure.height * 0.77) * 0.56 / (camera.aspect * angle)) + 0.35;
+      const elevation = HALL_Y + 1.35 + figure.height * 0.53;
+      camera.position.set(figure.x + Math.sin(inspectAngle) * radius, elevation + 0.20,
+        -21.4 + Math.cos(inspectAngle) * radius);
+      camera.lookAt(figure.x, elevation, -21.4);
       return;
     }
     const goalX = player.x;
