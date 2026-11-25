@@ -22,27 +22,80 @@
     { id: 'bamboo', name: '石青云衫', req: 70, robe: '#2b4352', sash: '#c9b070', hint: '福德 70 解锁' },
     { id: 'gold', name: '明黄福衫', req: 120, robe: '#9e7222', sash: '#ebd082', hint: '福德 120 解锁' }
   ];
+  const WISH_META = {
+    career: '求事业', wealth: '求财运', love: '求姻缘', health: '求健康',
+    study: '求学业', peace: '求顺遂', travel: '求出行', random: '随缘一签'
+  };
   const WISH_LOTS = {
     career: [
-      { no: '第廿八签 · 乾宫', rank: '上上签', title: '青云直上', lines: ['大鹏一日同风起，扶摇直上九万里。', '红墙金瓦迎贵气，此番谋事必成蹊。'], decode: '解曰：云开见日，龙入沧海；贵人暗助，所谋皆遂。', advice: '宜：果断推进核心项目、主动展现担当' },
-      { no: '第十六签 · 巽宫', rank: '上吉签', title: '贵人扶摇', lines: ['长风破浪会有时，直挂云帆济沧海。', '自有明师兼挚友，一路提携步步高。'], decode: '解曰：东风助力，舟行顺水；良朋引路，前程万里。', advice: '宜：拓展合作人脉、把握晋升窗口' },
-      { no: '第卅二签 · 艮宫', rank: '中吉签', title: '厚积薄发', lines: ['宝剑锋从磨砺出，梅花香自苦寒来。', '莫道眼前阶梯陡，登临绝顶见天开。'], decode: '解曰：守正待时，久炼成金；目下勤勉，秋后丰盈。', advice: '宜：沉心打磨作品、稳扎稳打' },
-      { no: '第〇九签 · 离宫', rank: '上上签', title: '紫气东来', lines: ['凤鸣朝阳振金羽，九重春色醉仙桃。', '昔日辛勤今得报，名标金阙步步高。'], decode: '解曰：鸿运当头，名利双收；凡事当机，切莫迟疑。', advice: '宜：求职面试、发布新作、签约履新' }
+      { no: '第廿八签 · 乾宫', rank: '上上签', seal: '上', tone: 'top', title: '青云直上', lines: ['大鹏一日同风起，扶摇直上九万里。', '红墙金瓦迎贵气，此番谋事必成蹊。'], decode: '解曰：云开见日，龙入沧海；贵人暗助，所谋皆遂。', advice: '宜：果断推进核心项目、主动展现担当' },
+      { no: '第〇九签 · 离宫', rank: '上上签', seal: '上', tone: 'top', title: '紫气东来', lines: ['凤鸣朝阳振金羽，九重春色醉仙桃。', '昔日辛勤今得报，名标金阙步步高。'], decode: '解曰：鸿运当头，名利双收；凡事当机，切莫迟疑。', advice: '宜：求职面试、发布新作、签约履新' },
+      { no: '第十六签 · 巽宫', rank: '上吉签', seal: '吉', tone: 'top', title: '贵人扶摇', lines: ['长风破浪会有时，直挂云帆济沧海。', '自有明师兼挚友，一路提携步步高。'], decode: '解曰：东风助力，舟行顺水；良朋引路，前程万里。', advice: '宜：拓展合作人脉、把握晋升窗口' },
+      { no: '第四二签 · 震宫', rank: '中上签', seal: '吉', tone: 'mid', title: '破茧新局', lines: ['春雷初动蛰龙醒，旧叶辞枝发新芽。', '莫恋前途安稳地，转弯之处见京华。'], decode: '解曰：变中有机，宜破旧局；换个思路，反成奇功。', advice: '宜：尝试新方向、主动请缨跨界任务' },
+      { no: '第卅二签 · 艮宫', rank: '中吉签', seal: '中', tone: 'mid', title: '厚积薄发', lines: ['宝剑锋从磨砺出，梅花香自苦寒来。', '莫道眼前阶梯陡，登临绝顶见天开。'], decode: '解曰：守正待时，久炼成金；目下勤勉，秋后丰盈。', advice: '宜：沉心打磨作品、稳扎稳打' },
+      { no: '第五七签 · 坤宫', rank: '中吉签', seal: '中', tone: 'mid', title: '和衷共济', lines: ['独木难成千尺栋，众人拾柴火焰高。', '莫把功劳归己有，谦光到处自相邀。'], decode: '解曰：单打独斗偏劳，团队协作生辉；以诚待人得助力。', advice: '宜：多倾听同事意见、共享阶段成果' },
+      { no: '第六三签 · 坎宫', rank: '中平签', seal: '平', tone: 'calm', title: '潜龙勿用', lines: ['深潭映月风初静，且把锋芒敛袖中。', '时机未至休焦躁，暗里蓄力待长风。'], decode: '解曰：目下宜守不宜攻，少做口舌之争，静待转机。', advice: '宜：复盘沉淀、忌冲动离职或盲目扩张' },
+      { no: '第八一签 · 艮宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '柳暗花明', lines: ['行舟偶遇浅滩阻，急桨争流反致偏。', '停帆细察水深处，一转回湾路更宽。'], decode: '解曰：小有波折，实为提醒；核对细节，自可化险为夷。', advice: '宜：复核合同条款、留足备选方案，忌急躁冒进' }
     ],
     wealth: [
-      { no: '第〇八签 · 坤宫', rank: '上上签', title: '八方聚财', lines: ['金秋银杏满宫墙，正财偏财共入囊。', '勤勉持家兼有道，源头活水日日长。'], decode: '解曰：财星高照，库廪丰盈；以诚营商，源远流长。', advice: '宜：稳健布局、专注长期高价值赛道' },
-      { no: '第廿一签 · 兑宫', rank: '上吉签', title: '利市大开', lines: ['春风得意马蹄疾，商道通明百事宜。', '诚意待人终得报，丰盈喜乐自相随。'], decode: '解曰：和气生财，贵客盈门；积少成多，自见奇功。', advice: '宜：谈成新单、合理规划收支' },
-      { no: '第十九签 · 乾宫', rank: '上吉签', title: '金玉满堂', lines: ['宝鼎香烟绕碧空，瑞气千条护华堂。', '耕耘不负四时雨，秋收万斛满仓箱。'], decode: '解曰：正财稳固，小有横财；量入为出，福泽绵长。', advice: '宜：盘点资产、结清尾款、稳步投资' }
+      { no: '第〇八签 · 坤宫', rank: '上上签', seal: '上', tone: 'top', title: '八方聚财', lines: ['金秋银杏满宫墙，正财偏财共入囊。', '勤勉持家兼有道，源头活水日日长。'], decode: '解曰：财星高照，库廪丰盈；以诚营商，源远流长。', advice: '宜：稳健布局、专注长期高价值赛道' },
+      { no: '第五二签 · 乾宫', rank: '上上签', seal: '上', tone: 'top', title: '鸿利大开', lines: ['宝鼎香云连紫气，商途一路遇知音。', '慧眼先识沧海玉，丰仓满库乐天真。'], decode: '解曰：财源广进，签单顺畅；长线眼光终得厚报。', advice: '宜：谈成核心大单、扩大优势业务' },
+      { no: '第廿一签 · 兑宫', rank: '上吉签', seal: '吉', tone: 'top', title: '利市大开', lines: ['春风得意马蹄疾，商道通明百事宜。', '诚意待人终得报，丰盈喜乐自相随。'], decode: '解曰：和气生财，贵客盈门；积少成多，自见奇功。', advice: '宜：维护老客户、合理规划收支' },
+      { no: '第十九签 · 乾宫', rank: '中上签', seal: '吉', tone: 'mid', title: '金玉满堂', lines: ['宝鼎香烟绕碧空，瑞气千条护华堂。', '耕耘不负四时雨，秋收万斛满仓箱。'], decode: '解曰：正财稳固，小有惊喜；量入为出，福泽绵长。', advice: '宜：盘点资产、结清尾款、稳步储蓄' },
+      { no: '第四七签 · 巽宫', rank: '中吉签', seal: '中', tone: 'mid', title: '细水长流', lines: ['莫慕暴雷倾夜雨，且看清泉润远田。', '日积铢锱成广厦，细水长流岁岁安。'], decode: '解曰：正财靠实干，偏财莫强求；积沙成塔最安稳。', advice: '宜：坚持定投储蓄、深耕本职收入' },
+      { no: '第六八签 · 离宫', rank: '中吉签', seal: '中', tone: 'mid', title: '开源有道', lines: ['一艺精深通四海，巧思能化满囊金。', '若肯多修身外技，副业生花亦称心。'], decode: '解曰：凭专业与口碑生财，可适当拓展新收入来源。', advice: '宜：整理个人作品集、尝试轻资产副业' },
+      { no: '第七四签 · 坎宫', rank: '中平签', seal: '平', tone: 'calm', title: '守财为上', lines: ['浮云过眼皆虚影，落袋为安始是真。', '此季莫听风声诱，捂紧荷包待早春。'], decode: '解曰：财运平稳但防盲目跟风，守住本金即是大赚。', advice: '宜：理性消费、忌借贷担保与高风险投机' },
+      { no: '第九三签 · 艮宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '破雾见金', lines: ['贪看高枝忘脚下，轻信甘言易失珠。', '先清旧账明收支，退后一步自无虞。'], decode: '解曰：防冲动破财与虚高承诺；先止损开源，后运自转。', advice: '宜：清理冗余订阅与无效开销、凡事三思再付' }
+    ],
+    love: [
+      { no: '第〇六签 · 兑宫', rank: '上上签', seal: '上', tone: 'top', title: '良缘天定', lines: ['红绸系处清风暖，银杏树下遇知音。', '一眼相逢如故旧，三餐四季共初心。'], decode: '解曰：红鸾星动，两情相悦；真诚以待，佳期可期。', advice: '宜：主动赴约表达心意、多参加线下雅集' },
+      { no: '第卅九签 · 离宫', rank: '上上签', seal: '上', tone: 'top', title: '琴瑟和鸣', lines: ['彩凤双飞栖碧梧，清歌一曲和瑶琴。', '彼此相惜无猜忌，岁岁年年共此时。'], decode: '解曰：伴侣同心，默契升温；单身者易遇志趣相投之人。', advice: '宜：用心准备小惊喜、共度一段专注时光' },
+      { no: '第十四签 · 巽宫', rank: '上吉签', seal: '吉', tone: 'top', title: '春风拂面', lines: ['桃李不言蹊自成，清芬远播引蝶来。', '先把自身修圆满，好风自送良人归。'], decode: '解曰：魅力自生，缘分渐近；不必刻意讨好，自然最动人。', advice: '宜：打理好生活状态、接受朋友牵线介绍' },
+      { no: '第五五签 · 坤宫', rank: '中上签', seal: '吉', tone: 'mid', title: '日久生情', lines: ['细雨润花无声处，慢火烹茶味更醇。', '莫怪初逢言尚浅，朝夕相处见真纯。'], decode: '解曰：缘分贵在细水长流，不必急于求成，相处见真心。', advice: '宜：保持温和联系、多从日常小事了解彼此' },
+      { no: '第廿九签 · 震宫', rank: '中吉签', seal: '中', tone: 'mid', title: '冰释前嫌', lines: ['昨夜微霜寒庭树，今朝暖日化琼瑶。', '若有一言先低首，前嫌尽散乐逍遥。'], decode: '解曰：偶有小误会易解开，坦诚沟通胜过冷战猜测。', advice: '宜：放下好胜心、把真实想法温和说出口' },
+      { no: '第六〇签 · 乾宫', rank: '中吉签', seal: '中', tone: 'mid', title: '择善而栖', lines: ['良禽择木方安稳，明镜照心辨浊清。', '莫因孤寂匆匆许，静待同频契阔人。'], decode: '解曰：宁缺毋滥，看清三观与品性，方得长久安稳。', advice: '宜：明确自身底线、多观察对方言行一致度' },
+      { no: '第七七签 · 坎宫', rank: '中平签', seal: '平', tone: 'calm', title: '且听风吟', lines: ['花开有期莫催促，月圆有时自澄明。', '先爱此身兼岁月，清欢自在亦安宁。'], decode: '解曰：缘分尚在途中，此时最宜丰盈自己，静待花开。', advice: '宜：专注生活与爱好、忌因焦虑而将就' },
+      { no: '第八八签 · 艮宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '慧剑断雾', lines: ['雾里看花终隔影，镜中捞月徒费神。', '若知此路非良伴，转身犹见满城春。'], decode: '解曰：勿在消耗自己的关系里内耗，及时止损方迎新缘。', advice: '宜：远离暧昧拉扯、把真心留给珍惜你的人' }
+    ],
+    health: [
+      { no: '第卅六签 · 兑宫', rank: '上上签', seal: '上', tone: 'top', title: '福寿康宁', lines: ['宝殿香云护吉人，春风化雨润身心。', '旧疾如霜逢日化，从此康泰百岁春。'], decode: '解曰：药师垂慈，气血调和；精气充足，喜乐安康。', advice: '宜：早起散步、饮茶静心、保持好心情' },
+      { no: '第〇五签 · 震宫', rank: '上上签', seal: '上', tone: 'top', title: '神清气爽', lines: ['松风吹散眉间倦，旭日初升照玉堂。', '筋骨舒张眠亦稳，朝来步履自轻扬。'], decode: '解曰：元气充沛，睡眠渐佳；坚持适度运动更有奇效。', advice: '宜：户外慢跑或拉伸、多晒上午阳光' },
+      { no: '第廿三签 · 坤宫', rank: '上吉签', seal: '吉', tone: 'top', title: '阴阳调和', lines: ['饮食有节脾胃健，起居有时精神全。', '不向名利耗心血，便是人间大药仙。'], decode: '解曰：身体底子向好，规律作息就是最好的滋补。', advice: '宜：清淡温热饮食、晚十一点前安睡' },
+      { no: '第四四签 · 巽宫', rank: '中上签', seal: '吉', tone: 'mid', title: '渐入佳境', lines: ['春水初生冰雪融，微恙渐消体渐轻。', '切记痊愈休大意，再养三旬福自盈。'], decode: '解曰：旧疲正在恢复，切忌刚有好转就立刻熬夜透支。', advice: '宜：遵医嘱巩固调养、少喝冰饮浓茶' },
+      { no: '第五八签 · 离宫', rank: '中吉签', seal: '中', tone: 'mid', title: '舒肝解郁', lines: ['百病多从心火起，一笑能消万缕愁。', '放下眉头千钧石，清风自入小轩楼。'], decode: '解曰：躯体小不适多与情绪紧绷有关，松弛下来便好转。', advice: '宜：深呼吸冥想、与好友聊天散心' },
+      { no: '第六六签 · 坎宫', rank: '中吉签', seal: '中', tone: 'mid', title: '动静相宜', lines: ['久坐伤神筋骨滞，微汗透背百脉通。', '每日只需三十分，气爽神明胜服茸。'], decode: '解曰：肩颈腰背需活动疏通，小运动胜过久坐不动。', advice: '宜：每小时起身伸展、做做八段锦或快走' },
+      { no: '第七二签 · 艮宫', rank: '中平签', seal: '平', tone: 'calm', title: '劳逸有度', lines: ['弓弦久绷终易损，灯油将尽须添薪。', '莫仗年少轻熬夜，早歇一更胜万金。'], decode: '解曰：近期偏累，身体在发出休息信号，及时放慢节奏。', advice: '宜：午间小憩、减少睡前刷手机时间' },
+      { no: '第八五签 · 坎宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '防微杜渐', lines: ['小隙不修成大漏，微寒未避惹风霜。', '早做体检明虚实，谨护身心保安康。'], decode: '解曰：莫忽视反复出现的小信号，早查早调即可无碍。', advice: '宜：安排常规体检、注意换季添衣保暖，忌硬扛' }
     ],
     study: [
-      { no: '第〇一签 · 乾宫', rank: '上上签', title: '金榜题名', lines: ['十年寒窗勤伏案，一朝捷报入皇城。', '文昌高照心澄澈，落笔生花万事成。'], decode: '解曰：文曲星明，蟾宫折桂；功不唐捐，金榜高悬。', advice: '宜：查漏补缺、从容赴考' },
-      { no: '第十五签 · 坎宫', rank: '上吉签', title: '豁然贯通', lines: ['书山有路勤为径，学海无涯乐作舟。', '静气凝神读一卷，灵光乍现解千忧。'], decode: '解曰：心定神宁，疑云尽散；名师指点，学业精进。', advice: '宜：整理错题笔记、保持规律作息' },
-      { no: '第廿四签 · 震宫', rank: '上吉签', title: '鱼跃龙门', lines: ['桃花浪暖禹门开，锦鳞一跃化龙来。', '莫怕考场风浪急，胸藏万卷自成才。'], decode: '解曰：厚积之力，一朝迸发；沉着应战，必获佳音。', advice: '宜：模拟演练、早睡养神、坚定信心' }
+      { no: '第〇一签 · 乾宫', rank: '上上签', seal: '上', tone: 'top', title: '金榜题名', lines: ['十年寒窗勤伏案，一朝捷报入皇城。', '文昌高照心澄澈，落笔生花万事成。'], decode: '解曰：文曲星明，蟾宫折桂；功不唐捐，金榜高悬。', advice: '宜：查漏补缺、从容赴考' },
+      { no: '第廿四签 · 震宫', rank: '上上签', seal: '上', tone: 'top', title: '鱼跃龙门', lines: ['桃花浪暖禹门开，锦鳞一跃化龙来。', '莫怕考场风浪急，胸藏万卷自成才。'], decode: '解曰：厚积之力，一朝迸发；沉着应战，必获佳音。', advice: '宜：模拟实战演练、考前早睡养神' },
+      { no: '第十五签 · 坎宫', rank: '上吉签', seal: '吉', tone: 'top', title: '豁然贯通', lines: ['书山有路勤为径，学海无涯乐作舟。', '静气凝神读一卷，灵光乍现解千忧。'], decode: '解曰：心定神宁，疑云尽散；名师指点，学业精进。', advice: '宜：整理错题笔记、请教前辈或导师' },
+      { no: '第四八签 · 离宫', rank: '中上签', seal: '吉', tone: 'mid', title: '妙笔生花', lines: ['砚池墨暖春风至，胸有丘壑自成章。', '勤读深思双翼展，他年策论冠群芳。'], decode: '解曰：表达与写作运佳，论文、答辩、申述皆易出彩。', advice: '宜：列清提纲逻辑、多做口头复述练习' },
+      { no: '第五三签 · 艮宫', rank: '中吉签', seal: '中', tone: 'mid', title: '水滴石穿', lines: ['莫叹篇帙浩如海，日进一寸终登峰。', '但守书桌三尺地，功到自然意气通。'], decode: '解曰：重在日日不断，拆解小目标，稳步提分最靠谱。', advice: '宜：制定每日清单、攻克一个薄弱专题' },
+      { no: '第六一签 · 巽宫', rank: '中吉签', seal: '中', tone: 'mid', title: '切磋琢磨', lines: ['独学无友易孤陋，良伴相询眼界宽。', '一席清谈开茅塞，胜过闭门苦自钻。'], decode: '解曰：结伴学习或讨论碰撞，能帮你快速打通卡点。', advice: '宜：约同学互讲知识点、交换复习资料' },
+      { no: '第七〇签 · 坤宫', rank: '中平签', seal: '平', tone: 'calm', title: '戒躁归真', lines: ['浮心阅卷终难记，静坐焚香始入神。', '暂别繁杂清桌面，一页精读胜十篇。'], decode: '解曰：近期易分心，与其焦虑刷量，不如专注吃透基础题。', advice: '宜：手机开专注模式、回看教材核心概念' },
+      { no: '第八九签 · 坎宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '温故知新', lines: ['莫凭侥幸猜偏题，根基未稳大厦摇。', '回头重筑基石牢，临阵方能不慌张。'], decode: '解曰：切忌押题赌运气，老实补齐基础短板才能逆袭。', advice: '宜：重刷历年真题与错题本、忌临阵抱佛脚' }
     ],
     peace: [
-      { no: '第十二签 · 坤宫', rank: '上上签', title: '岁岁安澜', lines: ['红墙之外尘嚣远，香火绵延护此身。', '晨钟暮鼓心常定，四季平安喜乐真。'], decode: '解曰：佛光普照，出入平安；家宅和睦，百福骈臻。', advice: '宜：规律作息、与家人共进晚餐' },
-      { no: '第廿七签 · 巽宫', rank: '上吉签', title: '顺遂无忧', lines: ['行到水穷云起处，心安便是福田深。', '凡事宽怀休计较，清风明月照如今。'], decode: '解曰：逢凶化吉，遇难成祥；放下执念，自在清凉。', advice: '宜：放下焦虑、轻装慢行' },
-      { no: '第卅六签 · 兑宫', rank: '上上签', title: '福寿康宁', lines: ['宝殿香云护吉人，春风化雨润身心。', '旧疾如霜逢日化，从此康泰百岁春。'], decode: '解曰：药师垂慈，灾消福至；气血调和，喜乐安康。', advice: '宜：早起散步、饮茶静心、笑口常开' }
+      { no: '第十二签 · 坤宫', rank: '上上签', seal: '上', tone: 'top', title: '岁岁安澜', lines: ['红墙之外尘嚣远，香火绵延护此身。', '晨钟暮鼓心常定，四季平安喜乐真。'], decode: '解曰：佛光普照，出入平安；家宅和睦，百福骈臻。', advice: '宜：规律作息、与家人共进晚餐' },
+      { no: '第卅三签 · 乾宫', rank: '上上签', seal: '上', tone: 'top', title: '万事顺遂', lines: ['云散长空明月满，风来幽院桂香浮。', '从前阻滞今朝去，一路平安百事休。'], decode: '解曰：诸般烦忧渐次消融，顺心事接踵而来。', advice: '宜：推进搁置已久的心愿、分享喜悦' },
+      { no: '第廿七签 · 巽宫', rank: '上吉签', seal: '吉', tone: 'top', title: '顺遂无忧', lines: ['行到水穷云起处，心安便是福田深。', '凡事宽怀休计较，清风明月照如今。'], decode: '解曰：逢凶化吉，遇难成祥；放下执念，自在清凉。', advice: '宜：放下焦虑、轻装慢行' },
+      { no: '第四五签 · 兑宫', rank: '中上签', seal: '吉', tone: 'mid', title: '家宅熙和', lines: ['庭前银杏筛金影，檐下灯花报喜音。', '长幼相亲无怨语，寻常烟火最暖心。'], decode: '解曰：家运和顺，亲友相助，平安便是世间上福。', advice: '宜：给长辈打个电话、收拾整理居住空间' },
+      { no: '第五九签 · 离宫', rank: '中吉签', seal: '中', tone: 'mid', title: '逢凶化吉', lines: ['偶有浮云遮望眼，一阵清风便廓清。', '莫为小事惊心神，自有慈光照前程。'], decode: '解曰：虽有虚惊一场，终能平安度过，不必过虑。', advice: '宜：遇事慢三秒回应、保持温和笃定' },
+      { no: '第六五签 · 震宫', rank: '中吉签', seal: '中', tone: 'mid', title: '知足常乐', lines: ['清茶一盏观云影，微雨三更听松涛。', '不与旁人争短长，心宽处处是桃源。'], decode: '解曰：减少攀比，珍视眼前小确幸，心境愈发安宁。', advice: '宜：写下三件今日顺心小事、散步赏景' },
+      { no: '第七六签 · 艮宫', rank: '中平签', seal: '平', tone: 'calm', title: '静守本心', lines: ['世事如棋多变幻，旁观不语最从容。', '守好自家门前雪，任凭檐外起秋风。'], decode: '解曰：少管闲事、不卷是非，安稳守静即是好日子。', advice: '宜：独处充电、忌卷入无谓争论' },
+      { no: '第九〇签 · 坎宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '以柔克刚', lines: ['硬木遇风易折枝，青蒲随水自长存。', '此间若遇不平事，退让三分福满门。'], decode: '解曰：近期易遇小摩擦，忍一时风平浪静，莫意气用事。', advice: '宜：谨言慎行、大事化小，忌情绪上头' }
+    ],
+    travel: [
+      { no: '第〇三签 · 巽宫', rank: '上上签', seal: '上', tone: 'top', title: '一帆风顺', lines: ['轻舟已过万重山，晴日清风伴客行。', '此去沿途皆胜景，满载欢愉归故城。'], decode: '解曰：天公作美，行程顺畅；远行出游皆得佳遇。', advice: '宜：放心出发、多拍风景与珍贵合影' },
+      { no: '第卅一签 · 离宫', rank: '上上签', seal: '上', tone: 'top', title: '万里呈祥', lines: ['骏马春风踏锦途，山川朗朗入画图。', '商旅远行多吉庆，所到之处遇贵扶。'], decode: '解曰：出差远行易成好事，异地贵人相迎，满载而归。', advice: '宜：出差签约、异地探访与跨城合作' },
+      { no: '第十八签 · 乾宫', rank: '上吉签', seal: '吉', tone: 'top', title: '满载而归', lines: ['早起登程迎旭日，清风送爽马蹄轻。', '莫辞山水路途远，彼岸自有好消息。'], decode: '解曰：奔赴之事自有回响，早做规划更添从容。', advice: '宜：提前候车登机、轻装简行' },
+      { no: '第四九签 · 兑宫', rank: '中上签', seal: '吉', tone: 'mid', title: '佳景偶得', lines: ['不必刻意寻名胜，拐角烟火最动人。', '随兴慢游多妙趣，清风明月伴归程。'], decode: '解曰：行程不必塞满，留点空白反而遇见意外惊喜。', advice: '宜：逛逛当地老街小馆、放慢脚步' },
+      { no: '第五六签 · 坤宫', rank: '中吉签', seal: '中', tone: 'mid', title: '结伴同行', lines: ['孤客行路偏寂寞，良朋相伴笑语多。', '彼此照应风霜减，千里山河共放歌。'], decode: '解曰：此行宜结伴同游，互相照料更添安心与乐趣。', advice: '宜：与亲友同行、提前对齐行程节奏' },
+      { no: '第六九签 · 震宫', rank: '中吉签', seal: '中', tone: 'mid', title: '平安抵岸', lines: ['晨雾微茫路尚远，日出云开见坦途。', '行车步履皆稳健，一路安康无阻虞。'], decode: '解曰：出发时略显匆忙，中后段越来越顺，平安无忧。', advice: '宜：预留转乘缓冲时间、随身备伞具' },
+      { no: '第七八签 · 坎宫', rank: '中平签', seal: '平', tone: 'calm', title: '稍安勿躁', lines: ['偶遇阴云暂歇脚，莫与天时较短长。', '喝杯热茶观街雨，云散风轻再启航。'], decode: '解曰：或遇小晚点或改道，顺势调整心态，一样平安顺心。', advice: '宜：买好延误或退改保障、备好充电宝' },
+      { no: '第九五签 · 艮宫', rank: '慎行签', seal: '慎', tone: 'warn', title: '慎检行囊', lines: ['临行切莫忘证件，夜路偏途且绕行。', '万事周全先备好，平安二字值千金。'], decode: '解曰：出行前务必核对证件与天气，安全第一切莫冒险。', advice: '宜：出门前逐项清点证件钥匙、避开恶劣天气与偏僻路段' }
     ]
   };
   const ZEN_WORDS = {
@@ -3246,36 +3299,94 @@
     beadLast = null;
   });
 
-  let lotSalt = 0;
-  function renderLotByWish(wishKey, reshake) {
-    journal.wishType = wishKey;
-    saveJournal();
-    document.querySelectorAll('.wish-tab').forEach(tb => {
-      tb.classList.toggle('active', tb.dataset.wish === wishKey);
-    });
-    if (reshake) lotSalt++;
-    const pool = WISH_LOTS[wishKey] || WISH_LOTS.career;
-    const idx = (new Date().getDate() + journal.incense + journal.bow + lotSalt) % pool.length;
-    const lot = pool[idx];
+  const lotRecent = {};
+  let lotShakeTimer = null;
+  function secureRandInt(max) {
+    if (max <= 1) return 0;
+    if (window.crypto && window.crypto.getRandomValues) {
+      const buf = new Uint32Array(1);
+      window.crypto.getRandomValues(buf);
+      return buf[0] % max;
+    }
+    return Math.floor(Math.random() * max);
+  }
+  function pickRandomLot(wishKey) {
+    let candidates;
+    if (wishKey === 'random') {
+      candidates = [];
+      Object.keys(WISH_LOTS).forEach(k => {
+        WISH_LOTS[k].forEach((lot, i) => candidates.push({ key: k + ':' + i, wishName: WISH_META[k] || '', lot }));
+      });
+    } else {
+      const list = WISH_LOTS[wishKey] || WISH_LOTS.career;
+      const wName = WISH_META[wishKey] || '';
+      candidates = list.map((lot, i) => ({ key: wishKey + ':' + i, wishName: wName, lot }));
+    }
+    const history = lotRecent[wishKey] || (lotRecent[wishKey] = []);
+    const keepLen = Math.max(1, Math.min(history.length, Math.floor(candidates.length * 0.65)));
+    const recentSet = new Set(history.slice(-keepLen));
+    const fresh = candidates.filter(c => !recentSet.has(c.key));
+    const pool = fresh.length ? fresh : candidates;
+    const chosen = pool[secureRandInt(pool.length)];
+    history.push(chosen.key);
+    if (history.length > candidates.length) history.shift();
+    return chosen;
+  }
+  function applyLotToDom(chosen, wishKey) {
+    const lot = chosen.lot;
     const noEl = document.getElementById('lot-no');
-    if (noEl) noEl.textContent = lot.no || '第一签 · 乾宫';
-    document.getElementById('lot-seal').textContent = lot.rank.slice(0, 1);
+    if (noEl) {
+      noEl.textContent = wishKey === 'random' && chosen.wishName
+        ? chosen.wishName + ' · ' + (lot.no || '第一签 · 乾宫')
+        : (lot.no || '第一签 · 乾宫');
+    }
+    const sealEl = document.getElementById('lot-seal');
+    if (sealEl) {
+      sealEl.textContent = lot.seal || lot.rank.slice(0, 1);
+      sealEl.className = 'lot-seal tone-' + (lot.tone || 'top');
+    }
     document.getElementById('lot-rank').textContent = lot.rank + ' · ' + lot.title;
     document.getElementById('lot-poem').innerHTML = lot.lines.join('<br>');
     const decEl = document.getElementById('lot-decode');
     if (decEl) decEl.textContent = lot.decode || '';
     document.getElementById('lot-advice').textContent = lot.advice;
-
-    if (reshake) {
-      const slipEl = document.querySelector('.lot-card');
-      if (slipEl) {
-        slipEl.classList.remove('lot-shaking');
-        void slipEl.offsetWidth;
-        slipEl.classList.add('lot-shaking');
-      }
-    }
   }
-  function openLotModal() { renderLotByWish(journal.wishType || 'career', false); lotOverlay.classList.remove('hidden'); }
+  function renderLotByWish(wishKey, animate) {
+    const key = (wishKey === 'random' || WISH_LOTS[wishKey]) ? wishKey : 'career';
+    journal.wishType = key;
+    saveJournal();
+    document.querySelectorAll('.wish-tab').forEach(tb => {
+      tb.classList.toggle('active', tb.dataset.wish === key);
+    });
+    clearInterval(lotShakeTimer);
+    const finalPick = pickRandomLot(key);
+    if (!animate) {
+      applyLotToDom(finalPick, key);
+      return;
+    }
+    const slipEl = document.querySelector('.lot-card');
+    if (slipEl) {
+      slipEl.classList.remove('lot-shaking');
+      void slipEl.offsetWidth;
+      slipEl.classList.add('lot-shaking');
+    }
+    let ticks = 0;
+    lotShakeTimer = setInterval(() => {
+      ticks++;
+      if (ticks < 5) {
+        const preview = pickRandomLot(key);
+        const noEl = document.getElementById('lot-no');
+        if (noEl) noEl.textContent = '摇签中 · ' + preview.lot.no;
+        const sealEl = document.getElementById('lot-seal');
+        if (sealEl) sealEl.textContent = preview.lot.seal || preview.lot.rank.slice(0, 1);
+      } else {
+        clearInterval(lotShakeTimer);
+        lotShakeTimer = null;
+        applyLotToDom(finalPick, key);
+      }
+    }, 70);
+  }
+  function openLotModal() { renderLotByWish(journal.wishType || 'career', true); lotOverlay.classList.remove('hidden'); }
   document.querySelectorAll('.wish-tab').forEach(tb => { tb.onclick = () => { playSound('lot'); renderLotByWish(tb.dataset.wish, true); }; });
   const reshakeBtn = document.getElementById('reshake-lot');
   if (reshakeBtn) {
