@@ -9,6 +9,6 @@
   },
   "scripts": {
     "start": "node server.cjs",
-    "check": "node --check server.cjs && node --check app.js && node --check architecture.js && node --check visuals.js && node --check halls.js && node --check cushion.js && node --check fate.js && node --check world.js && node --check ui.js"
+    "check": "node --check server.cjs && node --check courtyard.js && node --check app.js && node --check architecture.js && node --check visuals.js && node --check halls.js && node --check cushion.js && node --check fate.js && node --check world.js && node --check ui.js"
   }
 }

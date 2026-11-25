@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json server.cjs index.html style.css app.js architecture.js visuals.js ui.js halls.js cushion.js fate.js world.js ./
+COPY package.json server.cjs index.html style.css app.js courtyard.js architecture.js visuals.js ui.js halls.js cushion.js fate.js world.js ./
 COPY vendor ./vendor
 COPY assets ./assets
 COPY models ./models

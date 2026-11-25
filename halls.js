@@ -723,7 +723,7 @@
     loader.load(url, ({ scene: sculpture }) => {
       if (original) sculpture.getObjectByName('pCube1')?.removeFromParent();
       orientFigure(slot.asset, sculpture);
-      const bounds = new THREE.Box3().setFromObject(sculpture, true);
+      const bounds = new THREE.Box3().setFromObject(sculpture, !original);
       const size = bounds.getSize(new THREE.Vector3());
       const center = bounds.getCenter(new THREE.Vector3());
       const scale = slot.height / size.y;
@@ -759,7 +759,13 @@
   }
 
   const gilt = new THREE.MeshStandardMaterial({color: 0xaa8040, metalness: 0.53, roughness: 0.49});
-  const saffron = new THREE.MeshStandardMaterial({color: 0x73501b, envMapIntensity: 0.06, metalness: 0.02, roughness: 0.96, side: THREE.DoubleSide});
+  const saffron = new THREE.MeshStandardMaterial({map: makeTex(128, 128, (ctx, w, h) => {
+    ctx.fillStyle = '#b98c49'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(79,45,16,.22)';
+    for (let y = 0; y < h; y += 3) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y + 1); ctx.stroke();
+    }
+  }), color: 0x906c25, envMapIntensity: 0.06, metalness: 0.02, roughness: 0.96, side: THREE.DoubleSide});
   const lapis = new THREE.MeshStandardMaterial({color: 0x102538, envMapIntensity: 0.16, roughness: 0.58, metalness: 0.22});
   const copper = new THREE.MeshStandardMaterial({color: 0x644225, envMapIntensity: 0.2, roughness: 0.56, metalness: 0.46});
   function vessel(profile, material) {
@@ -771,11 +777,12 @@
     if (asset === 'teacher') {
       // The folded pandita hat has a high central ridge and cloth lappets on either side.
       const rows = [[0,.116,.124], [.032,.128,.125], [.083,.104,.117], [.139,.063,.092], [.191,.012,.050], [.199,.001,.004]];
-      const pos = [], idx = [];
+      const pos = [], idx = [], uv = [];
       rows.forEach(([y,rx,rz], row) => {
         for (let i=0;i<=48;i++) {
           const a=i*Math.PI/24;
           pos.push(Math.sin(a)*rx, y + .018*Math.cos(a), Math.cos(a)*rz-.15*y);
+          uv.push(i / 48, row / (rows.length - 1));
           if(row && i) {
             const k=row*49+i;
             idx.push(k-50,k-49,k,k-50,k,k-1);
@@ -784,9 +791,12 @@
       });
       const geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+      geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
       geometry.setIndex(idx); geometry.computeVertexNormals();
       const cap = new THREE.Mesh(geometry,saffron);
-      cap.position.set(.075,.896,.018); cap.rotation.z = -.11;
+      cap.position.set(.112, .889, -.154);
+      cap.rotation.z = -.075;
+      cap.scale.set(1.04, .93, 1.14);
       for (const side of [-1,1]) {
         const lappet = new THREE.Shape();
         lappet.moveTo(0,0); lappet.quadraticCurveTo(.024,-.06,.006,-.152);

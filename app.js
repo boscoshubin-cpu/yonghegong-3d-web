@@ -940,28 +940,6 @@
     }
   }, 4, 4);
 
-  function makeFoliageTex(colors) {
-    return makeTex(256, 256, (c, w, h) => {
-      c.clearRect(0, 0, w, h);
-      for (let i = 0; i < 95; i++) {
-        const a = (i * 2.39996);
-        const rad = Math.sqrt(i / 95) * 96;
-        const x = w / 2 + Math.cos(a) * rad;
-        const y = h / 2 + Math.sin(a) * rad;
-        c.save();
-        c.translate(x, y);
-        c.rotate(a + i);
-        c.fillStyle = colors[i % colors.length];
-        c.beginPath();
-        c.ellipse(0, 0, 18 + (i % 9), 11 + (i % 6), 0, 0, Math.PI * 2);
-        c.fill();
-        c.restore();
-      }
-    });
-  }
-  const ginkgoLeafTex = makeFoliageTex(['#e6b32e', '#d69d1e', '#f2c84b', '#c98e18', '#ecc142']);
-  const cypressLeafTex = makeFoliageTex(['#27422a', '#1e3621', '#315034', '#223b25', '#375838']);
-
   function makeNameSprite(label, isSelf) {
     const tex = makeTex(256, 64, (c, w, h) => {
       c.clearRect(0, 0, w, h);
@@ -1096,7 +1074,11 @@
   scene.add(ground);
   clickableGround.push(ground);
 
-  const walkway = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.1, 34), marbleMat);
+  const pathStone = new THREE.MeshStandardMaterial({
+    map: gardenMap('floor', 2, 13, true), normalMap: gardenMap('floor-normal', 2, 13, false),
+    normalScale: new THREE.Vector2(.55, .55), roughness: .9
+  });
+  const walkway = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.1, 34), pathStone);
   walkway.position.set(0, 0.05, 11.5);
   walkway.receiveShadow = true;
   walkway.userData.walkSurface = 'courtyard';
@@ -1822,17 +1804,7 @@
   burnerGroup.traverse(m => { if (m.isMesh) m.castShadow = true; });
   scene.add(burnerGroup);
 
-  const smokeParticles = [];
-  const smokeGeo = new THREE.SphereGeometry(0.18, 10, 10);
-  for (let i = 0; i < 18; i++) {
-    const s = new THREE.Mesh(
-      smokeGeo,
-      new THREE.MeshBasicMaterial({ color: 0xf6efe0, transparent: true, opacity: 0.26, depthWrite: false })
-    );
-    s.position.set(0, 2.75 + i * 0.24, 2.2);
-    scene.add(s);
-    smokeParticles.push({ mesh: s, phase: i / 18, lane: (i % 3) - 1 });
-  }
+  const updateSmoke = buildIncenseSmoke(scene);
 
   // 藏传六字真言鎏金转经筒长廊架
   const prayerWheels = [];
@@ -1950,80 +1922,7 @@
   lotGroup.traverse(m => { if (m.isMesh) m.castShadow = true; });
   scene.add(lotGroup);
 
-  const barkMat = new THREE.MeshStandardMaterial({ color: 0x4b3b2e, roughness: 0.94 });
-  const ginkgoCardMat = new THREE.MeshStandardMaterial({ map: ginkgoLeafTex, alphaTest: 0.32, side: THREE.DoubleSide, roughness: 0.85 });
-  const cypressCardMat = new THREE.MeshStandardMaterial({ map: cypressLeafTex, alphaTest: 0.32, side: THREE.DoubleSide, roughness: 0.9 });
-  const fallenGinkgoMat = new THREE.MeshStandardMaterial({
-    map: ginkgoLeafTex, alphaTest: 0.25, transparent: true, opacity: 0.88, roughness: 0.9
-  });
-
-  function addRealisticTree(x, z, scale, isGinkgo) {
-    const g = new THREE.Group();
-    g.position.set(x, 0, z);
-    g.scale.setScalar(scale);
-
-    // 树根抓地盘根与主干
-    const rootFlare = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.62, 0.55, 10), barkMat);
-    rootFlare.position.y = 0.275;
-    g.add(rootFlare);
-
-    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.44, 4.6, 10), barkMat);
-    trunk.position.y = 2.3;
-    trunk.castShadow = true;
-    g.add(trunk);
-
-    const branches = [
-      [0.9, 4.6, 0.4, 0.45, 0.2],
-      [-1.0, 4.4, -0.3, -0.48, -0.15],
-      [0.2, 5.0, -0.9, 0.15, -0.45],
-      [-0.3, 5.2, 0.95, -0.15, 0.42]
-    ];
-    for (const [bx, by, bz, rz, rx] of branches) {
-      const br = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.2, 2.6, 7), barkMat);
-      br.position.set(bx * 0.5, by, bz * 0.5);
-      br.rotation.set(rx, 0, rz);
-      br.castShadow = true;
-      g.add(br);
-    }
-
-    const cardMat = isGinkgo ? ginkgoCardMat : cypressCardMat;
-    const clusters = [
-      [0, 6.8, 0, 4.6], [-1.7, 5.7, 0.9, 3.6], [1.8, 5.8, -0.7, 3.8],
-      [-1.2, 5.9, -1.4, 3.5], [1.4, 5.6, 1.3, 3.5], [0, 8.2, 0, 3.2]
-    ];
-    for (const [cx, cy, cz, sz] of clusters) {
-      for (let k = 0; k < 3; k++) {
-        const card = new THREE.Mesh(new THREE.PlaneGeometry(sz, sz), cardMat);
-        card.position.set(cx, cy, cz);
-        card.rotation.y = (k * Math.PI) / 3 + (x + z) * 0.2;
-        card.rotation.x = (k - 1) * 0.22;
-        card.castShadow = true;
-        g.add(card);
-      }
-    }
-
-    // 银杏古树下铺满金黄落叶地毯
-    if (isGinkgo) {
-      for (let m = 0; m < 4; m++) {
-        const patch = new THREE.Mesh(new THREE.CircleGeometry(1.45 - m * 0.2, 14), fallenGinkgoMat);
-        patch.rotation.x = -Math.PI / 2;
-        patch.rotation.z = m * 1.3;
-        patch.position.set(Math.cos(m * 1.7) * 0.65, 0.015 + m * 0.003, Math.sin(m * 1.7) * 0.65);
-        patch.receiveShadow = true;
-        g.add(patch);
-      }
-    }
-    scene.add(g);
-  }
-
-  addRealisticTree(-11.2, 5.5, 1.15, true);
-  addRealisticTree(11.2, 5.5, 1.18, true);
-  addRealisticTree(-11.6, 14.5, 1.1, true);
-  addRealisticTree(11.6, 14.5, 1.12, true);
-  addRealisticTree(-16.5, -5.0, 1.22, false);
-  addRealisticTree(16.5, -5.0, 1.22, false);
-  addRealisticTree(-18.5, -24.0, 1.32, false);
-  addRealisticTree(18.5, -24.0, 1.32, false);
+  const garden = buildAutumnGarden(scene, makeTex);
 
   for (const [lx, lz] of [[-6.8, 6.2], [6.8, 6.2], [-6.8, 15.2], [6.8, 15.2]]) {
     const g = new THREE.Group();
@@ -2047,17 +1946,6 @@
     g.add(pl);
     lanternLights.push(pl);
     scene.add(g);
-  }
-
-  const airParticles = [];
-  for (let i = 0; i < 36; i++) {
-    const m = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.22, 0.16),
-      new THREE.MeshBasicMaterial({ color: i % 2 ? 0xf2c144 : 0xe5a528, side: THREE.DoubleSide, transparent: true, opacity: 0.82 })
-    );
-    m.position.set((Math.random() - 0.5) * 32, 1 + Math.random() * 11, -12 + Math.random() * 32);
-    scene.add(m);
-    airParticles.push({ mesh: m, seed: Math.random() * 100, speed: 0.35 + Math.random() * 0.42 });
   }
 
   const rippleMesh = new THREE.Mesh(
@@ -2692,6 +2580,7 @@
   exitInspect.addEventListener('click', () => inspectStatue(false));
   window.addEventListener('keydown', event => {
     if (inspectBar.hidden) return;
+    if (event.target.tagName === 'SELECT' && event.key !== 'Escape') return;
     if (event.key === 'Escape') inspectStatue(false);
     if (event.key === 'ArrowLeft') inspectAngle = Math.max(-0.77, inspectAngle - 0.08);
     if (event.key === 'ArrowRight') inspectAngle = Math.min(0.77, inspectAngle + 0.08);
@@ -3473,9 +3362,6 @@
     hallLight.intensity = m.hallInt;
     sunBeam.material.opacity = m.id === 'night' ? 0.045 : 0.085;
     lanternLights.forEach(l => { l.intensity = m.lanternInt; });
-    airParticles.forEach((ap, i) => {
-      ap.mesh.material.color.setHex(m.id === 'night' ? 0xffe699 : (i % 2 ? 0xf2c144 : 0xe5a528));
-    });
     document.getElementById('mood-txt').textContent = m.label;
     onMoodChange.forEach(fn => fn(m));
   }
@@ -3695,33 +3581,8 @@
       et.mesh.scale.setScalar(s);
     }
 
-    for (const sp of smokeParticles) {
-      const speed = incenseActive ? 0.32 : 0.22;
-      const f = (clockTime * speed + sp.phase) % 1;
-      const laneX = (sp.lane || 0) * 0.22;
-      sp.mesh.position.y = 2.72 + f * 4.2;
-      sp.mesh.position.x = laneX + Math.sin(clockTime * 1.3 + sp.phase * 6.2) * (0.14 + 0.36 * f);
-      sp.mesh.position.z = 2.2 + Math.cos(clockTime * 1.1 + sp.phase * 5.4) * (0.12 * f);
-      sp.mesh.scale.setScalar(0.65 + f * (incenseActive ? 2.6 : 2.1));
-      sp.mesh.material.opacity = Math.sin(f * Math.PI) * (incenseActive ? 0.44 : 0.31);
-    }
-
-    const isNight = journal.mood === 'night';
-    for (const ap of airParticles) {
-      const m = ap.mesh;
-      if (isNight) {
-        m.position.y += Math.sin(clockTime * 1.8 + ap.seed) * dt * 0.25;
-        m.position.x += Math.cos(clockTime * 1.1 + ap.seed) * dt * 0.2;
-        m.material.opacity = 0.25 + 0.65 * Math.max(0, Math.sin(clockTime * 2.8 + ap.seed));
-      } else {
-        m.position.y -= ap.speed * dt;
-        m.position.x += Math.sin(clockTime + ap.seed) * dt * 0.42;
-        m.rotation.x += dt * 1.2;
-        m.rotation.z += dt * 0.9;
-        if (m.position.y < 0.2) m.position.y = 11.5;
-        m.material.opacity = 0.8;
-      }
-    }
+    updateSmoke(clockTime, incenseActive, journal.mood === 'night');
+    garden.update(clockTime, journal.mood);
 
     const rAge = clockTime - rippleTime;
     if (rAge >= 0 && rAge < 0.9) {
@@ -3744,8 +3605,8 @@
   const customArrivals = {};
   const extOnTick = [];
   window.YHG3D = {
-    renderer, scene, camera, skyDome, sunLight, ambLight, smokeParticles, MOODS, ground,
-    clickableProps, player, camState, journal, ginkgoCardMat, fallenGinkgoMat,
+    renderer, scene, camera, skyDome, sunLight, ambLight, garden, MOODS, ground,
+    clickableProps, player, camState, journal,
     HALL_Y, HALL_Z, plaque, mainHallGroup, mainBuddhaSlot, sideBuddhas: [sideBuddhaL, sideBuddhaR],
     marbleMat, palaceRedMat, pillarRedMat, goldRoofMat, hexieMat, darkEaveMat, bronzeMat,
     goldMat, antiqueGoldMat, buddhaFaceMat, turquoiseMat, hallLight, buddhaSpot, lanternLights,

@@ -5,9 +5,8 @@
   if (!api || typeof THREE === 'undefined') return;
 
   const {
-    renderer, scene, skyDome, smokeParticles, ground,
+    renderer, scene, skyDome, ground,
     marbleMat, palaceRedMat, pillarRedMat, goldRoofMat, bronzeMat,
-    ginkgoCardMat, fallenGinkgoMat,
     HALL_Y, HALL_Z, journal, MOODS,
     makeTex, onTick, onMoodChange
   } = api;
@@ -148,10 +147,10 @@
 
   // 3B. 黄琉璃瓦、朱砂宫墙、大漆红柱、汉白玉与青铜器高光细节拉满
   if (goldRoofMat) {
-    goldRoofMat.roughness = 0.17;
+    goldRoofMat.roughness = 0.36;
     goldRoofMat.metalness = 0.44;
     goldRoofMat.bumpScale = 0.14;
-    goldRoofMat.envMapIntensity = 1.45;
+    goldRoofMat.envMapIntensity = 0.85;
     goldRoofMat.needsUpdate = true;
   }
   if (pillarRedMat) {
@@ -177,102 +176,6 @@
     bronzeMat.envMapIntensity = 1.35;
     bronzeMat.needsUpdate = true;
   }
-
-  // 3C. 升级 512×512 真实扇形金秋银杏叶簇贴图（透光亮金 + 暖琥珀叠层）
-  const fineGinkgoTex = makeTex(512, 512, (c, w, h) => {
-    c.clearRect(0, 0, w, h);
-    const palette = ['#ffdb58', '#f5c030', '#e5a41e', '#ffe67a', '#d68f14', '#f8cc44'];
-    for (let i = 0; i < 165; i++) {
-      const a = i * 2.39996;
-      const rad = Math.sqrt(i / 165) * 204;
-      const x = w / 2 + Math.cos(a) * rad;
-      const y = h / 2 + Math.sin(a) * rad;
-      const sz = 20 + (i % 13);
-      c.save();
-      c.translate(x, y);
-      c.rotate(a + (i % 7) * 0.45);
-      // 真实银杏扇形叶片（含叶柄微弧与中央小缺口）
-      c.fillStyle = palette[i % palette.length];
-      c.beginPath();
-      c.moveTo(0, sz * 0.45);
-      c.quadraticCurveTo(-sz * 0.95, -sz * 0.1, -sz * 0.52, -sz * 0.72);
-      c.lineTo(0, -sz * 0.46);
-      c.lineTo(sz * 0.52, -sz * 0.72);
-      c.quadraticCurveTo(sz * 0.95, -sz * 0.1, 0, sz * 0.45);
-      c.closePath();
-      c.fill();
-      c.strokeStyle = 'rgba(130, 74, 8, 0.25)';
-      c.lineWidth = 1;
-      c.stroke();
-      c.restore();
-    }
-  });
-  if (ginkgoCardMat) {
-    ginkgoCardMat.map = fineGinkgoTex;
-    ginkgoCardMat.alphaTest = 0.28;
-    ginkgoCardMat.roughness = 0.72;
-    ginkgoCardMat.emissive = new THREE.Color(0x6e4406);
-    ginkgoCardMat.emissiveIntensity = 0.22;
-    ginkgoCardMat.needsUpdate = true;
-  }
-  if (fallenGinkgoMat) {
-    fallenGinkgoMat.map = fineGinkgoTex;
-    fallenGinkgoMat.needsUpdate = true;
-  }
-
-  // 4. 庭院满地金秋银杏落叶（480 片 InstancedMesh 零卡顿单次绘制）
-  const leafShape = new THREE.Shape();
-  leafShape.moveTo(0, 0);
-  leafShape.quadraticCurveTo(-0.14, 0.08, -0.09, 0.18);
-  leafShape.lineTo(0, 0.14);
-  leafShape.lineTo(0.09, 0.18);
-  leafShape.quadraticCurveTo(0.14, 0.08, 0, 0);
-  const leafGeo = new THREE.ShapeGeometry(leafShape);
-  leafGeo.rotateX(-Math.PI / 2);
-  const leafMat = new THREE.MeshStandardMaterial({
-    color: 0xf4c236,
-    roughness: 0.65,
-    metalness: 0.05,
-    side: THREE.DoubleSide
-  });
-  const LEAF_COUNT = 480;
-  const leafInst = new THREE.InstancedMesh(leafGeo, leafMat, LEAF_COUNT);
-  leafInst.receiveShadow = true;
-  const dummy = new THREE.Object3D();
-  const leafCol = new THREE.Color();
-  const treeCenters = [[-11.2, 5.5], [11.2, 5.5], [-11.6, 14.5], [11.6, 14.5]];
-  const leafTones = [0xf8cd44, 0xe8ad24, 0xffdf68, 0xd89218, 0xf2be34];
-  let seed = 1337;
-  const rand = () => {
-    seed = (seed * 16807) % 2147483647;
-    return (seed - 1) / 2147483646;
-  };
-  for (let i = 0; i < LEAF_COUNT; i++) {
-    let lx, lz;
-    if (i < 300) {
-      const tc = treeCenters[i % treeCenters.length];
-      const ang = rand() * Math.PI * 2;
-      const rad = 0.8 + Math.pow(rand(), 0.75) * 6.8;
-      lx = tc[0] + Math.cos(ang) * rad;
-      lz = tc[1] + Math.sin(ang) * rad;
-    } else {
-      // 散落在青砖庭院、丹陛台阶脚与宝鼎四周
-      lx = (rand() - 0.5) * 32;
-      lz = -3.8 + rand() * 26;
-      if (Math.hypot(lx, lz - 2.2) < 1.9) lx += 2.6;
-    }
-    const sc = 0.75 + rand() * 0.85;
-    dummy.position.set(lx, 0.018 + rand() * 0.012, lz);
-    dummy.rotation.set((rand() - 0.5) * 0.14, rand() * Math.PI * 2, (rand() - 0.5) * 0.14);
-    dummy.scale.setScalar(sc);
-    dummy.updateMatrix();
-    leafInst.setMatrixAt(i, dummy.matrix);
-    leafCol.setHex(leafTones[i % leafTones.length]);
-    leafInst.setColorAt(i, leafCol);
-  }
-  leafInst.instanceMatrix.needsUpdate = true;
-  if (leafInst.instanceColor) leafInst.instanceColor.needsUpdate = true;
-  scene.add(leafInst);
 
   // 5. 物理大气 GLSL 天空穹顶（低角度金秋太阳光晕、地平线暖金瑞霭、夜空繁星）
   const skyUniforms = {
@@ -323,11 +226,13 @@
       '  col += uSunColor * pow(sunDot, 120.0) * 1.25 * uSunStrength;',
       '  col += vec3(1.0, 0.98, 0.9) * smoothstep(0.9982, 0.9996, sunDot) * 1.35 * uSunStrength;',
       '  if (uNightFactor > 0.05 && dir.y > 0.08) {',
-      '    vec3 grid = floor(dir * 165.0);',
-      '    float s = hash(grid);',
-      '    if (s > 0.9945) {',
-      '      float twinkle = 0.55 + 0.45 * sin(uTime * 2.4 + s * 420.0);',
-      '      col += vec3(0.88, 0.93, 1.0) * twinkle * uNightFactor * smoothstep(0.08, 0.3, dir.y);',
+      '    vec2 skyUV = vec2(atan(dir.z,dir.x)/6.2831853+.5, asin(dir.y)/3.1415927+.5);',
+      '    vec2 cell = skyUV * vec2(896.,448.);',
+      '    float s = hash(vec3(floor(cell),.7));',
+      '    if (s > .991) {',
+      '      float radius = length(fract(cell)-.5);',
+      '      float sparkle = (1.-smoothstep(.045,.24,radius))*(.62+.20*sin(uTime*.85+s*630.));',
+      '      col += vec3(.68,.78,1.) * sparkle * uNightFactor * smoothstep(.08,.30,dir.y);',
       '    }',
       '  }',
       '  gl_FragColor = vec4(col, 1.0);',
@@ -500,33 +405,12 @@
     glowSprites.push({ sp, baseScale: gs, phase: gx * 0.7 + gz * 0.3 });
   }
 
-  // 11. 阳光透射云雾状香烟 + 庭院与大殿 90 颗浮游金尘微粒
-  const softSmokeTex = makeTex(128, 128, (c, w, h) => {
-    const g = c.createRadialGradient(w / 2, h / 2, 4, w / 2, h / 2, w / 2);
-    g.addColorStop(0, 'rgba(255, 248, 232, 0.62)');
-    g.addColorStop(0.42, 'rgba(250, 238, 214, 0.28)');
-    g.addColorStop(0.76, 'rgba(240, 228, 205, 0.08)');
-    g.addColorStop(1, 'rgba(240, 228, 205, 0)');
-    c.fillStyle = g;
-    c.fillRect(0, 0, w, h);
-  });
-  if (Array.isArray(smokeParticles)) {
-    smokeParticles.forEach(sp => {
-      if (sp && sp.mesh) {
-        sp.mesh.geometry = new THREE.PlaneGeometry(1.18, 1.18);
-        sp.mesh.material = new THREE.MeshBasicMaterial({
-          map: softSmokeTex, color: 0xfff4dd, transparent: true, opacity: 0.34,
-          depthWrite: false, side: THREE.DoubleSide
-        });
-      }
-    });
-  }
-
-  const dustCount = 90;
+  // 11. 随天色改变亮度的殿内与庭院浮尘
+  const dustCount = 72;
   const dustPos = new Float32Array(dustCount * 3);
   const dustSeeds = new Float32Array(dustCount);
   for (let i = 0; i < dustCount; i++) {
-    if (i < 55) {
+    if (i < 40) {
       // 大殿内圣光金尘
       dustPos[i * 3] = (Math.random() - 0.5) * 14;
       dustPos[i * 3 + 1] = HALL_Y + 0.8 + Math.random() * 5.6;
@@ -542,7 +426,7 @@
   const dustGeo = new THREE.BufferGeometry();
   dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
   const dustMat = new THREE.PointsMaterial({
-    map: glowTex, color: 0xffe6a3, size: 0.25,
+    map: glowTex, color: 0xffe6a3, size: 0.10,
     transparent: true, opacity: 0.78,
     blending: THREE.AdditiveBlending, depthWrite: false
   });
@@ -558,7 +442,7 @@
     skyUniforms.uSunDir.value.set(m.sunPos[0], m.sunPos[1], m.sunPos[2]).normalize();
     const isNight = m.id === 'night';
     const isDusk = m.id === 'dusk';
-    renderer.toneMappingExposure = m.id === 'day' ? 0.74 : 1.05;
+    renderer.toneMappingExposure = isNight ? 0.47 : isDusk ? 0.84 : 0.74;
     skyUniforms.uSunStrength.value = isNight ? 0.36 : (isDusk ? 1.35 : 1.2);
     skyUniforms.uNightFactor.value = isNight ? 1.0 : 0.0;
     skyFillLight.intensity = isNight ? 0.18 : (isDusk ? 0.28 : 0.44);
@@ -569,9 +453,8 @@
     cloudMat.color.setHex(isDusk ? 0xffb580 : (isNight ? 0x3b4d6b : 0xfff8ea));
     mountainMat.color.setHex(isNight ? 0x111a29 : (isDusk ? 0x52312c : 0x586b7e));
     lanternGlowMat.opacity = isNight ? 0.94 : (isDusk ? 0.74 : 0.34);
-    if (ginkgoCardMat) {
-      ginkgoCardMat.emissiveIntensity = isNight ? 0.04 : (isDusk ? 0.28 : 0.22);
-    }
+    dustMat.opacity = isNight ? 0.36 : isDusk ? 0.42 : 0.28;
+    dustMat.color.setHex(isNight ? 0xdfd397 : isDusk ? 0xebc68a : 0xdbd8c6);
   }
   const initMood = (MOODS || []).find(x => x.id === (journal && journal.mood)) || (MOODS && MOODS[0]);
   syncVisualMood(initMood);
@@ -592,17 +475,12 @@
       const f = 0.94 + 0.08 * Math.sin(t * 4.5 + gs.phase);
       gs.sp.scale.set(gs.baseScale * f, gs.baseScale * f, 1);
     }
-    if (Array.isArray(smokeParticles)) {
-      smokeParticles.forEach(sp => {
-        if (sp && sp.mesh && api.camera) sp.mesh.lookAt(api.camera.position);
-      });
-    }
     const pos = dustGeo.attributes.position.array;
     for (let i = 0; i < dustCount; i++) {
       pos[i * 3] += Math.sin(t * 0.55 + dustSeeds[i]) * dt * 0.09;
       pos[i * 3 + 1] += dt * 0.075;
-      const maxY = i < 55 ? (HALL_Y + 6.5) : 8.4;
-      const minY = i < 55 ? (HALL_Y + 0.8) : 1.2;
+      const maxY = i < 40 ? (HALL_Y + 6.5) : 8.4;
+      const minY = i < 40 ? (HALL_Y + 0.8) : 1.2;
       if (pos[i * 3 + 1] > maxY) pos[i * 3 + 1] = minY;
     }
     dustGeo.attributes.position.needsUpdate = true;

@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="statue-plaque" aria-hidden="true">
-      <div class="statue-plaque-tag">五殿馆藏造像 · 近景瞻礼</div>
+      <div class="statue-plaque-tag">五殿造像 · 近景瞻礼</div>
       <div class="statue-plaque-title" id="statue-plaque-title">雍和宫殿 · 释迦牟尼佛</div>
       <div class="statue-plaque-hint">左右拖动画面或按 ◀ ▶ 键，环视造像金漆肌理与衣纹细节</div>
     </div>
@@ -76,11 +76,15 @@
       <button type="button" class="pill" id="tool-menu" aria-expanded="false" aria-controls="tool-panel">工具 ▾</button>
     </div>
     <div class="hud-right" id="tool-panel">
-      <button type="button" class="pill pill-btn" id="view-statue" disabled>观造像</button>
+      <button type="button" class="pill pill-btn pill-statue" id="view-statue" disabled title="近距离环视当前殿堂造像">
+        <svg class="svg-ico" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.2"/><path d="M6.5 19.5c.8-3.8 2.8-5.5 5.5-5.5s4.7 1.7 5.5 5.5"/><circle cx="12" cy="7.5" r="6.2" stroke-dasharray="2 2"/></svg>
+        <span>观造像</span>
+      </button>
       <button class="pill pill-btn pill-model" id="btn-models" type="button" title="导入或管理写实 3D 大佛与真人 .glb 模型">
         <svg class="svg-ico" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>
         <span>3D模型</span>
       </button>
+      <span class="tool-sep" aria-hidden="true"></span>
       <button class="pill pill-btn" id="btn-view" type="button" title="切换庭院/大殿视角">
         <svg class="svg-ico" viewBox="0 0 24 24"><path d="M3 10.5L12 4l9 6.5"/><path d="M6 9.5V19h12V9.5"/><path d="M10 19v-5h4v5"/></svg>
         <span id="view-txt">进大殿</span>
@@ -93,6 +97,7 @@
         <svg class="svg-ico" viewBox="0 0 24 24"><path d="M11 6L6.5 9.5H3.5v5h3L11 18V6z"/><path d="M15.2 9.2a4.2 4.2 0 010 5.6"/><path d="M18 6.8a7.6 7.6 0 010 10.4"/></svg>
         <span id="sound-txt">有声</span>
       </button>
+      <span class="tool-sep" aria-hidden="true"></span>
       <button class="pill pill-btn" id="btn-cushion" type="button" title="查看并更换打坐升级禅座">
         <svg class="svg-ico" viewBox="0 0 24 24"><path d="M12 5c2.2 2.8 2.8 5.6 0 8.5-2.8-2.9-2.2-5.7 0-8.5z"/><path d="M12 13.5c-3.4-.2-5.8-1.8-7-4.5 2.8-.2 5.2 1.2 7 4.5z"/><path d="M12 13.5c3.4-.2 5.8-1.8 7-4.5-2.8-.2-5.2 1.2-7 4.5z"/><path d="M5.5 18.2c3.8 1.2 9.2 1.2 13 0"/></svg>
         <span>禅座</span>
@@ -146,34 +151,42 @@
   <!-- 底部操作浮条（雍和宫专属祈福操作） -->
   <nav class="hud-dock" aria-label="雍和宫祈福操作">
     <button class="dock-btn" data-act="hands" type="button">
+      <span class="dock-key">1</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 4.5c-.8 2.4-1.2 4.7-1.2 7.5 0 1.4.4 2.4 1.2 3.2.8-.8 1.2-1.8 1.2-3.2 0-2.8-.4-5.1-1.2-7.5z"/><path d="M10.8 11.2L7.5 15.8c-.6.8-.4 1.9.4 2.5l2.3 1.5"/><path d="M13.2 11.2l3.3 4.6c.6.8.4 1.9-.4 2.5l-2.3 1.5"/></svg>
       <span class="dock-txt">合掌</span>
     </button>
     <button class="dock-btn" data-act="bow" type="button">
+      <span class="dock-key">2</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><circle cx="12" cy="6.2" r="2.6"/><path d="M7.5 14.5c1.2-2.6 3-3.8 4.5-3.8s3.3 1.2 4.5 3.8"/><path d="M5 18.5h14"/></svg>
       <span class="dock-txt">礼佛</span>
     </button>
     <button class="dock-btn" data-act="incense" type="button">
+      <span class="dock-key">3</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M7 13h10l-1.2 5.2a2 2 0 01-2 1.5h-3.6a2 2 0 01-2-1.5L7 13z"/><path d="M9.5 13V8.5M12 13V7.5M14.5 13V8.5"/><path d="M12 5.5c-.7-1 .7-1.8 0-2.8"/></svg>
       <span class="dock-txt">敬香</span>
     </button>
     <button class="dock-btn" data-act="wheel" type="button">
+      <span class="dock-key">4</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><rect x="7.5" y="6" width="9" height="12" rx="2"/><path d="M12 3v3M12 18v3M7.5 10h9M7.5 14h9"/></svg>
       <span class="dock-txt">转经</span>
     </button>
     <button class="dock-btn" data-act="beads" type="button">
+      <span class="dock-key">5</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.5"/><circle cx="16.5" cy="7.5" r="1.5"/><circle cx="18" cy="12" r="1.5"/><circle cx="16" cy="16.4" r="1.5"/><circle cx="12" cy="18.2" r="1.8"/><circle cx="8" cy="16.4" r="1.5"/><circle cx="6" cy="12" r="1.5"/><circle cx="7.5" cy="7.5" r="1.5"/><path d="M12 20v2"/></svg>
       <span class="dock-txt">手串</span>
     </button>
     <button class="dock-btn" data-act="wood" type="button">
+      <span class="dock-key">6</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M5.5 14.2c0-4 3-7 6.8-7 3.7 0 6.2 2.4 6.2 5.6 0 3.3-2.9 5.5-6.6 5.5-3.8 0-6.4-1.4-6.4-4.1z"/><path d="M7.2 13.5c2.2-.8 5.2-.6 8.2.5"/><path d="M14.5 6.8l5-3.2"/><circle cx="20" cy="3.4" r="1.2"/></svg>
       <span class="dock-txt">木鱼</span>
     </button>
     <button class="dock-btn" data-act="sit" type="button">
+      <span class="dock-key">7</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M12 6c2 2.6 2.6 5.4 0 8.5-2.6-3.1-2-5.9 0-8.5z"/><path d="M12 14.5c-3.2-.2-5.6-1.8-6.8-4.5 2.6-.2 4.9 1.2 6.8 4.5z"/><path d="M12 14.5c3.2-.2 5.6-1.8 6.8-4.5-2.6-.2-4.9 1.2-6.8 4.5z"/><path d="M6.5 18.2c3.2 1.2 7.8 1.2 11 0"/></svg>
       <span class="dock-txt">静坐</span>
     </button>
     <button class="dock-btn" data-act="lot" type="button">
+      <span class="dock-key">8</span>
       <svg class="dock-svg" viewBox="0 0 24 24"><path d="M8.5 10h7l-.8 9.5h-5.4L8.5 10z"/><path d="M10 10L9.2 5.2M12 10V4.5M14 10l1.1-4.8"/></svg>
       <span class="dock-txt">祈愿签</span>
     </button>
@@ -184,7 +197,7 @@
     </button>
     <button id="action-menu" type="button" aria-expanded="false">更多动作</button>
   </nav>
-  <button id="incense-marker" type="button" hidden>敬香</button>
+  <button id="incense-marker" type="button" hidden><span class="marker-dot"></span><span>敬香</span></button>
 
   <!-- 雍和宫香灰琉璃手串浮层 -->
   <section id="beads-overlay" class="overlay hidden" aria-label="雍和宫手串">
@@ -207,11 +220,14 @@
     </div>
   </section>
 
-  <!-- 雍和宫祈愿灵签弹窗 -->
-  <section id="lot-overlay" class="overlay hidden" aria-label="雍和宫祈愿灵签">
+  <!-- 雍和宫事业祈愿签弹窗 -->
+  <section id="lot-overlay" class="overlay hidden" aria-label="雍和宫事业签">
     <div class="glass-card lot-card">
       <div class="card-head">
-        <h3>雍和宫 · 祈愿灵签</h3>
+        <div>
+          <h3>雍和宫 · 御制灵签</h3>
+          <p>诚心默念所求 · 敬领宫廷朱砂吉签</p>
+        </div>
         <button class="close-btn" id="close-lot" type="button" aria-label="关闭">✕</button>
       </div>
       <div class="wish-tabs" id="wish-tabs">
@@ -224,12 +240,14 @@
         <button class="wish-tab" data-wish="travel" type="button">求出行</button>
         <button class="wish-tab wish-tab-random" data-wish="random" type="button">随缘一签</button>
       </div>
-      <div class="lot-no" id="lot-no">第廿八签 · 乾宫</div>
-      <div class="lot-seal" id="lot-seal">上</div>
-      <div class="lot-rank" id="lot-rank">上上签 · 青云直上</div>
-      <div class="lot-poem" id="lot-poem"></div>
-      <div class="lot-decode" id="lot-decode">解曰：云开见日，龙入沧海；贵人暗助，所谋皆遂。</div>
-      <div class="lot-advice" id="lot-advice">宜：主动进取、贵人相助</div>
+      <div class="lot-scroll-paper">
+        <div class="lot-no" id="lot-no">第廿八签 · 乾宫</div>
+        <div class="lot-seal" id="lot-seal">上</div>
+        <div class="lot-rank" id="lot-rank">上上签 · 青云直上</div>
+        <div class="lot-poem" id="lot-poem"></div>
+        <div class="lot-decode" id="lot-decode">解曰：云开见日，龙入沧海；贵人暗助，所谋皆遂。</div>
+        <div class="lot-advice" id="lot-advice">宜：主动进取、贵人相助</div>
+      </div>
       <div class="lot-actions">
         <button class="mini-btn" id="reshake-lot" type="button">重摇一签</button>
         <button class="primary-btn" id="ok-lot" type="button">敬受吉签</button>
@@ -493,6 +511,7 @@
 
   <script src="./vendor/three.min.js"></script>
   <script src="./vendor/GLTFLoader.js"></script>
+  <script src="./courtyard.js"></script>
   <script src="./app.js"></script>
   <script src="./architecture.js"></script>
   <script src="./visuals.js"></script>

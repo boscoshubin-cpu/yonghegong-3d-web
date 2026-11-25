@@ -15,7 +15,6 @@
   const fateTreeGroup = new THREE.Group();
   fateTreeGroup.position.set(TREE_X, 0, TREE_Z);
 
-  const barkMat = new THREE.MeshStandardMaterial({ color: 0x4d372a, roughness: 0.92 });
   const ribbonTex = makeTex(64, 256, (c, w, h) => {
     const g = c.createLinearGradient(0, 0, 0, h);
     g.addColorStop(0, '#a81d16');
@@ -63,47 +62,15 @@
   curb.castShadow = true;
   fateTreeGroup.add(curb);
 
-  // 古树主干与虬枝
-  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.48, 3.8, 12), barkMat);
-  trunk.position.y = 1.9;
-  trunk.castShadow = true;
+  const trunk = api.garden.addTree(fateTreeGroup, 'red', 1.03);
   trunk.userData.propAction = 'fate';
-  fateTreeGroup.add(trunk);
   clickableProps.push(trunk);
-
-  const branchSpecs = [
-    [1.1, 3.7, 0.5, 0.52, 0.2],
-    [-1.1, 3.6, -0.4, -0.5, -0.18],
-    [0.3, 4.1, -1.0, 0.16, -0.48],
-    [-0.35, 4.0, 1.05, -0.18, 0.45]
-  ];
-  for (const [bx, by, bz, rz, rx] of branchSpecs) {
-    const br = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.21, 2.5, 8), barkMat);
-    br.position.set(bx * 0.55, by, bz * 0.55);
-    br.rotation.set(rx, 0, rz);
-    br.castShadow = true;
-    fateTreeGroup.add(br);
-  }
-
-  // 绯红与金黄交织的树冠
-  const leafColors = [0xd47d2a, 0xc9422c, 0xe8b43a, 0xb83324];
-  const crownSpecs = [
-    [0, 5.4, 0, 1.95], [-1.35, 4.7, 0.65, 1.35], [1.4, 4.75, -0.5, 1.4],
-    [-0.95, 4.85, -1.05, 1.3], [1.0, 4.65, 1.0, 1.28], [0, 6.25, 0, 1.35]
-  ];
-  for (let i = 0; i < crownSpecs.length; i++) {
-    const [cx, cy, cz, r] = crownSpecs[i];
-    const puff = new THREE.Mesh(
-      new THREE.DodecahedronGeometry(r, 1),
-      new THREE.MeshStandardMaterial({ color: leafColors[i % leafColors.length], roughness: 0.86 })
-    );
-    puff.scale.set(1.12, 0.72, 1.05);
-    puff.position.set(cx, cy, cz);
-    puff.castShadow = true;
-    puff.userData.propAction = 'fate';
-    fateTreeGroup.add(puff);
-    clickableProps.push(puff);
-  }
+  const crownTarget = new THREE.Mesh(new THREE.SphereGeometry(2.25, 12, 8), new THREE.MeshBasicMaterial({visible:false}));
+  crownTarget.scale.set(1.28,.85,1.18);
+  crownTarget.position.y = 4.95;
+  crownTarget.userData.propAction = 'fate';
+  fateTreeGroup.add(crownTarget);
+  clickableProps.push(crownTarget);
 
   // 22 条随风轻晃的祈愿红绸
   const fateRibbons = [];

@@ -95,10 +95,32 @@
       if (moveRing) moveRing.classList.remove('active');
     });
 
-    // 摇杆拖拽 + 方向键按住（兼容鼠标与触控）
+    // 摇杆拖拽 + 四向按钮点按（兼容鼠标与触控）
     if (moveRing && moveKnob) {
       let dragId = null;
-      const maxR = 30;
+      const maxR = 26;
+
+      Object.values(dirBtns).forEach(btn => {
+        if (!btn) return;
+        btn.addEventListener('pointerdown', e => {
+          e.stopPropagation();
+          padVec.x = parseFloat(btn.dataset.dx || '0');
+          padVec.z = parseFloat(btn.dataset.dz || '0');
+          padVec.active = true;
+          moveKnob.style.transform = `translate(${(padVec.x * maxR * 0.85).toFixed(1)}px, ${(padVec.z * maxR * 0.85).toFixed(1)}px)`;
+        });
+        const stopDir = e => {
+          if (dragId !== null) return;
+          e.stopPropagation();
+          padVec.x = 0;
+          padVec.z = 0;
+          padVec.active = false;
+          moveKnob.style.transform = 'translate(0px, 0px)';
+        };
+        btn.addEventListener('pointerup', stopDir);
+        btn.addEventListener('pointerleave', stopDir);
+        btn.addEventListener('pointercancel', stopDir);
+      });
 
       const updateStick = (clientX, clientY) => {
         const rect = moveRing.getBoundingClientRect();
@@ -249,4 +271,24 @@
   }
   portrait.addEventListener('change', adapt);
   adapt();
+
+  // 同步「五殿造像 · 观像模式」底部藏品铭牌标题
+  const figSelect = document.getElementById('figure-select');
+  const plaqueTitle = document.getElementById('statue-plaque-title');
+  const viewStatueBtn = document.getElementById('view-statue');
+  function syncStatuePlaque() {
+    if (!plaqueTitle) return;
+    const activeTab = document.querySelector('.hall-tab.active');
+    const hallLabel = activeTab ? activeTab.textContent.split('·')[0].replace(/^\S+\s+/, '').trim() : '雍和宫';
+    const figLabel = figSelect && figSelect.options[figSelect.selectedIndex]
+      ? figSelect.options[figSelect.selectedIndex].text
+      : '主尊造像';
+    plaqueTitle.textContent = hallLabel + ' · ' + figLabel;
+  }
+  if (figSelect) figSelect.addEventListener('change', syncStatuePlaque);
+  if (viewStatueBtn) viewStatueBtn.addEventListener('click', syncStatuePlaque);
+  document.querySelectorAll('.hall-tab').forEach(tab => {
+    tab.addEventListener('click', () => setTimeout(syncStatuePlaque, 0));
+  });
+  syncStatuePlaque();
 })();
